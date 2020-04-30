@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "873964846131",
+    "firebase_url": "https://crosssellers.firebaseio.com",
+    "project_id": "crosssellers",
+    "storage_bucket": "crosssellers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873964846131:android:668a4989624ae79e11f746",
+        "android_client_info": {
+          "package_name": "com.example.crosssellers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873964846131-1j4j6sgmi4acfj4f7rnkfio9q210el1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.crosssellers",
+            "certificate_hash": "26c9feeea6599ce8521de111602fd437c12e4956"
+          }
+        },
+        {
+          "client_id": "873964846131-blha473uch3bip9ll20dstse55m7iknd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3iCmQHopyF2b-MOgoaMz3GjhuAH15oXk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873964846131-blha473uch3bip9ll20dstse55m7iknd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
