@@ -2,22 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".RegisterActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    android:layout_marginTop="20dp">
+    android:layout_marginTop="20dp"
+    tools:context=".LoginActivity">
 
-    <!-- Text: Register -->
+
+    <!-- Text: Login -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Register"
+        android:text="Login"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="30sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
+        />
+
+    <!-- Google Sign In Btn -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleLoginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/login_emailTIL"
+        android:layout_marginBottom="20dp"
+
         />
 
     <!-- EditText: Email -->
@@ -26,10 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:id="@+id/emailTIL">
+        android:id="@+id/login_emailTIL">
 
         <EditText
-            android:id="@+id/emailET"
+            android:id="@+id/login_emailET"
             android:inputType="textEmailAddress"
             android:hint="Email"
             android:layout_width="match_parent"
@@ -44,12 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:id="@+id/passwordTIL"
-        android:layout_below="@id/emailTIL"
+        android:id="@+id/login_passwordTIL"
+        android:layout_below="@id/login_emailTIL"
         app:passwordToggleEnabled="true">
 
         <EditText
-            android:id="@+id/passwordET"
+            android:id="@+id/login_passwordET"
             android:inputType="textPassword"
             android:hint="Password"
             android:layout_width="match_parent"
@@ -57,42 +69,42 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Button: Register -->
+    <!-- Button: Login -->
     <RelativeLayout
-        android:id="@+id/register_RL"
+        android:id="@+id/login_RL"
         android:layout_width="130dp"
         android:layout_height="50dp"
-        android:layout_below="@id/passwordTIL"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/login_passwordTIL"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true">
 
         <Button
-            android:id="@+id/register_registerbtn"
+            android:id="@+id/login_loginbtn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             style="@style/Button.LightOrange"
             />
         <ImageView
-            android:id="@+id/registerImage"
+            android:id="@+id/loginImage"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/user"
+            android:background="@drawable/ic_login"
             android:scaleType="fitXY"
             android:layout_margin="10dp"
             android:elevation="2dp"
             android:backgroundTint="@color/colorWhite"
             />
         <TextView
-            android:id="@+id/registerText"
+            android:id="@+id/loginText"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Register"
+            android:text="Login"
             android:elevation="2dp"
             android:textSize="20sp"
             android:gravity="center"
             android:layout_marginLeft="15dp"
-            android:layout_alignLeft="@+id/registerImage"
+            android:layout_alignLeft="@+id/loginImage"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
@@ -100,15 +112,28 @@
             />
     </RelativeLayout>
 
-    <!-- Text: Go to login page -->
+
+    <!-- Text: Recover password -->
     <TextView
-        android:id="@+id/have_account_tv"
+        android:id="@+id/recover_password_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/already_have_an_account"
+        android:text="@string/recover_password"
         android:gravity="center"
-        android:layout_below="@+id/register_RL"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/login_RL"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        />
+
+    <!-- Text: Go to login page -->
+    <TextView
+        android:id="@+id/dont_have_account_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/dont_have_an_account"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/colorBlack"
         />
 

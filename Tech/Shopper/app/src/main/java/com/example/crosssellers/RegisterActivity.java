@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     //-- View: Cache references
     EditText et_email, et_password;
     Button btn_register;
+    TextView tv_haveAccount;
 
     //-- Progress bar to display when user registering
     ProgressDialog progressDialog;
@@ -58,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         et_email = findViewById(R.id.emailET);
         et_password = findViewById(R.id.passwordET);
         btn_register = findViewById(R.id.register_registerbtn);
+        tv_haveAccount = findViewById(R.id.have_account_tv);
 
         //-- Cache progressbar
         progressDialog = new ProgressDialog(this);
@@ -95,6 +98,15 @@ public class RegisterActivity extends AppCompatActivity {
                 {
                     registerUser(email, password);
                 }
+            }
+        });
+
+        //-- Login text onClick Event
+        tv_haveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }

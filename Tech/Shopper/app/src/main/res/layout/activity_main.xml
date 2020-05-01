@@ -9,31 +9,98 @@
 
     <!-- Image: Logo -->
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:id="@+id/main_logo_iv"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:src="@mipmap/ic_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
 
     <!-- Button: Register -->
-    <Button
-        android:id="@+id/register_btn"
-        android:text="Register"
-        style="@style/Button.LightOrange"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_above="@id/login_btn"/>
+    <RelativeLayout
+        android:id="@+id/main_register_rl"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/main_logo_iv"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            style="@style/Button.LightOrange"
+            />
+        <ImageView
+            android:id="@+id/main_registerImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/user"
+            android:scaleType="fitXY"
+            android:layout_margin="10dp"
+            android:elevation="2dp"
+            android:backgroundTint="@color/colorWhite"
+            />
+        <TextView
+            android:id="@+id/main_registerText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Register"
+            android:elevation="2dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_alignLeft="@+id/main_registerImage"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            />
+    </RelativeLayout>
+
 
     <!-- Button: Login -->
-    <Button
-        android:id="@+id/login_btn"
-        style="@style/Button.LightOrange"
-        android:text="Login"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:id="@+id/main_login_rl"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/main_register_rl"
+        android:layout_centerHorizontal="true">
 
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            style="@style/Button.LightOrange"
+            />
+        <ImageView
+            android:id="@+id/loginImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_login"
+            android:scaleType="fitXY"
+            android:layout_margin="10dp"
+            android:elevation="2dp"
+            android:backgroundTint="@color/colorWhite"
+            />
+        <TextView
+            android:id="@+id/loginText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Login"
+            android:elevation="2dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_alignLeft="@+id/loginImage"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

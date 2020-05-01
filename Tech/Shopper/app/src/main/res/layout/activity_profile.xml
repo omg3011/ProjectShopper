@@ -12,6 +12,18 @@
         android:textSize="30sp"
         android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        />
+
+    <TextView
+        android:id="@+id/emailTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some email will show here"
+        android:layout_below="@id/profileTV"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

@@ -1,0 +1,11 @@
+"ADDED" Feature(s) 
+1. Register
+2. Login 
+- Google Sign-in / Account Sign-in
+- Recover Password
+- Validation feedback (If failed to sign in, display the reason why fail)
+
+
+"COMPLETED" Feature(s)
+1. Authentication (Login)
+
