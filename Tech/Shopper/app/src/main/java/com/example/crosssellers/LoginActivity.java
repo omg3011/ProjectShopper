@@ -30,11 +30,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import Models.User_Model;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -259,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                             finish();
                         }
                         //-- Failed: User Login
@@ -303,10 +303,29 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            //-------------------------------------------------------------------------------
+                            // Handle Firebase
+                            //-------------------------------------------------------------------------------
                             FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+
+                            //-- If logging in for the first time. we add new user to database
+                            if(task.getResult().getAdditionalUserInfo().isNewUser())
+                            {
+                                //-- Update our database with new User
+                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "");
+                                fireStore.collection("Users").document(user.getUid()).set(user_model);
+                            }
+
+                            //-------------------------------------------------------------------------------
+                            // Handle display message at bottom of the screen
+                            //-------------------------------------------------------------------------------
                             Toast.makeText(LoginActivity.this, "Welcome: "+user.getEmail(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+
+                            //-------------------------------------------------------------------------------
+                            // Handle navigate to other activity
+                            //-------------------------------------------------------------------------------
+                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.

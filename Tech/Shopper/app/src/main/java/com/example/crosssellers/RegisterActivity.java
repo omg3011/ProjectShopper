@@ -23,6 +23,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+import Models.User_Model;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -131,11 +135,34 @@ public class RegisterActivity extends AppCompatActivity {
                         //-- Success: User Login
                         if (task.isSuccessful())
                         {
+                            //-------------------------------------------------------------------------------
+                            // Handle Progress bar
+                            //-------------------------------------------------------------------------------
+                            //-- Remove progress dialog box
                             progressDialog.dismiss();
+
+                            //-------------------------------------------------------------------------------
+                            // Handle Firebase
+                            //-------------------------------------------------------------------------------
                             FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+
+                            //-- Update our database with new User
+                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "");
+                            fireStore.collection("Users").document(user.getUid()).set(user_model);
+
+                            //-------------------------------------------------------------------------------
+                            // Handle display message at bottom of the screen
+                            //-------------------------------------------------------------------------------
+                            //-- Display "Registered"
                             Toast.makeText(RegisterActivity.this, "Registered... \n" + user.getEmail(),
                                     Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, ProfileActivity.class));
+
+                            //-------------------------------------------------------------------------------
+                            // Handle navigate to other activity
+                            //-------------------------------------------------------------------------------
+                            //-- Go to HomeActivity
+                            startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
                             finish();
                         }
                         //-- Failed: User Login
