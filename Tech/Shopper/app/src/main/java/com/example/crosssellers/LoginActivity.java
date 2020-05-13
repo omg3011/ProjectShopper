@@ -1,6 +1,7 @@
 package com.example.crosssellers;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
@@ -52,6 +54,12 @@ public class LoginActivity extends AppCompatActivity {
     //-- Firebase
     private FirebaseAuth mAuth;
 
+
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
+    //
+    // Built-In Function(s)
+    //
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,9 +154,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
     //------------------------------------------------------------------------//
-    // Built-in function: To allow back button
+    // Function: To allow back button
     //------------------------------------------------------------------------//
     @Override
     public boolean onSupportNavigateUp() {
@@ -158,7 +165,33 @@ public class LoginActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    //------------------------------------------------------------------------//
+    // Function: Handle google-login onSuccess, do what?
+    //------------------------------------------------------------------------//
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
+    //
+    // User-Defined Function(s)
+    //
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
     //------------------------------------------------------------------------//
     // Function: To recover password
     //------------------------------------------------------------------------//
@@ -278,24 +311,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
+    //------------------------------------------------------------------------//
+    // Function: When press Google Sign-in button, check the following;
+    // > is new user -> register it in database
+    // > success -> show Toast ("success") -> go to dashboardActivity
+    // > fail    -> show Toast ("failed")  -> remain on current Activity
+    //------------------------------------------------------------------------//
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -313,7 +335,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.getResult().getAdditionalUserInfo().isNewUser())
                             {
                                 //-- Update our database with new User
-                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "");
+                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", "");
                                 fireStore.collection("Users").document(user.getUid()).set(user_model);
                             }
 

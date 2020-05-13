@@ -10,21 +10,37 @@ public class User_Model
     String name;
     String phone;
     String image;
+    String coverImage;
+    String onlineStatus;
 
     //--------------------------------------------------------------//
     // Constructor(s)
     //--------------------------------------------------------------//
-    public User_Model(String email, String uid, String name, String phone, String image) {
+    public User_Model(){}
+
+    public User_Model(String email, String uid, String name, String phone, String image, String coverImage, String onlineStatus) {
         this.email = email;
         this.uid = uid;
         this.name = name;
         this.phone = phone;
         this.image = image;
+        this.coverImage = coverImage;
+        this.onlineStatus = onlineStatus;
     }
 
     //--------------------------------------------------------------//
     // Getter(s) / Setter(s)
     //--------------------------------------------------------------//
+
+
+    public String getOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -65,4 +81,14 @@ public class User_Model
     public void setImage(String image) {
         this.image = image;
     }
+
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
+
 }

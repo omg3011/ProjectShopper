@@ -29,7 +29,6 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/login_emailTIL"
         android:layout_marginBottom="20dp"
-
         />
 
     <!-- EditText: Email -->

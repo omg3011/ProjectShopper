@@ -40,6 +40,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+    // RecyclerView, CardView, CircularImageView
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'com.github.mohammadatif:CircularImageView:1.0.0'
+
     // Multi-dex Bug
     implementation 'com.android.support:multidex:1.0.3'
 
@@ -47,6 +52,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+    // Image Slider
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
 
     // Bottom menu navigation
     implementation 'com.google.android.material:material:1.2.0-alpha01'

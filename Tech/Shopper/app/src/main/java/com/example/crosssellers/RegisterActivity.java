@@ -35,12 +35,17 @@ public class RegisterActivity extends AppCompatActivity {
     Button btn_register;
     TextView tv_haveAccount;
 
-    //-- Progress bar to display when user registering
+    //-- Progress bar: to display when user registering
     ProgressDialog progressDialog;
 
     //-- Setup database
     private FirebaseAuth mAuth;
 
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
+    //
+    // Built-In Function(s)
+    //
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +128,11 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
+    //
+    // User-Defined Function(s)
+    //
+    //-------------------------------------------------------------------------------------------------------------------------------------------//
     private void registerUser(String email, String password)
     {
         progressDialog.show();
@@ -148,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
                             //-- Update our database with new User
-                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "");
+                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", "");
                             fireStore.collection("Users").document(user.getUid()).set(user_model);
 
                             //-------------------------------------------------------------------------------
