@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import Models.User_Model;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -33,13 +41,16 @@ public class RegisterActivity extends AppCompatActivity {
     //-- View: Cache references
     EditText et_email, et_password;
     Button btn_register;
-    TextView tv_haveAccount;
+    TextView tv_haveAccount, tv_mall;
 
     //-- Progress bar: to display when user registering
     ProgressDialog progressDialog;
 
     //-- Setup database
     private FirebaseAuth mAuth;
+
+    //-- Save data
+    private String mallName;
 
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
@@ -50,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
 
         //----------------------------------------------------------------------//
         // Action bar                                                           //
@@ -70,6 +82,13 @@ public class RegisterActivity extends AppCompatActivity {
         et_password = findViewById(R.id.passwordET);
         btn_register = findViewById(R.id.register_registerbtn);
         tv_haveAccount = findViewById(R.id.have_account_tv);
+        tv_mall = findViewById(R.id.register_mall_TV);
+
+
+        // Load data
+        LoadData(savedInstanceState);
+
+        tv_mall.setText(mallName);
 
         //-- Cache progressbar
         progressDialog = new ProgressDialog(this);
@@ -77,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //-- Cache Database
         mAuth = FirebaseAuth.getInstance();
+
 
         //----------------------------------------------------------------------//
         // Register Event(s)                                                    //
@@ -114,10 +134,10 @@ public class RegisterActivity extends AppCompatActivity {
         tv_haveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                finish();
+                SaveData_And_GoToNextActivity(LoginActivity.class);
             }
         });
+
     }
 
     @Override
@@ -127,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         return super.onSupportNavigateUp();
     }
+
 
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
@@ -158,7 +179,10 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
                             //-- Update our database with new User
-                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", "");
+
+//User_Model(String email, String uid, String name, String phone, String image, String coverImage, String onlineStatus, String mallName, String storeName, String storeUnit, List<String> storeTags)
+
+                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", mallName, "", "", null, false, 0, null);
                             fireStore.collection("Users").document(user.getUid()).set(user_model);
 
                             //-------------------------------------------------------------------------------
@@ -172,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Handle navigate to other activity
                             //-------------------------------------------------------------------------------
                             //-- Go to HomeActivity
-                            startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
+                            startActivity(new Intent(RegisterActivity.this, SetupProfileActivity.class));
                             finish();
                         }
                         //-- Failed: User Login
@@ -217,5 +241,27 @@ public class RegisterActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+
+    void LoadData(final Bundle savedInstanceState){
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                mallName= null;
+            } else {
+                mallName= extras.getString("mall");
+            }
+        } else {
+            mallName= (String) savedInstanceState.getSerializable("mall");
+        }
+    }
+
+
+    void SaveData_And_GoToNextActivity(Class activity)
+    {
+        Intent intent = new Intent(RegisterActivity.this, activity);
+        intent.putExtra("mall", mallName);
+        startActivity(intent);
     }
 }

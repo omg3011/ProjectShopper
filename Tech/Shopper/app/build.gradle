@@ -57,6 +57,9 @@ dependencies {
     // Image Slider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
 
+    // GraphView
+    implementation 'com.jjoe64:graphview:4.2.2'
+
     // Bottom menu navigation
     implementation 'com.google.android.material:material:1.2.0-alpha01'
 

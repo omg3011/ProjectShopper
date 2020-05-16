@@ -6,4 +6,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="store_tags">
+        <item>Fashion &amp; Accessories</item>
+        <item>Jewellery, Optical &amp; Watches</item>
+        <item>Health &amp; Beauty</item>
+        <item>Sports</item>
+        <item>Kids</item>
+        <item>Education &amp; Enrichment</item>
+        <item>Food &amp; Beverage</item>
+        <item>Supermarkets &amp; Value Store</item>
+        <item>Electrical &amp; Electronics</item>
+        <item>Telecommunications</item>
+        <item>Entertainment</item>
+        <item>Home &amp; Living</item>
+        <item>Gifts &amp; Hobbies</item>
+        <item>General Services</item>
+    </string-array>
 </resources>

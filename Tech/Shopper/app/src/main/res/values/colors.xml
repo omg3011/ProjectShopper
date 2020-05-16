@@ -7,4 +7,6 @@
     <color name="colorWhite">#fff</color>
     <color name="bgBottomNavigation">#fe485a</color>
     <color name="colorSplashscreenBackground">#FF5722</color>
+    <color name="tabTextColor">#FF5722</color>
+    <color name="tabIndicatorColor">#FD6A3B</color>
 </resources>

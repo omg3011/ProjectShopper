@@ -27,9 +27,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/login_emailTIL"
+        android:layout_above="@+id/login_mall_TV"
         android:layout_marginBottom="20dp"
         />
+
+    <!-- TextView: Mall -->
+    <TextView
+        android:id="@+id/login_mall_TV"
+        android:layout_above="@+id/login_emailTIL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="xxx Mall"
+        android:textSize="20sp"
+        />
+
+    <View
+        android:layout_below="@+id/login_mall_TV"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
 
     <!-- EditText: Email -->
     <com.google.android.material.textfield.TextInputLayout

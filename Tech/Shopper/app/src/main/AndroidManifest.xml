@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.crosssellers">
-
     <!--
     //==================================================================//
     //
@@ -20,8 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <!--
         //==================================================================//
         //
@@ -29,7 +26,10 @@
         //
         //==================================================================//
         -->
-        <activity android:name=".SplashScreen" android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
             <!--
             //==================================================================================//
             // This code below will make this activity be the 1st activity to show in the app
@@ -41,7 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!--
         //==================================================================//
         //
@@ -49,12 +48,57 @@
         //
         //==================================================================//
         -->
-        <activity android:name=".SelectMallActivity" ></activity>
-        <activity android:name=".ChatActivity" android:theme="@style/AppThemeNo" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".SelectMallActivity" />
+        <activity
+            android:name=".ChatActivity"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppThemeNo" />
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".SelectMallActivity" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".SelectMallActivity" />
+        <activity android:name=".MainActivity"
+            android:parentActivityName=".SelectMallActivity" />
+        <activity
+            android:name=".CollaborationPlatformActivity"
+            android:parentActivityName=".DashboardActivity" />
+        <activity
+            android:name=".PromotionActivity"
+            android:parentActivityName=".DashboardActivity" />
+        <activity
+            android:name=".MallInsightActivity"
+            android:parentActivityName=".DashboardActivity" />
+
+
+        <activity android:name=".SetupProfileActivity">
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+
+        <activity
+            android:name=".ShopInsightActivity"
+            android:parentActivityName=".DashboardActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

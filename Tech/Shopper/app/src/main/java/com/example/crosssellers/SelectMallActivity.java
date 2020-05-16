@@ -4,6 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -39,12 +41,17 @@ public class SelectMallActivity extends AppCompatActivity {
                     LinearLayout layout = (LinearLayout) cardView.getChildAt(0);
                     TextView TV_mall = (TextView) layout.getChildAt(1);
 
-                    Intent intent = new Intent(SelectMallActivity.this, MainActivity.class);
-                    intent.putExtra("mall", TV_mall.getText());
-                    startActivity(intent);
-                    finish();
+                    SaveData_And_GoToNextActivity(TV_mall, MainActivity.class);
                 }
             });
         }
+    }
+
+    void SaveData_And_GoToNextActivity(TextView tv, Class activity)
+    {
+        Intent intent = new Intent(SelectMallActivity.this, activity);
+        intent.putExtra("mall", tv.getText());
+        startActivity(intent);
+        finish();
     }
 }

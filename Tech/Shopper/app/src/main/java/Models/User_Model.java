@@ -1,5 +1,10 @@
 package Models;
 
+import com.google.common.collect.Maps;
+
+import java.util.List;
+import java.util.Map;
+
 public class User_Model
 {
     //--------------------------------------------------------------//
@@ -10,27 +15,95 @@ public class User_Model
     String name;
     String phone;
     String image;
-    String coverImage;
     String onlineStatus;
+
+    String mallName;
+    String storeName;
+    String storeUnit;
+    List<String> storeTags;
+    boolean setup_profile;
+    float ratingValue;
+    List<Integer> ratingList;
 
     //--------------------------------------------------------------//
     // Constructor(s)
     //--------------------------------------------------------------//
     public User_Model(){}
 
-    public User_Model(String email, String uid, String name, String phone, String image, String coverImage, String onlineStatus) {
+    public User_Model(String email, String uid, String name, String phone, String image, String onlineStatus, String mallName, String storeName, String storeUnit, List<String> storeTags, boolean setup_profile, float ratingValue, List<Integer> ratingList) {
         this.email = email;
         this.uid = uid;
         this.name = name;
         this.phone = phone;
         this.image = image;
-        this.coverImage = coverImage;
         this.onlineStatus = onlineStatus;
+        this.mallName = mallName;
+        this.storeName = storeName;
+        this.storeUnit = storeUnit;
+        this.storeTags = storeTags;
+        this.setup_profile = setup_profile;
+        this.ratingValue = ratingValue;
+        this.ratingList = ratingList;
     }
 
     //--------------------------------------------------------------//
     // Getter(s) / Setter(s)
     //--------------------------------------------------------------//
+    public float getRatingValue() {
+        return ratingValue;
+    }
+
+    public void setRatingValue(float ratingValue) {
+        this.ratingValue = ratingValue;
+    }
+
+    public List<Integer> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Integer> ratingList) {
+        this.ratingList = ratingList;
+    }
+
+    public List<String> getStoreTags() {
+        return storeTags;
+    }
+
+    public void setStoreTags(List<String> storeTags) {
+        this.storeTags = storeTags;
+    }
+
+    public boolean isSetup_profile() {
+        return setup_profile;
+    }
+
+    public void setSetup_profile(boolean setup_profile) {
+        this.setup_profile = setup_profile;
+    }
+
+    public String getMallName() {
+        return mallName;
+    }
+
+    public void setMallName(String mallName) {
+        this.mallName = mallName;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getStoreUnit() {
+        return storeUnit;
+    }
+
+    public void setStoreUnit(String storeUnit) {
+        this.storeUnit = storeUnit;
+    }
 
 
     public String getOnlineStatus() {
@@ -82,13 +155,5 @@ public class User_Model
         this.image = image;
     }
 
-
-    public String getCoverImage() {
-        return coverImage;
-    }
-
-    public void setCoverImage(String coverImage) {
-        this.coverImage = coverImage;
-    }
 
 }

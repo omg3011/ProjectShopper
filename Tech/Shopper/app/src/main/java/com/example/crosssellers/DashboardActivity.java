@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import Fragments.ChatListFragment;
 import Fragments.HomeFragment;
+import Fragments.Profile3Fragment;
 import Fragments.ProfileFragment;
 import Fragments.UsersFragment;
 
@@ -120,7 +121,8 @@ public class DashboardActivity extends AppCompatActivity {
                         case R.id.nav_profile:
                             //Profile fragment translation
                             actionbar.setTitle("Profile");
-                            ProfileFragment fragment2 = new ProfileFragment();
+                            //ProfileFragment fragment2 = new ProfileFragment();
+                            Profile3Fragment fragment2 = new Profile3Fragment();
                             loadFragment(fragment2);
                             actionbar.show();
                             return true;

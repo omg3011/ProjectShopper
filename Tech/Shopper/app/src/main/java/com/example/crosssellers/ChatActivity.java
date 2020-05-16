@@ -2,6 +2,7 @@ package com.example.crosssellers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -99,6 +100,18 @@ public class ChatActivity extends AppCompatActivity {
         dataReference_user = fireStore.collection("Users");
         dataReference_chat = fireStore.collection("Chats");
         dataReference_seen = fireStore.collection("Chats");
+
+
+        //----------------------------------------------------------------------//
+        // Action bar                                                           //
+        //----------------------------------------------------------------------//
+        //-- Add built-in "Actionbar" and it's "Actionbar"->title
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setTitle("Chat");
+
+        //-- Enable "Actionbar"->back button
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setDisplayShowHomeEnabled(true);
 
         //--------------------------------------------------------------------------------------//
         // Setup Scrolling List UI
@@ -245,6 +258,14 @@ public class ChatActivity extends AppCompatActivity {
         checkOnlineStatus("online");
 
         super.onStart();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        //-- Go to previous activity
+        onBackPressed();
+
+        return super.onSupportNavigateUp();
     }
 
     @Override

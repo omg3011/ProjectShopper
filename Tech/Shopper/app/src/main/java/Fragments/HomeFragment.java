@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,11 +14,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.crosssellers.CollaborationPlatformActivity;
 import com.example.crosssellers.MainActivity;
+import com.example.crosssellers.MallInsightActivity;
+import com.example.crosssellers.PromotionActivity;
 import com.example.crosssellers.R;
+import com.example.crosssellers.SelectMallActivity;
+import com.example.crosssellers.ShopInsightActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -38,6 +48,7 @@ public class HomeFragment extends Fragment {
 
     //-- View component
     ImageSlider imageSlider;
+    GridLayout gridLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -59,6 +70,54 @@ public class HomeFragment extends Fragment {
         //-- Init Views
         imageSlider = view.findViewById(R.id.home_IS);
 
+        //-- Init View
+        gridLayout = view.findViewById(R.id.home_GL);
+
+        //-- Setup EventListener for clicking each element in the scrolling List
+        for(int i = 0; i < gridLayout.getChildCount(); ++i)
+        {
+            final CardView cardView = (CardView) gridLayout.getChildAt(i);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LinearLayout layout = (LinearLayout) cardView.getChildAt(0);
+                    TextView TV_mall = (TextView) layout.getChildAt(1);
+
+                    if(TV_mall.getText().equals("Shop Insights"))
+                    {
+                        Intent intent = new Intent(getActivity(), ShopInsightActivity.class);
+                        intent.putExtra("mall", TV_mall.getText());
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                    else if(TV_mall.getText().equals("Mall Insights"))
+                    {
+                        Intent intent = new Intent(getActivity(), MallInsightActivity.class);
+                        intent.putExtra("mall", TV_mall.getText());
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                    else if(TV_mall.getText().equals("Collaborations"))
+                    {
+                        Intent intent = new Intent(getActivity(), CollaborationPlatformActivity.class);
+                        intent.putExtra("mall", TV_mall.getText());
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                    else if(TV_mall.getText().equals("Promotions"))
+                    {
+                        Intent intent = new Intent(getActivity(), PromotionActivity.class);
+                        intent.putExtra("mall", TV_mall.getText());
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                }
+            });
+        }
+
+        //-- Setup Grid
+
+        //-- Setup ImageSlider
         List<SlideModel> slideModels = new ArrayList<>();
         slideModels.add(new SlideModel("https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1066/https://www.knetizen.com/wp-content/uploads/2019/07/BLACKPINK-Jennie-2.jpeg", "BlackPink1"));
         slideModels.add(new SlideModel("https://lh3.googleusercontent.com/4mflEEJlSkBungqNgt7Q6ir7vQjdP30_EqtA8JOGKsYL56z3Z53K0UoO_iAAnoLIa8Tpnwqe8sIKmSWXMW9ypO-JRZ4znDU1=w1600-rw", "BlackPink2"));
@@ -84,7 +143,7 @@ public class HomeFragment extends Fragment {
     //--------------------------------------------------------//
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_logout_only, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

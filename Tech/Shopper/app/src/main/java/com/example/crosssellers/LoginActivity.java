@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +30,22 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import Models.User_Model;
 
@@ -46,13 +57,16 @@ public class LoginActivity extends AppCompatActivity {
 
     //-- Cache References
     EditText et_email, et_password;
-    TextView tv_notHaveAccount, tv_recoverPassword;
+    TextView tv_notHaveAccount, tv_recoverPassword, tv_mall;
     Button btn_login;
     ProgressDialog progressDialog;
     SignInButton googleLoginBtn;
 
     //-- Firebase
     private FirebaseAuth mAuth;
+
+    //-- Save Data
+    String mallName;
 
 
     //-------------------------------------------------------------------------------------------------------------------------------------------//
@@ -65,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //-- Get Saved data
+        LoadData(savedInstanceState);
 
         //----------------------------------------------------------------------//
         // Action bar                                                           //
@@ -87,6 +103,11 @@ public class LoginActivity extends AppCompatActivity {
         tv_recoverPassword = findViewById(R.id.recover_password_tv);
         btn_login = findViewById(R.id.login_loginbtn);
         googleLoginBtn = findViewById(R.id.googleLoginBtn);
+        tv_mall = findViewById(R.id.login_mall_TV);
+
+
+
+        tv_mall.setText(mallName);
 
         //-- Cache progressbar
         progressDialog = new ProgressDialog(this);
@@ -131,8 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_notHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
+                SaveData_And_GoToNextActivity(RegisterActivity.class);
             }
         });
 
@@ -281,6 +301,9 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging In...");
         progressDialog.show();
 
+        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -291,9 +314,46 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             progressDialog.dismiss();
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                            finish();
+                            //-- Private Variable(s)
+                            final boolean[] setupProfile = {false};
+                            final String[] dbMallName = new String[1];
+
+                            DocumentReference doc = fireStore.collection("Users").document(user.getUid());
+                            doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    setupProfile[0] = documentSnapshot.getBoolean("setup_profile");
+
+                                    dbMallName[0] = documentSnapshot.getString("mallName");
+
+
+                                    if(!dbMallName[0].equals(tv_mall.getText()))
+                                    {
+                                        Toast.makeText(LoginActivity.this, "Wrong Mall " + dbMallName[0] + " != " + tv_mall.getText(), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        if(setupProfile[0] == false)
+                                        {
+                                            startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
+                                            finish();
+                                        }
+                                        else
+                                        {
+                                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                                            finish();
+                                        }
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("Test", "Failed to get " + e.getMessage());
+                                }
+                            });
+
+
+
                         }
                         //-- Failed: User Login
                         else
@@ -306,6 +366,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e)
             {
                 progressDialog.dismiss();
+
+
                 Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -335,8 +397,49 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.getResult().getAdditionalUserInfo().isNewUser())
                             {
                                 //-- Update our database with new User
-                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", "");
+                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", mallName, "", "", null, false, 0, null);
                                 fireStore.collection("Users").document(user.getUid()).set(user_model);
+
+                                //-------------------------------------------------------------------------------
+                                // Handle navigate to other activity
+                                //-------------------------------------------------------------------------------
+                                startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
+                            }
+                            else
+                            {
+                                // Local Variable(s)
+                                final boolean[] setupProfile = {false};
+                                final String[] dbMallName = new String[1];
+
+                                DocumentReference doc = fireStore.collection("Users").document(user.getUid());
+                                doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        setupProfile[0] = documentSnapshot.getBoolean("setup_profile");
+                                        dbMallName[0] = documentSnapshot.getString("mallName");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("Test", "Failed to get " + e.getMessage());
+                                    }
+                                });
+
+                                if(TextUtils.isEmpty(dbMallName[0]))
+                                {
+                                    Toast.makeText(LoginActivity.this, "Wrong Mall", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    if(setupProfile[0] == false)
+                                    {
+                                        startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
+                                    }
+                                    else
+                                    {
+                                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                                    }
+                                }
                             }
 
                             //-------------------------------------------------------------------------------
@@ -344,10 +447,6 @@ public class LoginActivity extends AppCompatActivity {
                             //-------------------------------------------------------------------------------
                             Toast.makeText(LoginActivity.this, "Welcome: "+user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                            //-------------------------------------------------------------------------------
-                            // Handle navigate to other activity
-                            //-------------------------------------------------------------------------------
-                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -360,5 +459,27 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    void LoadData(final Bundle savedInstanceState){
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                mallName= null;
+            } else {
+                mallName= extras.getString("mall");
+            }
+        } else {
+            mallName= (String) savedInstanceState.getSerializable("mall");
+        }
+    }
+
+
+    void SaveData_And_GoToNextActivity(Class activity)
+    {
+        Intent intent = new Intent(LoginActivity.this, activity);
+        intent.putExtra("mall", mallName);
+        startActivity(intent);
     }
 }

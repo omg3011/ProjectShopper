@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SetupProfileActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:layout_marginVertical="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_add_image_black"
+            android:elevation="10dp"
+            />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/setup_profile_storeName_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Store Name:"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/setup_profile_storeUnit_et"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Store Unit:"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/setup_profile_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Store Tags:"
+            android:textColor="#63000000"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/setup_profile_tag_button"
+            android:layout_toRightOf="@+id/setup_profile_tags"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:textSize="10sp"
+            android:text="Select Tags"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/setup_profile_storetags_TV"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Selected Tags"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <Button
+        android:id="@+id/setup_profile_submitBtn"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="Submit"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        />
+</LinearLayout>
