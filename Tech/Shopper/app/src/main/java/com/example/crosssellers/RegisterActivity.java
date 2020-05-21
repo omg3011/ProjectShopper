@@ -182,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 //User_Model(String email, String uid, String name, String phone, String image, String coverImage, String onlineStatus, String mallName, String storeName, String storeUnit, List<String> storeTags)
 
-                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", mallName, "", "", null, false, 0, null);
+                            User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", mallName, "", "", "", false, 0, null);
                             fireStore.collection("Users").document(user.getUid()).set(user_model);
 
                             //-------------------------------------------------------------------------------

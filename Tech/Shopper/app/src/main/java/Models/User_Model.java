@@ -20,7 +20,7 @@ public class User_Model
     String mallName;
     String storeName;
     String storeUnit;
-    List<String> storeTags;
+    String storeTag;
     boolean setup_profile;
     float ratingValue;
     List<Integer> ratingList;
@@ -30,7 +30,7 @@ public class User_Model
     //--------------------------------------------------------------//
     public User_Model(){}
 
-    public User_Model(String email, String uid, String name, String phone, String image, String onlineStatus, String mallName, String storeName, String storeUnit, List<String> storeTags, boolean setup_profile, float ratingValue, List<Integer> ratingList) {
+    public User_Model(String email, String uid, String name, String phone, String image, String onlineStatus, String mallName, String storeName, String storeUnit, String storeTag, boolean setup_profile, float ratingValue, List<Integer> ratingList) {
         this.email = email;
         this.uid = uid;
         this.name = name;
@@ -40,7 +40,7 @@ public class User_Model
         this.mallName = mallName;
         this.storeName = storeName;
         this.storeUnit = storeUnit;
-        this.storeTags = storeTags;
+        this.storeTag = storeTag;
         this.setup_profile = setup_profile;
         this.ratingValue = ratingValue;
         this.ratingList = ratingList;
@@ -65,12 +65,12 @@ public class User_Model
         this.ratingList = ratingList;
     }
 
-    public List<String> getStoreTags() {
-        return storeTags;
+    public String getStoreTag() {
+        return storeTag;
     }
 
-    public void setStoreTags(List<String> storeTags) {
-        this.storeTags = storeTags;
+    public void setStoreTag(String storeTag) {
+        this.storeTag = storeTag;
     }
 
     public boolean isSetup_profile() {

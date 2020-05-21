@@ -301,8 +301,6 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging In...");
         progressDialog.show();
 
-        final FirebaseUser user = mAuth.getCurrentUser();
-        final FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -313,6 +311,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful())
                         {
                             progressDialog.dismiss();
+
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
 
                             //-- Private Variable(s)
                             final boolean[] setupProfile = {false};
@@ -337,11 +338,13 @@ public class LoginActivity extends AppCompatActivity {
                                         {
                                             startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
                                             finish();
+                                            progressDialog.dismiss();
                                         }
                                         else
                                         {
                                             startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                                             finish();
+                                            progressDialog.dismiss();
                                         }
                                     }
                                 }
@@ -365,7 +368,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e)
             {
-                progressDialog.dismiss();
 
 
                 Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -381,6 +383,12 @@ public class LoginActivity extends AppCompatActivity {
     // > fail    -> show Toast ("failed")  -> remain on current Activity
     //------------------------------------------------------------------------//
     private void firebaseAuthWithGoogle(String idToken) {
+
+
+        //-- Display progress dialog
+        progressDialog.setMessage("Logging In...");
+        progressDialog.show();
+
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -397,13 +405,14 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.getResult().getAdditionalUserInfo().isNewUser())
                             {
                                 //-- Update our database with new User
-                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", mallName, "", "", null, false, 0, null);
+                                User_Model user_model = new User_Model(user.getEmail(), user.getUid(), "", "", "", "", mallName, "", "", "", false, 0, null);
                                 fireStore.collection("Users").document(user.getUid()).set(user_model);
 
                                 //-------------------------------------------------------------------------------
                                 // Handle navigate to other activity
                                 //-------------------------------------------------------------------------------
                                 startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
+                                progressDialog.dismiss();
                             }
                             else
                             {
@@ -434,10 +443,12 @@ public class LoginActivity extends AppCompatActivity {
                                     if(setupProfile[0] == false)
                                     {
                                         startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
+                                        progressDialog.dismiss();
                                     }
                                     else
                                     {
                                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                                        progressDialog.dismiss();
                                     }
                                 }
                             }
@@ -451,14 +462,16 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Login failed...", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
     }
 
 

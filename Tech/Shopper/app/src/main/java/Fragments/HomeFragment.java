@@ -15,18 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.example.crosssellers.CollaborationPlatformActivity;
+import com.example.crosssellers.CPlatformHomeActivity;
 import com.example.crosssellers.MainActivity;
 import com.example.crosssellers.MallInsightActivity;
 import com.example.crosssellers.PromotionActivity;
 import com.example.crosssellers.R;
-import com.example.crosssellers.SelectMallActivity;
 import com.example.crosssellers.ShopInsightActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -99,7 +97,7 @@ public class HomeFragment extends Fragment {
                     }
                     else if(TV_mall.getText().equals("Collaborations"))
                     {
-                        Intent intent = new Intent(getActivity(), CollaborationPlatformActivity.class);
+                        Intent intent = new Intent(getActivity(), CPlatformHomeActivity.class);
                         intent.putExtra("mall", TV_mall.getText());
                         startActivity(intent);
                         getActivity().finish();

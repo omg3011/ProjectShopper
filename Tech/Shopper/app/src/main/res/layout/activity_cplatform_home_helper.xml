@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    android:layout_marginHorizontal="3dp"
+    app:contentPadding="5dp"
+    android:id="@+id/cplatform_home_helper_click_CV"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="3dp">
+
+        <TextView
+            android:id="@+id/cplatform_home_helper_post_description_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Looking for..."
+            android:maxLines="1"
+            android:maxLength="35"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Ideal Partners: "
+                android:textColor="@color/colorBlack"/>
+            <TextView
+                android:id="@+id/cplatform_home_helper_tags_TV"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="F &amp; B, Kids"
+                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Date Posted: "
+                android:textColor="@color/colorBlack"/>
+            <TextView
+                android:id="@+id/cplatform_home_helper_date_TV"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dd/mm/yyyy"
+                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Time Posted: "
+                android:textColor="@color/colorBlack"/>
+            <TextView
+                android:id="@+id/cplatform_home_helper_time_TV"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xx:xx hrs"
+                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

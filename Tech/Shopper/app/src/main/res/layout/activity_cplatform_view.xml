@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".CPlatformViewActivity"
+    android:background="@color/colorGrey">
+
+    <!-- The entire thing -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- The top part -->
+        <LinearLayout
+            android:layout_weight="80"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorWhite">
+
+            <!-- Parent: Post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <!-- Post Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Post Info:"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <!-- Post Description -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Looking for..."
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- Post Tags -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Possible Collaborators:"/>
+
+
+                    <TextView
+                        android:id="@+id/cplatform_view_tags_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sports"/>
+                </LinearLayout>
+
+                <!-- Post Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Date Posted:"/>
+
+
+                    <TextView
+                        android:id="@+id/cplatform_view_date_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="dd/mm/yyyy"/>
+                </LinearLayout>
+
+                <!-- Post Time -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Time Posted:"/>
+
+
+                    <TextView
+                        android:id="@+id/cplatform_view_time_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hh:mm aa"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="20dp"/>
+
+            <!-- Parent: Store -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <!-- Post Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Store Info:"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@color/colorWhite">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10"
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3">
+                            <TextView
+                                android:id="@+id/profile3_store_name_TV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:text="ABC PTE LTD"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/profile3_mall_name_TV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/profile3_store_name_TV"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:text="Tampines Mall"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/profile3_storeUnit_TV"
+                                android:layout_below="@id/profile3_mall_name_TV"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/open_sans"
+                                android:layout_height="wrap_content"
+                                android:text="#07-77"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/profile3_tags_TV"
+                                android:layout_marginLeft="15dp"
+                                android:layout_below="@id/profile3_mall_name_TV"
+                                android:fontFamily="@font/open_sans"
+                                android:layout_toRightOf="@id/profile3_storeUnit_TV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="F n B"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/profile3_ratingValue_TV"
+                                android:layout_below="@id/profile3_storeUnit_TV"
+                                android:fontFamily="@font/open_sans"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5.0"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                />
+                            <RatingBar
+                                android:id="@+id/profile3_rating_RB"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="3dp"
+                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/profile3_ratingValue_TV"
+                                android:layout_below="@id/profile3_storeUnit_TV"
+                                android:indeterminate="false"
+                                android:isIndicator="true"
+                                android:transformPivotX="0dp"
+                                android:max="5"
+                                android:rating="4"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"/>
+
+                            <TextView
+                                android:id="@+id/profile3_ratingQuantity_TV"
+                                android:layout_below="@id/profile3_storeUnit_TV"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/open_sans_bold"
+                                android:layout_height="wrap_content"
+                                android:text="(7)"
+                                android:layout_toRightOf="@id/profile3_rating_RB"
+                                android:layout_marginLeft="25dp"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                />
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/profile3_store_image_IV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="7"
+                            android:scaleType="centerCrop"
+                            android:background="@color/colorPrimary"
+                            android:src="@drawable/ic_add_image"/>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="20dp"/>
+
+            <!-- Parent: Images -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <!-- Uploads Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Images:"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/colorGrey"
+                    android:src="@drawable/ic_add_image_black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- The btm part (buttons only)-->
+        <RelativeLayout
+            android:layout_weight="20"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Request Collaboration"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

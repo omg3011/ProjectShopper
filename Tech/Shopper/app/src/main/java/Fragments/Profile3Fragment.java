@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,11 +48,15 @@ public class Profile3Fragment extends Fragment {
     View view;
     TextView TV_storeName, TV_mallName, TV_storeUnit, TV_storeTag, TV_ratingQuantity, TV_ratingValue;
     RatingBar RB_rating;
+    ImageView IV_storeImage;
 
     //-- Setup database
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseFirestore fireStore;
+
+    //-- Progress Dialog
+    ProgressDialog pd;
 
     public Profile3Fragment() {
         // Required empty public constructor
@@ -82,6 +89,11 @@ public class Profile3Fragment extends Fragment {
         TV_storeTag = view.findViewById(R.id.profile3_tags_TV);
         TV_ratingValue = view.findViewById(R.id.profile3_ratingValue_TV);
         RB_rating = view.findViewById(R.id.profile3_rating_RB);
+        IV_storeImage = view.findViewById(R.id.profile3_store_image_IV);
+
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage("Loading store profile...");
+        pd.show();
 
         //-- Retrieve data from database
         DocumentReference doc = fireStore.collection("Users").document(user.getUid());
@@ -91,20 +103,31 @@ public class Profile3Fragment extends Fragment {
                 TV_storeName.setText(documentSnapshot.getString("storeName"));
                 TV_mallName.setText(documentSnapshot.getString("mallName"));
                 TV_storeUnit.setText(documentSnapshot.getString("storeUnit"));
-                List<String> tags = (List<String>) documentSnapshot.get("storeTags");
-                String listString = TextUtils.join(", ", tags);
-                TV_storeTag.setText(listString);
+                TV_storeTag.setText(documentSnapshot.getString("storeTag"));
+
+                String imageUri = documentSnapshot.getString("image");
+                if(imageUri.isEmpty())
+                    imageUri = "Empty";
+
+                Picasso.get()
+                        .load(imageUri)
+                        .placeholder(R.drawable.ic_add_image)
+                        .error(R.drawable.ic_error)
+                        .into(IV_storeImage);
+
 
                 //-- ToDO
                 TV_ratingQuantity.setText("(4)");
                 RB_rating.setMax(5);
                 RB_rating.setRating(4);
                 TV_ratingValue.setText("4.0");
+                pd.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("Test", "Failed to get " + e.getMessage());
+                pd.dismiss();
             }
         });
 

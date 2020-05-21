@@ -9,4 +9,6 @@
     <color name="colorSplashscreenBackground">#FF5722</color>
     <color name="tabTextColor">#FF5722</color>
     <color name="tabIndicatorColor">#FD6A3B</color>
+    <color name="colorGrey">#EAEAEA</color>
+    <color name="colorBlackAlpha">#37000000</color>
 </resources>

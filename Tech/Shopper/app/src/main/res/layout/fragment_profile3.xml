@@ -108,6 +108,7 @@
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/profile3_store_image_IV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
