@@ -20,6 +20,10 @@
         <item name="android:background">@android:color/holo_orange_dark</item>
     </style>
 
+    <style name="Button.DarkRed">
+        <item name="android:background">@android:color/holo_red_dark</item>
+    </style>
+
     <!-- For activities containing toolbar -->
     <!-- Theme w/o actionbar -->
     <style name="AppThemeNo" parent="Theme.AppCompat.Light.NoActionBar">
