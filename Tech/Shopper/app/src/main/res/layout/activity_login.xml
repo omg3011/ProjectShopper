@@ -13,13 +13,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Login"
-        android:textColor="@android:color/holo_orange_dark"
-        android:textSize="30sp"
-        android:textStyle="bold"
         android:gravity="center_horizontal"
-        />
+        android:text="Login"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <!-- Google Sign In Btn -->
     <com.google.android.gms.common.SignInButton
@@ -51,7 +50,7 @@
     <!-- EditText: Email -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/login_emailTIL">
@@ -61,7 +60,8 @@
             android:inputType="textEmailAddress"
             android:hint="Email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox_border" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +69,7 @@
     <!-- EditText: Password -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/login_passwordTIL"
@@ -81,7 +81,8 @@
             android:inputType="textPassword"
             android:hint="Password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox_border" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,14 +92,14 @@
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_below="@id/login_passwordTIL"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true">
 
         <Button
             android:id="@+id/login_loginbtn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            style="@style/Button.LightOrange"
+            style="@style/Button.DarkRed"
             />
         <ImageView
             android:id="@+id/loginImage"
