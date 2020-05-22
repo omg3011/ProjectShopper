@@ -158,6 +158,13 @@ public class CPlatformCreateActivity extends AppCompatActivity {
             }
         });
 
+        BTN_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateAlertDialog_Submit();
+            }
+        });
+
         //----------------------------------------------------------------------//
         // Action bar                                                           //
         //----------------------------------------------------------------------//
@@ -341,6 +348,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(CPlatformCreateActivity.this, CPlatformHomeActivity.class));
+                        finish();
                     }
                 });
         // Create and show dialog

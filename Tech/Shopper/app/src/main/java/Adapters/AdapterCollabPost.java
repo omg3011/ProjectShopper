@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crosssellers.CPlatformHomeActivity;
+import com.example.crosssellers.CPlatformViewActivity;
 import com.example.crosssellers.R;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,8 +50,7 @@ public class AdapterCollabPost extends RecyclerView.Adapter<AdapterCollabPost.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Log.d("Test", "called");
-        CPlatform_Model post = postList.get(position);
+        final CPlatform_Model post = postList.get(position);
 
         //-- Set Text
         String listString;
@@ -77,7 +78,9 @@ public class AdapterCollabPost extends RecyclerView.Adapter<AdapterCollabPost.Vi
         holder.CV_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, Integer.toString(position) + ") clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CPlatformViewActivity.class);
+                intent.putExtra("post", post);
+                context.startActivity(intent);
             }
         });
     }

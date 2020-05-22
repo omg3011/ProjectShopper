@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     tools:context=".CPlatformViewActivity"
-    android:background="@color/colorGrey">
+    android:orientation="vertical"
+    android:weightSum="100">
 
-    <!-- The entire thing -->
-    <LinearLayout
+    <!-- 90%: Top Part -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:background="@color/colorGrey">
 
         <!-- The top part -->
         <LinearLayout
@@ -44,6 +45,7 @@
 
                 <!-- Post Description -->
                 <TextView
+                    android:id="@+id/cplatform_view_postDescription_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Looking for..."
@@ -63,7 +65,7 @@
 
 
                     <TextView
-                        android:id="@+id/cplatform_view_tags_TV"
+                        android:id="@+id/cplatform_view_postTags_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sports"/>
@@ -83,7 +85,7 @@
 
 
                     <TextView
-                        android:id="@+id/cplatform_view_date_TV"
+                        android:id="@+id/cplatform_view_postDate_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="dd/mm/yyyy"/>
@@ -103,7 +105,7 @@
 
 
                     <TextView
-                        android:id="@+id/cplatform_view_time_TV"
+                        android:id="@+id/cplatform_view_postTime_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="hh:mm aa"/>
@@ -152,7 +154,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3">
                             <TextView
-                                android:id="@+id/profile3_store_name_TV"
+                                android:id="@+id/cplatform_view_storeName_TV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/open_sans_bold"
@@ -161,10 +163,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/profile3_mall_name_TV"
+                                android:id="@+id/cplatform_view_mallName_TV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/profile3_store_name_TV"
+                                android:layout_below="@id/cplatform_view_storeName_TV"
                                 android:fontFamily="@font/open_sans_bold"
                                 android:text="Tampines Mall"
                                 android:textStyle="bold"
@@ -172,8 +174,8 @@
                                 />
 
                             <TextView
-                                android:id="@+id/profile3_storeUnit_TV"
-                                android:layout_below="@id/profile3_mall_name_TV"
+                                android:id="@+id/cplatform_view_storeUnit_TV"
+                                android:layout_below="@id/cplatform_view_mallName_TV"
                                 android:layout_width="wrap_content"
                                 android:fontFamily="@font/open_sans"
                                 android:layout_height="wrap_content"
@@ -183,11 +185,11 @@
                                 />
 
                             <TextView
-                                android:id="@+id/profile3_tags_TV"
+                                android:id="@+id/cplatform_view_storeTag_TV"
                                 android:layout_marginLeft="15dp"
-                                android:layout_below="@id/profile3_mall_name_TV"
+                                android:layout_below="@id/cplatform_view_mallName_TV"
                                 android:fontFamily="@font/open_sans"
-                                android:layout_toRightOf="@id/profile3_storeUnit_TV"
+                                android:layout_toRightOf="@id/cplatform_view_storeUnit_TV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="F n B"
@@ -196,8 +198,8 @@
                                 />
 
                             <TextView
-                                android:id="@+id/profile3_ratingValue_TV"
-                                android:layout_below="@id/profile3_storeUnit_TV"
+                                android:id="@+id/cplatform_view_storeRating_TV"
+                                android:layout_below="@id/cplatform_view_storeUnit_TV"
                                 android:fontFamily="@font/open_sans"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -206,14 +208,14 @@
                                 android:textSize="18sp"
                                 />
                             <RatingBar
-                                android:id="@+id/profile3_rating_RB"
+                                android:id="@+id/cplatform_view_storeRating_RB"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="3dp"
                                 style="@style/Widget.AppCompat.RatingBar.Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/profile3_ratingValue_TV"
-                                android:layout_below="@id/profile3_storeUnit_TV"
+                                android:layout_toRightOf="@id/cplatform_view_storeRating_TV"
+                                android:layout_below="@id/cplatform_view_storeUnit_TV"
                                 android:indeterminate="false"
                                 android:isIndicator="true"
                                 android:transformPivotX="0dp"
@@ -223,13 +225,13 @@
                                 android:scaleY="1.2"/>
 
                             <TextView
-                                android:id="@+id/profile3_ratingQuantity_TV"
-                                android:layout_below="@id/profile3_storeUnit_TV"
+                                android:id="@+id/cplatform_view_ratingQuantity_TV"
+                                android:layout_below="@id/cplatform_view_storeUnit_TV"
                                 android:layout_width="wrap_content"
                                 android:fontFamily="@font/open_sans_bold"
                                 android:layout_height="wrap_content"
                                 android:text="(7)"
-                                android:layout_toRightOf="@id/profile3_rating_RB"
+                                android:layout_toRightOf="@id/cplatform_view_storeRating_RB"
                                 android:layout_marginLeft="25dp"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
@@ -237,7 +239,7 @@
                         </RelativeLayout>
 
                         <ImageView
-                            android:id="@+id/profile3_store_image_IV"
+                            android:id="@+id/cplatform_view_storeProfile_IV"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="7"
@@ -264,7 +266,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:fillViewport="true">
 
 
                 <!-- Uploads Header -->
@@ -277,30 +280,38 @@
                     android:textSize="25sp"
                     android:layout_marginBottom="10dp"/>
 
-                <ImageView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cplatform_view_uploads_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@color/colorGrey"
-                    android:src="@drawable/ic_add_image_black"/>
+                    android:layout_height="500dp"
+                    android:paddingTop="8dp"
+                    android:clipToPadding="false"/>
             </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-        <!-- The btm part (buttons only)-->
+    <!-- 10%: Btm part (button only)-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:background="@color/colorWhite">
+
         <RelativeLayout
-            android:layout_weight="20"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/colorPrimary">
 
             <Button
+                android:id="@+id/cplatform_view_request_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Request Collaboration"/>
         </RelativeLayout>
-
     </LinearLayout>
 
-</ScrollView>
+
+</LinearLayout>

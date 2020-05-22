@@ -1,8 +1,9 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CPlatform_Model {
+public class CPlatform_Model implements Serializable {
 
     //--------------------------------------------------------------//
     // Variable(s) Declaration
