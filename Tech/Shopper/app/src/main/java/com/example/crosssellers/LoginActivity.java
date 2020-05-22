@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle("Login");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorWhite)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorMainColour)));
 
         //-- Enable "Actionbar"->back button
         actionbar.setDisplayHomeAsUpEnabled(true);

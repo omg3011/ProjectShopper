@@ -20,6 +20,7 @@
             android:fontFamily="@font/open_sans_extrabold"
             android:gravity="center"
             android:textSize="30sp"
+            android:textColor="@color/colorMainColour"
             />
 
         <View

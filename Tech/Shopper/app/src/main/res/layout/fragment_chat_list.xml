@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:textSize="30sp"
-        android:text="Chat List"/>
+        android:fontFamily="@font/cabin_semibold"
+        android:text="Chat List"
+        android:textColor="@color/colorMainColour"
+        android:textSize="30sp" />
 
 </FrameLayout>
