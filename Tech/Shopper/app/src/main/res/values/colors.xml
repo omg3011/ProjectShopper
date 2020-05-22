@@ -3,8 +3,8 @@
     <color name="colorPrimary">#FD6A3B</color>
     <color name="colorPrimaryDark">#FF5722</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="colorBlack">#000</color>
-    <color name="colorWhite">#fff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="bgBottomNavigation">#fe485a</color>
     <color name="colorSplashscreenBackground">#FF5722</color>
     <color name="tabTextColor">#FF5722</color>

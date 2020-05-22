@@ -3,6 +3,8 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/monda</item>
         <item>@font/monda_bold</item>
+        <item>@font/montserrat</item>
+        <item>@font/montserrat_bold</item>
         <item>@font/open_sans</item>
         <item>@font/open_sans_extrabold</item>
         <item>@font/open_sans_light</item>

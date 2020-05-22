@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/holo_orange_dark</item>
-        <item name="colorPrimaryDark">@android:color/holo_orange_light</item>
-        <item name="colorAccent">@android:color/holo_orange_dark</item>
+        <item name="colorPrimary">#EE0044</item>
+        <item name="colorPrimaryDark">#EE0044</item>
+        <item name="colorAccent">#CC0044</item>
     </style>
 
 
@@ -21,6 +21,10 @@
     </style>
 
     <style name="Button.DarkRed">
+        <item name="android:background">@android:color/holo_red_dark</item>
+    </style>
+
+    <style name="Button.Colour">
         <item name="android:background">@android:color/holo_red_dark</item>
     </style>
 
