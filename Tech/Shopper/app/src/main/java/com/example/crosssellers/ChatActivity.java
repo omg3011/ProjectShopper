@@ -268,6 +268,14 @@ public class ChatActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ChatActivity.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();

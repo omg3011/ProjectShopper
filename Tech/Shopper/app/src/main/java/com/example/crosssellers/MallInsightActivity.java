@@ -3,6 +3,7 @@ package com.example.crosssellers;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -149,5 +150,13 @@ public class MallInsightActivity extends AppCompatActivity {
         onBackPressed(); // Built-in function
 
         return super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MallInsightActivity.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

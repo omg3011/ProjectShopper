@@ -12,8 +12,7 @@
     <!-- 90%: Top Part -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90"
+        android:layout_height="match_parent"
         android:background="@color/colorGrey">
 
         <!-- The top part -->
@@ -37,7 +36,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Collaboration Info:"
+                    android:text="Promotion Info:"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/open_sans_extrabold"
                     android:textSize="25sp"
@@ -45,7 +44,7 @@
 
                 <!-- Post Description -->
                 <TextView
-                    android:id="@+id/cplatform_view_postDescription_TV"
+                    android:id="@+id/cpromo_view_postDescription_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Looking for..."
@@ -65,7 +64,7 @@
 
 
                     <TextView
-                        android:id="@+id/cplatform_view_postTags_TV"
+                        android:id="@+id/cpromo_view_postTags_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sports"/>
@@ -81,34 +80,14 @@
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:text="Date Posted:"/>
+                        android:text="Promo Date:"/>
 
 
                     <TextView
-                        android:id="@+id/cplatform_view_postDate_TV"
+                        android:id="@+id/cpromo_view_promoDate_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="dd/mm/yyyy"/>
-                </LinearLayout>
-
-                <!-- Post Time -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="180dp"
-                        android:layout_height="wrap_content"
-                        android:text="Time Posted:"/>
-
-
-                    <TextView
-                        android:id="@+id/cplatform_view_postTime_TV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="hh:mm aa"/>
+                        android:text="dd/mm/yyyy - dd/mm/yyyy"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -154,7 +133,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3">
                             <TextView
-                                android:id="@+id/cplatform_view_storeName_TV"
+                                android:id="@+id/cpromo_view_storeName_TV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/open_sans_bold"
@@ -163,10 +142,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/cplatform_view_mallName_TV"
+                                android:id="@+id/cpromo_view_mallName_TV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/cplatform_view_storeName_TV"
+                                android:layout_below="@id/cpromo_view_storeName_TV"
                                 android:fontFamily="@font/open_sans_bold"
                                 android:text="Tampines Mall"
                                 android:textStyle="bold"
@@ -174,8 +153,8 @@
                                 />
 
                             <TextView
-                                android:id="@+id/cplatform_view_storeUnit_TV"
-                                android:layout_below="@id/cplatform_view_mallName_TV"
+                                android:id="@+id/cpromo_view_storeUnit_TV"
+                                android:layout_below="@id/cpromo_view_mallName_TV"
                                 android:layout_width="wrap_content"
                                 android:fontFamily="@font/open_sans"
                                 android:layout_height="wrap_content"
@@ -185,11 +164,11 @@
                                 />
 
                             <TextView
-                                android:id="@+id/cplatform_view_storeTag_TV"
+                                android:id="@+id/cpromo_view_storeTag_TV"
                                 android:layout_marginLeft="15dp"
-                                android:layout_below="@id/cplatform_view_mallName_TV"
+                                android:layout_below="@id/cpromo_view_mallName_TV"
                                 android:fontFamily="@font/open_sans"
-                                android:layout_toRightOf="@id/cplatform_view_storeUnit_TV"
+                                android:layout_toRightOf="@id/cpromo_view_storeUnit_TV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="F n B"
@@ -198,8 +177,8 @@
                                 />
 
                             <TextView
-                                android:id="@+id/cplatform_view_storeRating_TV"
-                                android:layout_below="@id/cplatform_view_storeUnit_TV"
+                                android:id="@+id/cpromo_view_storeRating_TV"
+                                android:layout_below="@id/cpromo_view_storeUnit_TV"
                                 android:fontFamily="@font/open_sans"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -208,14 +187,14 @@
                                 android:textSize="18sp"
                                 />
                             <RatingBar
-                                android:id="@+id/cplatform_view_storeRating_RB"
+                                android:id="@+id/cpromo_view_storeRating_RB"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="3dp"
                                 style="@style/Widget.AppCompat.RatingBar.Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/cplatform_view_storeRating_TV"
-                                android:layout_below="@id/cplatform_view_storeUnit_TV"
+                                android:layout_toRightOf="@id/cpromo_view_storeRating_TV"
+                                android:layout_below="@id/cpromo_view_storeUnit_TV"
                                 android:indeterminate="false"
                                 android:isIndicator="true"
                                 android:transformPivotX="0dp"
@@ -225,13 +204,13 @@
                                 android:scaleY="1.2"/>
 
                             <TextView
-                                android:id="@+id/cplatform_view_ratingQuantity_TV"
-                                android:layout_below="@id/cplatform_view_storeUnit_TV"
+                                android:id="@+id/cpromo_view_ratingQuantity_TV"
+                                android:layout_below="@id/cpromo_view_storeUnit_TV"
                                 android:layout_width="wrap_content"
                                 android:fontFamily="@font/open_sans_bold"
                                 android:layout_height="wrap_content"
                                 android:text="(7)"
-                                android:layout_toRightOf="@id/cplatform_view_storeRating_RB"
+                                android:layout_toRightOf="@id/cpromo_view_storeRating_RB"
                                 android:layout_marginLeft="25dp"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
@@ -239,7 +218,7 @@
                         </RelativeLayout>
 
                         <ImageView
-                            android:id="@+id/cplatform_view_storeProfile_IV"
+                            android:id="@+id/cpromo_view_storeProfile_IV"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="7"
@@ -281,37 +260,35 @@
                     android:layout_marginBottom="10dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cplatform_view_uploads_rv"
+                    android:id="@+id/cpromo_view_uploads_rv"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
                     android:paddingTop="8dp"
                     android:clipToPadding="false"/>
             </LinearLayout>
 
+            <!-- Parent: QR Code -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Post Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="QR Code:"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:src="@drawable/ic_add_image_black"/>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <!-- 10%: Btm part (button only)-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:background="@color/colorWhite">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary">
-
-            <Button
-                android:id="@+id/cplatform_view_request_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Request Collaboration"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-
 </LinearLayout>

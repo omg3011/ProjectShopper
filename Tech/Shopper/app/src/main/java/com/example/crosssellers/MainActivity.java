@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         //-- Enable "Actionbar"->back button
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(true);
 
         //-- Cache references
         btn_register = findViewById(R.id.register_btn);
@@ -71,9 +70,15 @@ public class MainActivity extends AppCompatActivity {
         //-- Go to previous activity
         onBackPressed();
 
-        return super.onSupportNavigateUp();
+        return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MainActivity.this, SelectMallActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     void LoadData(final Bundle savedInstanceState){
         if (savedInstanceState == null) {
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, activity);
         intent.putExtra("mall", mallName);
         startActivity(intent);
+        finish();
     }
 
 }

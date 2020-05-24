@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.crosssellers.CPlatformHomeActivity;
+import com.example.crosssellers.CPromotionHomeActivity;
 import com.example.crosssellers.MainActivity;
 import com.example.crosssellers.MallInsightActivity;
 import com.example.crosssellers.PromotionActivity;
@@ -104,7 +105,7 @@ public class HomeFragment extends Fragment {
                     }
                     else if(TV_mall.getText().equals("Promotions"))
                     {
-                        Intent intent = new Intent(getActivity(), PromotionActivity.class);
+                        Intent intent = new Intent(getActivity(), CPromotionHomeActivity.class);
                         intent.putExtra("mall", TV_mall.getText());
                         startActivity(intent);
                         getActivity().finish();

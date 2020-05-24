@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,35 +33,34 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import Adapters.AdapterCollabPost;
-import Adapters.AdapterUsers;
+import Adapters.AdapterPromoPost;
 import Models.CPlatform_Model;
-import Models.User_Model;
+import Models.CPromotion_Model;
 
-public class CPlatformHomeActivity extends AppCompatActivity {
+public class CPromotionHomeActivity  extends AppCompatActivity {
 
     //-- DB(s)
     FirebaseUser fUser;
-    CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_CPromotion;
     CollectionReference dataReference_User;
 
     //-- View(s)
-    Button BTN_create_collab;
-    RecyclerView RV_collabPost;
+    Button BTN_create_promotion;
+    RecyclerView RV_promoPost;
 
     //-- Private variable(s)
-    AdapterCollabPost adapterCollabPost;
-    List<CPlatform_Model> collabPostList;
+    AdapterPromoPost adapterPromoPost;
+    List<CPromotion_Model> promoPostList;
     LinearLayoutManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cplatform_home);
+        setContentView(R.layout.activity_cpromotion_home);
 
         //-- Cache Reference
-        BTN_create_collab = findViewById(R.id.cplatform_create_collab_btn);
-        RV_collabPost = findViewById(R.id.cplatform_home_RV);
+        BTN_create_promotion = findViewById(R.id.cpromo_create_promo_btn);
+        RV_promoPost = findViewById(R.id.cpromo_home_RV);
 
         //-- Init DB
         fUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,23 +70,23 @@ public class CPlatformHomeActivity extends AppCompatActivity {
         // Init RecyclerView List                                               //
         //----------------------------------------------------------------------//
         // Adapter
-        collabPostList = new ArrayList<>();
-        adapterCollabPost = new AdapterCollabPost(this, collabPostList);
+        promoPostList = new ArrayList<>();
+        adapterPromoPost = new AdapterPromoPost(this, promoPostList);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
-        RV_collabPost.setLayoutManager(manager);
-        RV_collabPost.setAdapter(adapterCollabPost);
+        RV_promoPost.setLayoutManager(manager);
+        RV_promoPost.setAdapter(adapterPromoPost);
 
         //-- Retrieve data from database
-        getCollabPostRelatedByTag();
+        getPromoPostRelatedByTag();
 
         //----------------------------------------------------------------------//
         // Register Event Listener                                              //
         //----------------------------------------------------------------------//
-        BTN_create_collab.setOnClickListener(new View.OnClickListener() {
+        BTN_create_promotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CPlatformHomeActivity.this, CPlatformCreateActivity.class));
+                startActivity(new Intent(CPromotionHomeActivity.this, CPromotionCreateActivity.class));
                 finish();
             }
         });
@@ -100,7 +96,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Collaborations Platform");
+        actionbar.setTitle("Promotion Platform");
 
         //-- Enable "Actionbar"->back button
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -122,16 +118,16 @@ public class CPlatformHomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(CPlatformHomeActivity.this, DashboardActivity.class);
+        Intent intent = new Intent(CPromotionHomeActivity.this, DashboardActivity.class);
         startActivity(intent);
         finish();
     }
 
 
-    void getCollabPostRelatedByTag()
+    void getPromoPostRelatedByTag()
     {
         // Get Path of database named "Users" containing user info
-        dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
+        dataReference_CPromotion = FirebaseFirestore.getInstance().collection("Promotions");
         dataReference_User = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference doc = dataReference_User.document(fUser.getUid());
         final String[] userTag = new String[1];
@@ -150,7 +146,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                 // (2) Get all the CPlatform Post
                 //--------------------------------------------------------------------------------//
                 // Get all data from path ^
-                dataReference_CPlatform.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                dataReference_CPromotion.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -161,7 +157,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                         // Check until required info is received
                         for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges())
                         {
-                            CPlatform_Model model = doc.getDocument().toObject(CPlatform_Model.class);
+                            CPromotion_Model model = doc.getDocument().toObject(CPromotion_Model.class);
 
                             // Dont show my post
                             //if(model.getPosterUid().equals(fUser.getUid()))
@@ -177,27 +173,27 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                             switch(doc.getType())
                             {
                                 case ADDED:
-                                    if(model.getCollabTag().contains(userTag[0]))
+                                    if(model.getTags().contains(userTag[0]))
                                     {
                                         //---------------------------------------------------------//
                                         // Update UI to display the changes in the list
                                         //---------------------------------------------------------//
-                                        collabPostList.add(model);
+                                        promoPostList.add(model);
 
-                                        collabPostList.sort(new Comparator<CPlatform_Model>()
+                                        promoPostList.sort(new Comparator<CPromotion_Model>()
                                         {
                                             @Override
-                                            public int compare(CPlatform_Model o1, CPlatform_Model o2) {
+                                            public int compare(CPromotion_Model o1, CPromotion_Model o2) {
                                                 //-- Get Timestamp
                                                 Date date1 = null;
                                                 Date date2 = null;
                                                 try {
-                                                    date1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o1.getTimestamp());
+                                                    date1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o1.getTimestampPost());
                                                 } catch (ParseException ex) {
                                                     ex.printStackTrace();
                                                 }
                                                 try {
-                                                    date2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o2.getTimestamp());
+                                                    date2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o2.getTimestampPost());
                                                 } catch (ParseException ex) {
                                                     ex.printStackTrace();
                                                 }
@@ -206,7 +202,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                        adapterCollabPost.notifyDataSetChanged();
+                                        adapterPromoPost.notifyDataSetChanged();
 
                                     }
                                     break;

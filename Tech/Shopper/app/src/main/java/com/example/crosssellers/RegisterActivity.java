@@ -149,6 +149,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(RegisterActivity.this, SelectMallActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
     // User-Defined Function(s)
@@ -263,5 +270,6 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(RegisterActivity.this, activity);
         intent.putExtra("mall", mallName);
         startActivity(intent);
+        finish();
     }
 }

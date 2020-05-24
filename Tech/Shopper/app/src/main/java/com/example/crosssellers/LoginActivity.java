@@ -185,6 +185,14 @@ public class LoginActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LoginActivity.this, SelectMallActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     //------------------------------------------------------------------------//
     // Function: Handle google-login onSuccess, do what?
     //------------------------------------------------------------------------//
@@ -413,6 +421,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //-------------------------------------------------------------------------------
                                 startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
                                 progressDialog.dismiss();
+                                finish();
                             }
                             else
                             {
@@ -444,11 +453,13 @@ public class LoginActivity extends AppCompatActivity {
                                     {
                                         startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
                                         progressDialog.dismiss();
+                                        finish();
                                     }
                                     else
                                     {
                                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                                         progressDialog.dismiss();
+                                        finish();
                                     }
                                 }
                             }
@@ -494,5 +505,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, activity);
         intent.putExtra("mall", mallName);
         startActivity(intent);
+        finish();
     }
 }

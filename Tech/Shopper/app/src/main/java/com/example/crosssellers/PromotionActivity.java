@@ -3,6 +3,7 @@ package com.example.crosssellers;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public class PromotionActivity extends AppCompatActivity {
@@ -34,4 +35,14 @@ public class PromotionActivity extends AppCompatActivity {
 
         return super.onSupportNavigateUp();
     }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PromotionActivity.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
+
+

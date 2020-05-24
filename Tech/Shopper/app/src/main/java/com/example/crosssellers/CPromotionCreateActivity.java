@@ -1,17 +1,15 @@
 package com.example.crosssellers;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,12 +17,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,11 +37,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -53,20 +48,22 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import Models.CPlatform_Model;
+import Models.CPromotion_Model;
 
-public class CPlatformCreateActivity extends AppCompatActivity {
+public class CPromotionCreateActivity extends AppCompatActivity {
 
     //-- Private Variables
     List<String> selectedItems;
 
     //-- Views
-    TextView TV_idealPartner, TV_storeName, TV_storeUnit, TV_mallName, TV_tag;
-    Button BTN_choosePartner, BTN_upload_add, BTN_upload_clear, BTN_submit;
+    TextView TV_storeTag, TV_storeName, TV_storeUnit, TV_mallName, TV_idealTags;
+    Button BTN_chooseTags, BTN_upload_add, BTN_upload_clear, BTN_submit;
+    EditText ET_promoStart, ET_promoEnd;
     LinearLayout LL_uploads;
     EditText ET_description;
 
@@ -74,37 +71,86 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseFirestore fireStore;
-    CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_CPromotion;
     CollectionReference dataReference_User;
+
+    //-- Private
+    DatePickerDialog pickerStartPromo, pickerEndPromo;
 
     //-- Progress Dialog
     ProgressDialog dialog;
 
     //-- Firebase Storage
     StorageReference storageReference;
-    String storagePath = "Users_CPlatform_Uploads/";
+    String storagePath = "Users_CPromotion_Uploads/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cplatform_create);
+        setContentView(R.layout.activity_cpromotion_create);
 
         //-- Init View
-        TV_idealPartner = findViewById(R.id.cplatform_create_ideal_partner_TV);
-        BTN_choosePartner = findViewById(R.id.cplatform_create_choose_partner_btn);
-        BTN_upload_add = findViewById(R.id.cplatform_create_add_photo_btn);
-        BTN_upload_clear = findViewById(R.id.cplatform_create_clear_photo_btn);
-        BTN_submit = findViewById(R.id.cplatform_create_submit_btn);
-        ET_description = findViewById(R.id.cplatform_create_description_et);
-        LL_uploads = findViewById(R.id.cplatform_create_uploads_ll);
-        TV_storeName = findViewById(R.id.cplatform_create_store_name_TV);
-        TV_mallName = findViewById(R.id.cplatform_create_mall_name_TV);
-        TV_storeUnit = findViewById(R.id.cplatform_create_store_unit_TV);
-        TV_tag = findViewById(R.id.cplatform_create_tag_name_TV);
+        TV_storeTag = findViewById(R.id.cpromo_create_storeTag_TV);
+        BTN_chooseTags = findViewById(R.id.cpromo_create_choose_tag_btn);
+        BTN_upload_add = findViewById(R.id.cpromo_create_add_photo_btn);
+        BTN_upload_clear = findViewById(R.id.cpromo_create_clear_photo_btn);
+        BTN_submit = findViewById(R.id.cpromo_create_submit_btn);
+        ET_description = findViewById(R.id.cpromo_create_description_et);
+        ET_promoStart = findViewById(R.id.cpromo_create_startDate_ET);
+        ET_promoEnd = findViewById(R.id.cpromo_create_endDate_ET);
+        LL_uploads = findViewById(R.id.cpromo_create_uploads_ll);
+        TV_storeName = findViewById(R.id.cpromo_create_store_name_TV);
+        TV_mallName = findViewById(R.id.cpromo_create_mall_name_TV);
+        TV_storeUnit = findViewById(R.id.cpromo_create_store_unit_TV);
+        TV_idealTags = findViewById(R.id.cpromo_ideal_tags_TV);
 
-        dialog = new ProgressDialog(CPlatformCreateActivity.this);
+        dialog = new ProgressDialog(CPromotionCreateActivity.this);
         dialog.setMessage("Loading your store profile...");
         dialog.show();
+
+        //-------------------------------------------------------------------------------
+        // Event Listener
+        //-------------------------------------------------------------------------------
+        ET_promoStart.setInputType(InputType.TYPE_NULL);
+        ET_promoStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                pickerStartPromo = new DatePickerDialog(CPromotionCreateActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                ET_promoStart.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                pickerStartPromo.show();
+            }
+        });
+
+
+        ET_promoEnd.setInputType(InputType.TYPE_NULL);
+        ET_promoEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                pickerEndPromo = new DatePickerDialog(CPromotionCreateActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                ET_promoEnd.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                pickerEndPromo.show();
+            }
+        });
 
         //-------------------------------------------------------------------------------
         // Handle Firebase
@@ -113,26 +159,26 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         fireStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
-        dataReference_CPlatform = fireStore.collection("CPlatform");
+        dataReference_CPromotion = fireStore.collection("Promotions");
         dataReference_User = fireStore.collection("Users");
 
         DocumentReference doc = dataReference_User.document(user.getUid());
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-           @Override
-           public void onSuccess(DocumentSnapshot documentSnapshot) {
-               //--------------------------------------------------------------------------------//
-               // (1) Get this store details
-               //--------------------------------------------------------------------------------//
-               TV_storeName.setText(documentSnapshot.getString("storeName"));
-               TV_mallName.setText(documentSnapshot.getString("mallName"));
-               TV_storeUnit.setText(documentSnapshot.getString("storeUnit"));
-               TV_tag.setText(documentSnapshot.getString("storeTag"));
-               dialog.dismiss();
-        }
-       }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                //--------------------------------------------------------------------------------//
+                // (1) Get this store details
+                //--------------------------------------------------------------------------------//
+                TV_storeName.setText(documentSnapshot.getString("storeName"));
+                TV_mallName.setText(documentSnapshot.getString("mallName"));
+                TV_storeUnit.setText(documentSnapshot.getString("storeUnit"));
+                TV_storeTag.setText(documentSnapshot.getString("storeTag"));
+                dialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CPlatformCreateActivity.this, "Failed to get store profile...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CPromotionCreateActivity.this, "Failed to get store profile...", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -151,7 +197,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
             }
         });
 
-        BTN_choosePartner.setOnClickListener(new View.OnClickListener() {
+        BTN_chooseTags.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateAlertDialog_Tag();
@@ -170,7 +216,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Create a Collaboration");
+        actionbar.setTitle("Create a Promotion");
 
         //-- Enable "Actionbar"->back button
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -192,7 +238,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(CPlatformCreateActivity.this, CPlatformHomeActivity.class);
+        Intent intent = new Intent(CPromotionCreateActivity.this, CPromotionHomeActivity.class);
         startActivity(intent);
         finish();
     }
@@ -201,8 +247,8 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     void CreateAlertDialog_Tag()
     {
         selectedItems = new ArrayList<>();
-        AlertDialog.Builder builder = new AlertDialog.Builder(CPlatformCreateActivity.this);
-        builder.setTitle("Select Ideal Partners");
+        AlertDialog.Builder builder = new AlertDialog.Builder(CPromotionCreateActivity.this);
+        builder.setTitle("Select Tags");
 
         builder.setMultiChoiceItems(R.array.store_tags, null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -227,7 +273,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
 
                 }
 
-                TV_idealPartner.setText(final_selection);
+                TV_idealTags.setText(final_selection);
             }
         });
 
@@ -246,11 +292,11 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     //-------------------------------------------//
     void Add_Photo_toUpload()
     {
-        if(ActivityCompat.checkSelfPermission(CPlatformCreateActivity.this,
+        if(ActivityCompat.checkSelfPermission(CPromotionCreateActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
-        != PackageManager.PERMISSION_GRANTED)
+                != PackageManager.PERMISSION_GRANTED)
         {
-            ActivityCompat.requestPermissions(CPlatformCreateActivity.this,
+            ActivityCompat.requestPermissions(CPromotionCreateActivity.this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     100);
             return;
@@ -311,7 +357,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
             //-- My code
             for(Bitmap b : bitmaps)
             {
-                ImageView iv = new ImageView(CPlatformCreateActivity.this);
+                ImageView iv = new ImageView(CPromotionCreateActivity.this);
                 iv.setImageBitmap(b);
                 addImageViewToLinearLayout(iv, 200, 100);
             }
@@ -320,24 +366,18 @@ public class CPlatformCreateActivity extends AppCompatActivity {
 
     }
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
 
     private void CreateAlertDialog_Submit() {
 
         // Alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(CPlatformCreateActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CPromotionCreateActivity.this);
 
         // Set Title
         builder.setTitle("Confirmation");
         builder.setMessage("Are you sure you want to submit?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        SubmitCollaborationPost();
+                        SubmitPromoPost();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null);
@@ -348,14 +388,14 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     private void CreateAlertDialog_Submitted() {
 
         // Alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(CPlatformCreateActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CPromotionCreateActivity.this);
 
         // Custom layout for alert dialog
         LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.custom_alert_dialog_created_collab_post, null))
+        builder.setView(inflater.inflate(R.layout.custom_alert_dialog_created_promo_post, null))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(CPlatformCreateActivity.this, CPlatformHomeActivity.class));
+                        startActivity(new Intent(CPromotionCreateActivity.this, CPromotionHomeActivity.class));
                         finish();
                     }
                 });
@@ -363,11 +403,12 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    void SubmitCollaborationPost()
+    void SubmitPromoPost()
     {
         //-- Init Dialog
-        dialog.setMessage("Creating Collaboration Post...");
+        dialog.setMessage("Creating Promotion Post...");
         dialog.show();
+
         //------------------------------------------------------------------------------------------------------------//
         // Upload the model into database first
         //------------------------------------------------------------------------------------------------------------//
@@ -376,17 +417,31 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         //-- Get Time (Now)
         //String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        //-- Get Timestamp
+        //-- Get current Timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-        String timestamp = simpleDateFormat.format(new Date());
+        String timestampPost = simpleDateFormat.format(new Date());
+
+        //-- Get Promo start Timestamp
+        String timestampStart = ET_promoStart.getText().toString();
+
+        //-- Get Promo end Timestamp
+        String timestampEnd = ET_promoEnd.getText().toString();
 
         //-- Get Description
         String description = ET_description.getText().toString();
 
-        final String id = dataReference_CPlatform.document().getId();
-        final CPlatform_Model collab = new CPlatform_Model(timestamp, null, user.getUid(), selectedItems, description);
-        dataReference_CPlatform.document(id).set(collab);
+        //-- Get tags
+        List<String> tags = selectedItems;
+
+        //-- Get Poster uid
+        String posterUID = user.getUid();
+
+        String duration = "";
+        final String id = dataReference_CPromotion.document().getId();
+        final CPromotion_Model promo = new CPromotion_Model(description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null);
+        dataReference_CPromotion.document(id).set(promo);
+
         //------------------------------------------------------------------------------------------------------------//
         // Upload the image into storage
         //------------------------------------------------------------------------------------------------------------//
@@ -424,7 +479,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
                     {
                         String photoUrl = downloadUri.toString();
 
-                        dataReference_CPlatform.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
+                        dataReference_CPromotion.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
 
                         // Reach last update, we create alert dialog that says submitted collaboration post.
                         if(finalI == LL_uploads.getChildCount()-1)
@@ -436,6 +491,8 @@ public class CPlatformCreateActivity extends AppCompatActivity {
                 }
             });
         }
+
+
     }
 
 }
