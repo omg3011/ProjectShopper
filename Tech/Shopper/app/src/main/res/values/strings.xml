@@ -2,7 +2,7 @@
     <string name="app_name">CrossSellers</string>
     <string name="already_have_an_account">Already have an account? <font color="red">Login</font></string>
     <string name="dont_have_an_account">Don\'t have an account? <font color="red">Create now</font></string>
-    <string name="recover_password">Forgot Password? <font color= "red">Recover</font></string>
+    <string name="recover_password">Forgot Password? <font color="red">Recover</font></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -22,5 +22,60 @@
         <item>Home &amp; Living</item>
         <item>Gifts &amp; Hobbies</item>
         <item>General Services</item>
+    </string-array>
+
+
+    <string-array name="shopInsight_sales_top_spinner">
+        <item>Past 1 month sales</item>
+        <item>Past 2 months sales</item>
+        <item>Past 3 months sales</item>
+    </string-array>
+
+
+    <string-array name="shopInsight_customer_top_spinner">
+        <item>Past 1 month Avg Spending/Customer</item>
+        <item>Past 2 months Avg Spending/Customer</item>
+        <item>Past 3 months Avg Spending/Customer</item>
+    </string-array>
+
+
+    <string-array name="shopInsight_customer_btm_spinner">
+        <item>Past 1 month No. Of Customer</item>
+        <item>Past 2 months No. Of Customer</item>
+        <item>Past 3 months No. Of Customer</item>
+    </string-array>
+
+
+    <string-array name="shopInsight_sales_btm_start_spinner">
+        <item>10am</item>
+        <item>11am</item>
+        <item>12am</item>
+        <item>1pm</item>
+        <item>2pm</item>
+        <item>3pm</item>
+        <item>4pm</item>
+        <item>5pm</item>
+        <item>6pm</item>
+        <item>7pm</item>
+        <item>8pm</item>
+        <item>9pm</item>
+        <item>10pm</item>
+    </string-array>
+
+
+    <string-array name="shopInsight_sales_btm_end_spinner">
+        <item>10am</item>
+        <item>11am</item>
+        <item>12am</item>
+        <item>1pm</item>
+        <item>2pm</item>
+        <item>3pm</item>
+        <item>4pm</item>
+        <item>5pm</item>
+        <item>6pm</item>
+        <item>7pm</item>
+        <item>8pm</item>
+        <item>9pm</item>
+        <item>10pm</item>
     </string-array>
 </resources>

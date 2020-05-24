@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import Models.CPromotion_Model;
+import Models.Notification_Model;
 
 public class CPromotionCreateActivity extends AppCompatActivity {
 
@@ -71,6 +72,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseFirestore fireStore;
+    CollectionReference dataReference_Notification;
     CollectionReference dataReference_CPromotion;
     CollectionReference dataReference_User;
 
@@ -161,6 +163,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         dataReference_CPromotion = fireStore.collection("Promotions");
         dataReference_User = fireStore.collection("Users");
+        dataReference_Notification = fireStore.collection("Notifications");
 
         DocumentReference doc = dataReference_User.document(user.getUid());
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -441,6 +444,9 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         final String id = dataReference_CPromotion.document().getId();
         final CPromotion_Model promo = new CPromotion_Model(description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null);
         dataReference_CPromotion.document(id).set(promo);
+
+        Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion.");
+        dataReference_Notification.document().set(notification);
 
         //------------------------------------------------------------------------------------------------------------//
         // Upload the image into storage

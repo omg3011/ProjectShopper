@@ -38,9 +38,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import Adapters.AdapterStoreImages;
 import Models.CPlatform_Model;
+import Models.Notification_Model;
 import Models.RequestMailBox_Model;
 
 public class CPlatformViewActivity extends AppCompatActivity {
@@ -64,6 +66,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
     CollectionReference dataReference_User;
     FirebaseFirestore fireStore;
     CollectionReference dataReference_RequestMailBox;
+    CollectionReference dataReference_Notification;
 
     //-- Progress Dialog
     ProgressDialog pd;
@@ -150,6 +153,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
         fireStore = FirebaseFirestore.getInstance();
         dataReference_RequestMailBox = fireStore.collection("RequestMailBox");
         dataReference_User = fireStore.collection("Users");
+        dataReference_Notification = fireStore.collection("Notifications");
 
         //-- Update UI for "post" data
         //Description
@@ -273,13 +277,26 @@ public class CPlatformViewActivity extends AppCompatActivity {
         // Upload the model into database first
         //------------------------------------------------------------------------------------------------------------//
         String status = "pending";
-        String postID = postData.getPosterUid();
-        String uid = fUser.getUid();
+        final String postID = postData.getPosterUid();
+        final String uid = fUser.getUid();
         RequestMailBox_Model requestModel = new RequestMailBox_Model(status, postID, uid);
         dataReference_RequestMailBox.document().set(requestModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 pd.dismiss();
+
+
+                //-- Get current Timestamp
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                String timestampPost = simpleDateFormat.format(new Date());
+
+                Notification_Model notification1 = new Notification_Model(timestampPost, postID, "Someone requested to collaborate with you.");
+                dataReference_Notification.document().set(notification1);
+
+                Notification_Model notification2 = new Notification_Model(timestampPost, uid, "You have requested a collaboration.");
+                dataReference_Notification.document().set(notification2);
+
                 CreateAlertDialog_Requested();
             }
         })

@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import Fragments.ChatListFragment;
 import Fragments.HomeFragment;
+import Fragments.NotificationFragment;
 import Fragments.Profile3Fragment;
 import Fragments.ProfileFragment;
 import Fragments.UsersFragment;
@@ -126,6 +127,15 @@ public class DashboardActivity extends AppCompatActivity {
                             loadFragment(fragment2);
                             actionbar.show();
                             return true;
+
+                        case R.id.nav_notification:
+                            //Users fragment translation
+                            actionbar.setTitle("Notifications");
+                            NotificationFragment fragment6 = new NotificationFragment();
+                            loadFragment(fragment6);
+                            actionbar.show();
+                            return true;
+
                         case R.id.nav_users:
                             //Users fragment translation
                             actionbar.setTitle("Users");

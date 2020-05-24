@@ -58,6 +58,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import Models.CPlatform_Model;
+import Models.Notification_Model;
 
 public class CPlatformCreateActivity extends AppCompatActivity {
 
@@ -75,6 +76,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseFirestore fireStore;
     CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_Notification;
     CollectionReference dataReference_User;
 
     //-- Progress Dialog
@@ -114,6 +116,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         fireStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         dataReference_CPlatform = fireStore.collection("CPlatform");
+        dataReference_Notification = fireStore.collection("Notifications");
         dataReference_User = fireStore.collection("Users");
 
         DocumentReference doc = dataReference_User.document(user.getUid());
@@ -387,6 +390,11 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         final String id = dataReference_CPlatform.document().getId();
         final CPlatform_Model collab = new CPlatform_Model(timestamp, null, user.getUid(), selectedItems, description);
         dataReference_CPlatform.document(id).set(collab);
+
+
+        Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration.");
+        dataReference_Notification.document().set(notification);
+
         //------------------------------------------------------------------------------------------------------------//
         // Upload the image into storage
         //------------------------------------------------------------------------------------------------------------//

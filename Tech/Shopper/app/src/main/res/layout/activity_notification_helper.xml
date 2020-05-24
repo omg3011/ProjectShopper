@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    android:layout_marginHorizontal="3dp"
+    app:contentPadding="5dp"
+    android:id="@+id/notification_helper_cv"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="3dp">
+
+        <TextView
+            android:id="@+id/notification_helper_message_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Looking for..."
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"/>
+
+
+        <TextView
+            android:id="@+id/notification_helper_timestamp_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy, hh:mm am"
+            android:textColor="@color/colorBlack"/>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
