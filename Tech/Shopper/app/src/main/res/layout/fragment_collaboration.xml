@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:text="Collaboration\nPlatform"
         android:textSize="30sp"
-        android:fontFamily="@font/open_sans_bold"
+        android:fontFamily="@font/cabin_semibold"
+        android:textColor="@color/colorMainColour"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="10dp"/>
 

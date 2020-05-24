@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="100"
+    android:weightSum="90"
     tools:context=".CPlatformHomeActivity">
 
 
@@ -19,19 +19,20 @@
         android:layout_height="0dp"/>
 
     <RelativeLayout
-        android:layout_weight="20"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorPrimaryDark">
+        android:layout_weight="10"
+        android:background="@color/colorWhite">
 
         <Button
             android:id="@+id/cplatform_create_collab_btn"
             android:layout_width="150dp"
-            android:layout_height="70dp"
-            android:background="@color/colorWhite"
-            android:text="Create Collab"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/rounded_button"
             android:fontFamily="@font/open_sans_bold"
-            android:layout_centerInParent="true"/>
+            android:text="Create Collab"
+            android:textColor="@color/colorWhite" />
     </RelativeLayout>
 
 </LinearLayout>

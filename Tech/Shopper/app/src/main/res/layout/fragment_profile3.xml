@@ -113,7 +113,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:scaleType="centerCrop"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorMainDarkColour"
                 android:src="@drawable/ic_add_image"/>
 
 
@@ -121,16 +121,16 @@
     </LinearLayout>
 
     <!-- Middle: Tab Layout -->
+
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/profile3_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorMainColour"
         app:tabGravity="fill"
-        app:tabMode="fixed"
-        android:id="@+id/profile3_tablayout"
-        app:tabTextColor="@color/colorWhite"
         app:tabIndicatorColor="@color/colorWhite"
-        android:background="@color/colorPrimary"
-        />
+        app:tabMode="fixed"
+        app:tabTextColor="@color/colorMainColour" />
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"

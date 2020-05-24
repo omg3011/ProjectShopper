@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:scaleType="fitXY"
-                android:background="@color/colorPrimaryDark">
+                android:background="@color/colorMainColour">
 
             </ImageView>
             <LinearLayout
@@ -33,7 +33,7 @@
                 <ImageView
                     android:id="@+id/profile_avatarIV"
                     android:layout_marginStart="20dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorMainDarkColour"
                     android:padding="5dp"
                     android:layout_marginLeft="20dp"
                     android:scaleType="fitXY"

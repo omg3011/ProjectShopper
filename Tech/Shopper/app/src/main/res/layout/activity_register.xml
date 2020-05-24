@@ -12,13 +12,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Register"
-        android:textColor="@android:color/holo_orange_dark"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_bold"
         android:gravity="center_horizontal"
-        />
+        android:text="Register"
+        android:textAlignment="center"
+        android:textColor="@color/colorMainColour"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <!-- TextView: Mall -->
     <TextView
@@ -50,8 +50,11 @@
             android:id="@+id/emailET"
             android:inputType="textEmailAddress"
             android:hint="Email"
+            android:background="@drawable/textbox_border"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:paddingLeft="10dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,8 +73,10 @@
             android:id="@+id/passwordET"
             android:inputType="textPassword"
             android:hint="Password"
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox_border" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +93,7 @@
             android:id="@+id/register_registerbtn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            style="@style/Button.LightOrange"
+            android:background="@drawable/rounded_button"
             />
         <ImageView
             android:id="@+id/registerImage"
@@ -101,21 +106,21 @@
             android:elevation="2dp"
             android:backgroundTint="@color/colorWhite"
             />
+
         <TextView
             android:id="@+id/registerText"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Register"
-            android:elevation="2dp"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="15dp"
             android:layout_alignLeft="@+id/registerImage"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:text="Register"
             android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <!-- Text: Go to login page -->
