@@ -12,6 +12,7 @@ public class CPlatform_Model implements Serializable {
     List<String> uploads;
     String posterUid;       // Can get store info, store tag, etc..
     List<String> collabTag;
+    String title;
     String description;
 
 
@@ -20,17 +21,26 @@ public class CPlatform_Model implements Serializable {
     //--------------------------------------------------------------//
     public CPlatform_Model(){
     }
-    public CPlatform_Model(String timestamp, List<String> uploads, String posterUid, List<String> collabTag, String description) {
+    public CPlatform_Model(String timestamp, List<String> uploads, String posterUid, List<String> collabTag, String title, String description) {
         this.timestamp = timestamp;
         this.uploads = uploads;
         this.posterUid = posterUid;
         this.collabTag = collabTag;
         this.description = description;
+        this.title = title;
     }
 
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getTimestamp() {
         return timestamp;

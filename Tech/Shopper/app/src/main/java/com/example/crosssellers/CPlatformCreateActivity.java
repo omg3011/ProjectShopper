@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -69,7 +70,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     TextView TV_idealPartner, TV_storeName, TV_storeUnit, TV_mallName, TV_tag;
     Button BTN_choosePartner, BTN_upload_add, BTN_upload_clear, BTN_submit;
     LinearLayout LL_uploads;
-    EditText ET_description;
+    EditText ET_description, ET_title;
 
     //-- Firebase
     private FirebaseAuth mAuth;
@@ -98,6 +99,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         BTN_upload_clear = findViewById(R.id.cplatform_create_clear_photo_btn);
         BTN_submit = findViewById(R.id.cplatform_create_submit_btn);
         ET_description = findViewById(R.id.cplatform_create_description_et);
+        ET_title = findViewById(R.id.cplatform_create_title_et);
         LL_uploads = findViewById(R.id.cplatform_create_uploads_ll);
         TV_storeName = findViewById(R.id.cplatform_create_store_name_TV);
         TV_mallName = findViewById(R.id.cplatform_create_mall_name_TV);
@@ -164,7 +166,8 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         BTN_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateAlertDialog_Submit();
+                if(Check_Validate_Required_Field_Not_Empty())
+                    CreateAlertDialog_Submit();
             }
         });
 
@@ -242,6 +245,37 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         });
 
         builder.create().show();
+    }
+
+    boolean Check_Validate_Required_Field_Not_Empty()
+    {
+        boolean pass = true;
+
+        // Check Title
+        String checkTitle = ET_title.getText().toString();
+        if(TextUtils.isEmpty(checkTitle)) {
+            ET_title.setError("Please input a title");
+            pass = false;
+        }
+
+        // Check Description
+        String checkDescription = ET_description.getText().toString();
+        if(TextUtils.isEmpty(checkDescription)) {
+            ET_description.setError("Please input a description");
+            pass = false;
+        }
+        // Check Image
+        if(LL_uploads.getChildCount() == 0)
+        {
+            CreateAlertDialog_Missing_Fields();
+        }
+
+        // Check Tag
+        if(selectedItems.size() == 0) {
+            TV_idealPartner.setError("Please choose a tag");
+            pass = false;
+        }
+        return pass;
     }
 
     //-------------------------------------------//
@@ -348,6 +382,19 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    void CreateAlertDialog_Missing_Fields()
+    {
+        // Alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(CPlatformCreateActivity.this);
+
+        // Set Title
+        builder.setTitle("Missing Field(s)");
+        builder.setMessage("Please upload a photo to continue.")
+                .setNegativeButton(android.R.string.cancel, null);
+        // Create and show dialog
+        builder.create().show();
+    }
+
     private void CreateAlertDialog_Submitted() {
 
         // Alert dialog
@@ -355,7 +402,10 @@ public class CPlatformCreateActivity extends AppCompatActivity {
 
         // Custom layout for alert dialog
         LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.custom_alert_dialog_created_collab_post, null))
+        View view = inflater.inflate(R.layout.custom_alert_dialog_created_collab_post, null);
+
+
+        builder.setView(view)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(CPlatformCreateActivity.this, CPlatformHomeActivity.class));
@@ -387,8 +437,11 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         //-- Get Description
         String description = ET_description.getText().toString();
 
+        //-- Get Title
+        String title = ET_title.getText().toString();
+
         final String id = dataReference_CPlatform.document().getId();
-        final CPlatform_Model collab = new CPlatform_Model(timestamp, null, user.getUid(), selectedItems, description);
+        final CPlatform_Model collab = new CPlatform_Model(timestamp, null, user.getUid(), selectedItems, description, title);
         dataReference_CPlatform.document(id).set(collab);
 
 

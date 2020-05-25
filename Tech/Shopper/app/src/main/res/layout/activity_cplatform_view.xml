@@ -11,6 +11,7 @@
 
     <!-- 90%: Top Part -->
     <ScrollView
+        android:id="@+id/cplatform_view_scroller"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="90"
@@ -43,44 +44,88 @@
                     android:textSize="25sp"
                     android:layout_marginBottom="10dp"/>
 
-                <!-- Post Description -->
-                <TextView
-                    android:id="@+id/cplatform_view_postDescription_TV"
+                <!-- Post Title -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Looking for..."
-                    android:layout_marginBottom="20dp"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Title:"
+                        android:fontFamily="@font/monda_bold"/>
+
+
+                    <TextView
+                        android:id="@+id/cplatform_view_postTitle_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/monda"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"/>
+
+                </LinearLayout>
+
+
+                <!-- Post Description -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Description:"
+                        android:fontFamily="@font/monda_bold"/>
+
+
+                    <TextView
+                        android:id="@+id/cplatform_view_postDescription_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/monda"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
 
                 <!-- Post Tags -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:text="Possible Collaborators:"/>
+                        android:text="Possible Collaborators:"
+                        android:fontFamily="@font/monda_bold"/>
 
 
                     <TextView
                         android:id="@+id/cplatform_view_postTags_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sports"/>
+                        android:layout_marginStart="10dp"
+                        android:text="Sports"
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
 
                 <!-- Post Date -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/monda_bold"
                         android:text="Date Posted:"/>
 
 
@@ -88,19 +133,22 @@
                         android:id="@+id/cplatform_view_postDate_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="dd/mm/yyyy"/>
+                        android:layout_marginStart="10dp"
+                        android:text="dd/mm/yyyy"
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
 
                 <!-- Post Time -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/monda_bold"
                         android:text="Time Posted:"/>
 
 
@@ -108,9 +156,47 @@
                         android:id="@+id/cplatform_view_postTime_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="hh:mm aa"/>
+                        android:layout_marginStart="10dp"
+                        android:text="hh:mm aa"
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
             </LinearLayout>
+
+
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="20dp"/>
+
+            <!-- Parent: Images -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:fillViewport="true">
+
+
+                <!-- Uploads Header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Images:"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <LinearLayout
+                    android:id="@+id/cplatform_view_uploads_LL"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
 
             <!-- Divider -->
             <View
@@ -252,42 +338,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginVertical="20dp"/>
-
-            <!-- Parent: Images -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:fillViewport="true">
-
-
-                <!-- Uploads Header -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Images:"
-                    android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="25sp"
-                    android:layout_marginBottom="10dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cplatform_view_uploads_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:paddingTop="8dp"
-                    android:clipToPadding="false"/>
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 

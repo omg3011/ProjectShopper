@@ -8,6 +8,7 @@ public class CPromotion_Model implements Serializable {
     //--------------------------------------------------------------//
     // Variable(s) Declaration
     //--------------------------------------------------------------//
+    String title;
     String description;
     String duration;
     String timestampStart;
@@ -22,8 +23,9 @@ public class CPromotion_Model implements Serializable {
     // Constructor(s)
     //--------------------------------------------------------------//
     public CPromotion_Model(){}
-    public CPromotion_Model(String description, String duration, String timestampStart, String timestampEnd, String timestampPost, List<String> tags, String posterUid, List<String> uploads) {
+    public CPromotion_Model(String title, String description, String duration, String timestampStart, String timestampEnd, String timestampPost, List<String> tags, String posterUid, List<String> uploads) {
         this.description = description;
+        this.title = title;
         this.duration = duration;
         this.timestampStart = timestampStart;
         this.timestampEnd = timestampEnd;
@@ -36,6 +38,14 @@ public class CPromotion_Model implements Serializable {
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getTimestampPost() {
         return timestampPost;

@@ -178,24 +178,61 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:layout_marginTop="10dp"
+
+            <!-- Parent: Title -->
+            <LinearLayout
+                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description:"
-                android:textStyle="bold"
-                android:fontFamily="@font/open_sans_extrabold"
-                android:textSize="12sp"/>
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/cpromo_create_description_et"
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title:"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="12sp"/>
+
+                <EditText
+                    android:id="@+id/cpromo_create_title_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:fontFamily="@font/monda_bold"
+                    android:hint="Set a title" />
+
+            </LinearLayout>
+
+            <!-- Parent: Description -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="25dp"
-                android:fontFamily="@font/monda_bold"
-                android:hint="Need help with something? Got\ncustomers to refer to others?\nExploring new ways to do business?" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description:"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="12sp"/>
+
+                <EditText
+                    android:id="@+id/cpromo_create_description_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:fontFamily="@font/monda_bold"
+                    android:hint="Need help with something? Got\ncustomers to refer to others?\nExploring new ways to do business?" />
+
+            </LinearLayout>
+
+            <!-- Parent: Uploads -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

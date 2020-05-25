@@ -10,6 +10,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,7 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +36,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,15 +56,17 @@ public class CPromotionViewActivity extends AppCompatActivity {
     // Get saved data
     CPromotion_Model postData;
     List<String> uploadsImageList;
-    AdapterStoreImages adapterStoreImages;
-    LinearLayoutManager manager;
+    //AdapterStoreImages adapterStoreImages;
+    //LinearLayoutManager manager;
 
     // Views
-    TextView TV_postDescription, TV_postTag, TV_promoDate;
+    TextView TV_postDescription, TV_postTag, TV_promoDate, TV_postTitle;
     TextView TV_storeName, TV_mallName, TV_storeUnit, TV_storeTag, TV_storeRatingQuantity, TV_storeRatingValue;
     RatingBar RB_storeRating;
     ImageView IV_storeProfile;
-    RecyclerView RV_storeUploads;
+    //RecyclerView RV_storeUploads;
+    ScrollView SV_scroller;
+    LinearLayout LL_uploads;
 
     //-- DB(s)
     FirebaseUser fUser;
@@ -77,6 +86,7 @@ public class CPromotionViewActivity extends AppCompatActivity {
         //---------------------------------------------------------------------------//
         //-- Post
         TV_postDescription = findViewById(R.id.cpromo_view_postDescription_TV);
+        TV_postTitle = findViewById(R.id.cpromo_view_postTitle_TV);
         TV_postTag = findViewById(R.id.cpromo_view_postTags_TV);
         TV_promoDate = findViewById(R.id.cpromo_view_promoDate_TV);
 
@@ -89,7 +99,12 @@ public class CPromotionViewActivity extends AppCompatActivity {
         TV_storeRatingValue = findViewById(R.id.cpromo_view_storeRating_TV);
         RB_storeRating = findViewById(R.id.cpromo_view_storeRating_RB);
         IV_storeProfile = findViewById(R.id.cpromo_view_storeProfile_IV);
-        RV_storeUploads = findViewById(R.id.cpromo_view_uploads_rv);
+        //RV_storeUploads = findViewById(R.id.cpromo_view_uploads_rv);
+        SV_scroller = findViewById(R.id.cpromo_view_scroller);
+        LL_uploads = findViewById(R.id.cpromo_view_image_LL);
+
+        //-- Default scroll all the way up
+        SV_scroller.smoothScrollTo(0, 0);
 
         //---------------------------------------------------------------------------//
         //  Load Data (Carried from previous activity)
@@ -110,11 +125,24 @@ public class CPromotionViewActivity extends AppCompatActivity {
         // Adapter
         uploadsImageList = new ArrayList<>();
         uploadsImageList = postData.getUploads();
-        adapterStoreImages = new AdapterStoreImages(this, uploadsImageList);
-        manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        RV_storeUploads.setLayoutManager(manager);
-        RV_storeUploads.setAdapter(adapterStoreImages);
+
+        //-- For every uri string, create a ImageView and get it parent in LinearLayout
+        for(String x : uploadsImageList)
+        {
+            // Convert String to Uri
+            Uri myUri = Uri.parse(x);
+
+
+            ImageView iv = new ImageView(CPromotionViewActivity.this);
+
+            Picasso.get()
+                    .load(myUri)
+                    .placeholder(R.drawable.ic_add_image)
+                    .error(R.drawable.ic_error)
+                    .into(iv);
+
+            addImageViewToLinearLayout(iv);
+        }
 
         //----------------------------------------------------------------------//
         // Action bar                                                           //
@@ -138,6 +166,8 @@ public class CPromotionViewActivity extends AppCompatActivity {
         //-- Update UI for "post" data
         //Description
         TV_postDescription.setText(postData.getDescription());
+        //Title
+        TV_postTitle.setText(postData.getTitle());
         //Tag
         String tags =  TextUtils.join(",", postData.getTags());
         TV_postTag.setText(tags);
@@ -180,6 +210,15 @@ public class CPromotionViewActivity extends AppCompatActivity {
                 pd.dismiss();
             }
         });
+    }
+
+    void addImageViewToLinearLayout(ImageView iv)
+    {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(10, 10, 10, 10);
+        iv.setLayoutParams(layoutParams);
+
+        LL_uploads.addView(iv);
     }
 
 

@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -66,7 +67,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
     Button BTN_chooseTags, BTN_upload_add, BTN_upload_clear, BTN_submit;
     EditText ET_promoStart, ET_promoEnd;
     LinearLayout LL_uploads;
-    EditText ET_description;
+    EditText ET_description, ET_title;
 
     //-- Firebase
     private FirebaseAuth mAuth;
@@ -98,6 +99,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         BTN_upload_clear = findViewById(R.id.cpromo_create_clear_photo_btn);
         BTN_submit = findViewById(R.id.cpromo_create_submit_btn);
         ET_description = findViewById(R.id.cpromo_create_description_et);
+        ET_title = findViewById(R.id.cpromo_create_title_et);
         ET_promoStart = findViewById(R.id.cpromo_create_startDate_ET);
         ET_promoEnd = findViewById(R.id.cpromo_create_endDate_ET);
         LL_uploads = findViewById(R.id.cpromo_create_uploads_ll);
@@ -246,6 +248,51 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         finish();
     }
 
+
+    boolean Check_Validate_Required_Field_Not_Empty()
+    {
+        boolean pass = true;
+
+        // Check Title
+        String checkTitle = ET_title.getText().toString();
+        if(TextUtils.isEmpty(checkTitle)) {
+            ET_title.setError("Please input a title");
+            pass = false;
+        }
+
+        // Check Description
+        String checkDescription = ET_description.getText().toString();
+        if(TextUtils.isEmpty(checkDescription)) {
+            ET_description.setError("Please input a description");
+            pass = false;
+        }
+        // Check Image
+        if(LL_uploads.getChildCount() == 0)
+        {
+            CreateAlertDialog_Missing_Fields();
+        }
+
+        // Check Tag
+        if(selectedItems.size() == 0) {
+            TV_idealTags.setError("Please choose a tag");
+            pass = false;
+        }
+        return pass;
+    }
+
+
+    void CreateAlertDialog_Missing_Fields()
+    {
+        // Alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(CPromotionCreateActivity.this);
+
+        // Set Title
+        builder.setTitle("Missing Field(s)");
+        builder.setMessage("Please upload a photo to continue.")
+                .setNegativeButton(android.R.string.cancel, null);
+        // Create and show dialog
+        builder.create().show();
+    }
 
     void CreateAlertDialog_Tag()
     {
@@ -434,6 +481,9 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         //-- Get Description
         String description = ET_description.getText().toString();
 
+        //-- Get Title
+        String title = ET_title.getText().toString();
+
         //-- Get tags
         List<String> tags = selectedItems;
 
@@ -442,7 +492,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
 
         String duration = "";
         final String id = dataReference_CPromotion.document().getId();
-        final CPromotion_Model promo = new CPromotion_Model(description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null);
+        final CPromotion_Model promo = new CPromotion_Model(title, description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null);
         dataReference_CPromotion.document(id).set(promo);
 
         Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion.");

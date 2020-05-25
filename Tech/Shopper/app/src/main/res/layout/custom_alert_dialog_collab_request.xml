@@ -56,47 +56,93 @@
                     android:text="Details Of Collaborations:"
                     android:textColor="@color/colorPrimary"
                     android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="10dp"/>
+                    android:textSize="18sp"
+                    android:layout_marginBottom="20dp"/>
 
-                <!-- Post Description -->
-                <TextView
-                    android:id="@+id/custom_alert_dialog_request_description_TV"
+
+                <!-- Post Title -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Looking for..."
-                    android:layout_marginBottom="20dp"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Title:"
+                        android:fontFamily="@font/monda_bold"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_alert_dialog_request_title_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/monda"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"/>
+
+                </LinearLayout>
+
+
+                <!-- Post Description -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Description:"
+                        android:fontFamily="@font/monda_bold"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_alert_dialog_request_description_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/monda"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
+
 
                 <!-- Post Tags -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:text="Possible Collaborators:"/>
+                        android:text="Possible Collaborators:"
+                        android:fontFamily="@font/monda_bold"/>
 
 
                     <TextView
                         android:id="@+id/custom_alert_dialog_request_tags_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sports"/>
+                        android:layout_marginStart="10dp"
+                        android:text="Sports"
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
 
                 <!-- Post Date -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/monda_bold"
                         android:text="Date Posted:"/>
 
 
@@ -104,19 +150,22 @@
                         android:id="@+id/custom_alert_dialog_request_date_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="dd/mm/yyyy"/>
+                        android:layout_marginStart="10dp"
+                        android:text="dd/mm/yyyy"
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
 
                 <!-- Post Time -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/monda_bold"
                         android:text="Time Posted:"/>
 
 
@@ -124,7 +173,9 @@
                         android:id="@+id/custom_alert_dialog_request_time_TV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="hh:mm aa"/>
+                        android:layout_marginStart="10dp"
+                        android:text="hh:mm aa"
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
             </LinearLayout>
 

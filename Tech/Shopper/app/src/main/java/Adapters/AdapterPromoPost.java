@@ -12,16 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crosssellers.CPlatformViewActivity;
 import com.example.crosssellers.CPromotionViewActivity;
 import com.example.crosssellers.R;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import Models.CPromotion_Model;
 
@@ -58,7 +52,7 @@ public class AdapterPromoPost extends RecyclerView.Adapter<AdapterPromoPost.View
         }
 
         //-- Set Description
-        holder.TV_post_description.setText(post.getDescription());
+        holder.TV_post_title.setText(post.getDescription());
 
         //-- Set Promo Date
         holder.TV_promoDate.setText(post.getTimestampStart() + " - " + post.getTimestampEnd());
@@ -80,13 +74,13 @@ public class AdapterPromoPost extends RecyclerView.Adapter<AdapterPromoPost.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView TV_post_description, TV_tags, TV_promoDate;
+        TextView TV_post_title, TV_tags, TV_promoDate;
         CardView CV_click;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            TV_post_description = itemView.findViewById(R.id.cpromo_home_helper_post_description_TV);
+            TV_post_title = itemView.findViewById(R.id.cpromo_home_helper_post_title_TV);
             TV_tags = itemView.findViewById(R.id.cpromo_home_helper_tags_TV);
             TV_promoDate = itemView.findViewById(R.id.cpromo_home_helper_promoDate_TV);
             CV_click = itemView.findViewById(R.id.cpromo_home_helper_click_CV);

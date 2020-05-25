@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,16 +53,15 @@ public class CPlatformViewActivity extends AppCompatActivity {
     // Get saved data
     CPlatform_Model postData;
     List<String> uploadsImageList;
-    AdapterStoreImages adapterStoreImages;
-    LinearLayoutManager manager;
 
     // Views
-    TextView TV_postDescription, TV_postTag, TV_postTime, TV_postDate;
+    TextView TV_postDescription, TV_postTag, TV_postTime, TV_postDate, TV_postTitle;
     TextView TV_storeName, TV_mallName, TV_storeUnit, TV_storeTag, TV_storeRatingQuantity, TV_storeRatingValue;
     RatingBar RB_storeRating;
     ImageView IV_storeProfile;
-    RecyclerView RV_storeUploads;
     Button BTN_request;
+    ScrollView SV_scroll;
+    LinearLayout LL_uploads;
 
     //-- DB(s)
     FirebaseUser fUser;
@@ -80,7 +82,9 @@ public class CPlatformViewActivity extends AppCompatActivity {
         //  Init Views
         //---------------------------------------------------------------------------//
         //-- Post
+        SV_scroll = findViewById(R.id.cplatform_view_scroller);
         TV_postDescription = findViewById(R.id.cplatform_view_postDescription_TV);
+        TV_postTitle = findViewById(R.id.cplatform_view_postTime_TV);
         TV_postTag = findViewById(R.id.cplatform_view_postTags_TV);
         TV_postTime = findViewById(R.id.cplatform_view_postTime_TV);
         TV_postDate = findViewById(R.id.cplatform_view_postDate_TV);
@@ -94,10 +98,13 @@ public class CPlatformViewActivity extends AppCompatActivity {
         TV_storeRatingValue = findViewById(R.id.cplatform_view_storeRating_TV);
         RB_storeRating = findViewById(R.id.cplatform_view_storeRating_RB);
         IV_storeProfile = findViewById(R.id.cplatform_view_storeProfile_IV);
-        RV_storeUploads = findViewById(R.id.cplatform_view_uploads_rv);
+        LL_uploads = findViewById(R.id.cplatform_view_uploads_LL);
 
         //-- Button
         BTN_request = findViewById(R.id.cplatform_view_request_btn);
+
+        //-- Default scroll all the way up
+        SV_scroll.smoothScrollTo(0, 0);
 
         //---------------------------------------------------------------------------//
         //  Load Data (Carried from previous activity)
@@ -118,11 +125,24 @@ public class CPlatformViewActivity extends AppCompatActivity {
         // Adapter
         uploadsImageList = new ArrayList<>();
         uploadsImageList = postData.getUploads();
-        adapterStoreImages = new AdapterStoreImages(this, uploadsImageList);
-        manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        RV_storeUploads.setLayoutManager(manager);
-        RV_storeUploads.setAdapter(adapterStoreImages);
+
+        //-- For every uri string, create a ImageView and get it parent in LinearLayout
+        for(String x : uploadsImageList)
+        {
+            // Convert String to Uri
+            Uri myUri = Uri.parse(x);
+
+
+            ImageView iv = new ImageView(CPlatformViewActivity.this);
+
+            Picasso.get()
+                    .load(myUri)
+                    .placeholder(R.drawable.ic_add_image)
+                    .error(R.drawable.ic_error)
+                    .into(iv);
+
+            addImageViewToLinearLayout(iv);
+        }
 
         //----------------------------------------------------------------------//
         // Action bar                                                           //
@@ -158,6 +178,8 @@ public class CPlatformViewActivity extends AppCompatActivity {
         //-- Update UI for "post" data
         //Description
         TV_postDescription.setText(postData.getDescription());
+        //Title
+        TV_postTitle.setText(postData.getTitle());
         //Tag
         String tags =  TextUtils.join(",", postData.getCollabTag());
         TV_postTag.setText(tags);
@@ -227,6 +249,17 @@ public class CPlatformViewActivity extends AppCompatActivity {
     }
 
 
+
+    void addImageViewToLinearLayout(ImageView iv)
+    {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(10, 10, 10, 10);
+        iv.setLayoutParams(layoutParams);
+
+        LL_uploads.addView(iv);
+    }
+
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(CPlatformViewActivity.this, CPlatformHomeActivity.class);
@@ -283,21 +316,33 @@ public class CPlatformViewActivity extends AppCompatActivity {
         dataReference_RequestMailBox.document().set(requestModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                pd.dismiss();
-
-
                 //-- Get current Timestamp
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                 simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-                String timestampPost = simpleDateFormat.format(new Date());
+                final String timestampPost = simpleDateFormat.format(new Date());
 
-                Notification_Model notification1 = new Notification_Model(timestampPost, postID, "Someone requested to collaborate with you.");
-                dataReference_Notification.document().set(notification1);
+                // Send to poster ("Someone requested to collaborate with you")
+                final String[] posterStoreName = new String[1];
+                dataReference_User.document(postID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                Notification_Model notification2 = new Notification_Model(timestampPost, uid, "You have requested a collaboration.");
-                dataReference_Notification.document().set(notification2);
+                        pd.dismiss();
+                        //-----------------------------------------------------------------------//
+                        // Get Store Name
+                        //-----------------------------------------------------------------------//
+                        posterStoreName[0] = (String) documentSnapshot.get("storeName");
 
-                CreateAlertDialog_Requested();
+                        Notification_Model notification1 = new Notification_Model(timestampPost, postID, posterStoreName[0] + " requested to collaborate with you.");
+                        dataReference_Notification.document().set(notification1);
+
+                        // Send to requester ("You have request")
+                        Notification_Model notification2 = new Notification_Model(timestampPost, uid, "You have requested a collaboration with " + posterStoreName[0] + ".");
+                        dataReference_Notification.document().set(notification2);
+
+                        CreateAlertDialog_Requested();
+                    }
+                });
             }
         })
         .addOnFailureListener(new OnFailureListener() {
@@ -327,11 +372,13 @@ public class CPlatformViewActivity extends AppCompatActivity {
                     }
                 });
 
+        TextView TV_title = (TextView)content.findViewById(R.id.custom_alert_dialog_request_title_TV);
         TextView TV_description = (TextView) content.findViewById(R.id.custom_alert_dialog_request_description_TV);
         TextView TV_tag = (TextView) content.findViewById(R.id.custom_alert_dialog_request_tags_TV);
         TextView TV_time = (TextView) content.findViewById(R.id.custom_alert_dialog_request_time_TV);
         TextView TV_date = (TextView) content.findViewById(R.id.custom_alert_dialog_request_date_TV);
 
+        TV_title.setText(postData.getTitle());
         TV_description.setText(postData.getDescription());
         TV_date.setText(TV_postDate.getText());
         TV_time.setText(TV_postTime.getText());
