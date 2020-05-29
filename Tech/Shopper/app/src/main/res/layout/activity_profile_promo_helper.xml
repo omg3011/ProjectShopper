@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    android:layout_marginHorizontal="3dp"
+    app:contentPadding="5dp"
+    android:id="@+id/profile_promo_helper_click_CV"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="3dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/profile_promo_helper_post_title_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="35"
+                android:maxLines="1"
+                android:text="Looking for..."
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Tags: "
+                android:fontFamily="@font/monda_bold"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/profile_promo_helper_tags_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:text="F &amp; B, Kids"
+                android:fontFamily="@font/monda"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Promo: "
+                android:fontFamily="@font/monda_bold"
+                android:textColor="@color/colorBlack"/>
+            <TextView
+                android:id="@+id/profile_promo_helper_date_TV"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dd/mm/yyyy - dd/mm/yyyy"
+                android:fontFamily="@font/monda"
+                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/profile_promo_helper_closed_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Promo Ended"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/monda_bold"
+                android:background="@drawable/rounded_button"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

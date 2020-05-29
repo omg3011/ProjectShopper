@@ -250,31 +250,41 @@ public class CPlatformCreateActivity extends AppCompatActivity {
     boolean Check_Validate_Required_Field_Not_Empty()
     {
         boolean pass = true;
+        String error = "";
 
         // Check Title
         String checkTitle = ET_title.getText().toString();
         if(TextUtils.isEmpty(checkTitle)) {
-            ET_title.setError("Please input a title");
+            ET_title.setError("Please input a title.");
+            error += "Please input a title.\n";
             pass = false;
         }
 
         // Check Description
         String checkDescription = ET_description.getText().toString();
         if(TextUtils.isEmpty(checkDescription)) {
-            ET_description.setError("Please input a description");
+            ET_description.setError("Please input a description.");
+            error += "Please input a description.\n";
             pass = false;
-        }
-        // Check Image
-        if(LL_uploads.getChildCount() == 0)
-        {
-            CreateAlertDialog_Missing_Fields();
         }
 
         // Check Tag
-        if(selectedItems.size() == 0) {
-            TV_idealPartner.setError("Please choose a tag");
+        if(selectedItems == null || selectedItems.size() == 0) {
+            TV_idealPartner.setError("Please choose a tag.");
+            error += "Please choose a tag.\n";
             pass = false;
         }
+
+        // Check Image
+        if(LL_uploads.getChildCount() == 0)
+        {
+            error += "Please upload a photo to continue.\n";
+            pass = false;
+        }
+
+        if(pass == false)
+            CreateAlertDialog_Missing_Fields(error);
+
         return pass;
     }
 
@@ -382,14 +392,14 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    void CreateAlertDialog_Missing_Fields()
+    void CreateAlertDialog_Missing_Fields(String error)
     {
         // Alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(CPlatformCreateActivity.this);
 
         // Set Title
         builder.setTitle("Missing Field(s)");
-        builder.setMessage("Please upload a photo to continue.")
+        builder.setMessage(error)
                 .setNegativeButton(android.R.string.cancel, null);
         // Create and show dialog
         builder.create().show();
@@ -441,7 +451,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         String title = ET_title.getText().toString();
 
         final String id = dataReference_CPlatform.document().getId();
-        final CPlatform_Model collab = new CPlatform_Model(timestamp, null, user.getUid(), selectedItems, description, title);
+        final CPlatform_Model collab = new CPlatform_Model(id, timestamp, null, user.getUid(), selectedItems, description, title, 0, false);
         dataReference_CPlatform.document(id).set(collab);
 
 

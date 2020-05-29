@@ -23,8 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ss_icon_IV"
         android:layout_centerHorizontal="true"
-        android:text="CrossSellers"
+        android:text="Let's Collab"
         android:textStyle="bold"
         android:textSize="30sp"
+        android:fontFamily="@font/monda_bold"
         android:textColor="@color/colorWhite"/>
 </RelativeLayout>

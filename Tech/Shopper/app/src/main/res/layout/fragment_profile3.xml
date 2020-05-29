@@ -130,12 +130,13 @@
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/colorWhite"
         app:tabMode="fixed"
-        app:tabTextColor="@color/colorMainColour" />
+        app:tabTextColor="@color/colorWhite" />
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/profile3_viewPager">
+        android:id="@+id/profile3_viewPager"
+        android:background="@color/colorGrey">
 
     </androidx.viewpager.widget.ViewPager>
 

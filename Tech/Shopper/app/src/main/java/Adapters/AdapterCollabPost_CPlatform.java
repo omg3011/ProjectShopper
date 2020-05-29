@@ -24,12 +24,12 @@ import java.util.Locale;
 
 import Models.CPlatform_Model;
 
-public class AdapterCollabPost extends RecyclerView.Adapter<AdapterCollabPost.ViewHolder> {
+public class AdapterCollabPost_CPlatform extends RecyclerView.Adapter<AdapterCollabPost_CPlatform.ViewHolder> {
 
     Context context;
     List<CPlatform_Model> postList;
 
-    public AdapterCollabPost(Context context, List<CPlatform_Model> postList) {
+    public AdapterCollabPost_CPlatform(Context context, List<CPlatform_Model> postList) {
         this.context = context;
         this.postList = postList;
     }

@@ -6,6 +6,7 @@ public class RequestMailBox_Model {
     private String postID;
     private String uid;
 
+    public RequestMailBox_Model(){}
     public RequestMailBox_Model(String status, String postID, String uid) {
         this.status = status;
         this.postID = postID;

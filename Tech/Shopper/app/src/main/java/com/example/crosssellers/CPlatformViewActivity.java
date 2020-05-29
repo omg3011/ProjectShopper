@@ -3,8 +3,6 @@ package com.example.crosssellers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -39,11 +37,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import Adapters.AdapterStoreImages;
 import Models.CPlatform_Model;
 import Models.Notification_Model;
 import Models.RequestMailBox_Model;
@@ -69,6 +67,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
     FirebaseFirestore fireStore;
     CollectionReference dataReference_RequestMailBox;
     CollectionReference dataReference_Notification;
+    CollectionReference dataReference_CPlatform;
 
     //-- Progress Dialog
     ProgressDialog pd;
@@ -127,21 +126,24 @@ public class CPlatformViewActivity extends AppCompatActivity {
         uploadsImageList = postData.getUploads();
 
         //-- For every uri string, create a ImageView and get it parent in LinearLayout
-        for(String x : uploadsImageList)
+        if(uploadsImageList != null && uploadsImageList.size() > 0)
         {
-            // Convert String to Uri
-            Uri myUri = Uri.parse(x);
+            for(String x : uploadsImageList)
+            {
+                // Convert String to Uri
+                Uri myUri = Uri.parse(x);
 
 
-            ImageView iv = new ImageView(CPlatformViewActivity.this);
+                ImageView iv = new ImageView(CPlatformViewActivity.this);
 
-            Picasso.get()
-                    .load(myUri)
-                    .placeholder(R.drawable.ic_add_image)
-                    .error(R.drawable.ic_error)
-                    .into(iv);
+                Picasso.get()
+                        .load(myUri)
+                        .placeholder(R.drawable.ic_add_image)
+                        .error(R.drawable.ic_error)
+                        .into(iv);
 
-            addImageViewToLinearLayout(iv);
+                addImageViewToLinearLayout(iv);
+            }
         }
 
         //----------------------------------------------------------------------//
@@ -174,8 +176,11 @@ public class CPlatformViewActivity extends AppCompatActivity {
         dataReference_RequestMailBox = fireStore.collection("RequestMailBox");
         dataReference_User = fireStore.collection("Users");
         dataReference_Notification = fireStore.collection("Notifications");
+        dataReference_CPlatform = fireStore.collection("CPlatform");
 
-        //-- Update UI for "post" data
+        //------------------------------------------------------------------------//
+        // Update UI for "post" data
+        //------------------------------------------------------------------------//
         //Description
         TV_postDescription.setText(postData.getDescription());
         //Title
@@ -313,6 +318,8 @@ public class CPlatformViewActivity extends AppCompatActivity {
         final String postID = postData.getPosterUid();
         final String uid = fUser.getUid();
         RequestMailBox_Model requestModel = new RequestMailBox_Model(status, postID, uid);
+
+
         dataReference_RequestMailBox.document().set(requestModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -327,7 +334,6 @@ public class CPlatformViewActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                        pd.dismiss();
                         //-----------------------------------------------------------------------//
                         // Get Store Name
                         //-----------------------------------------------------------------------//
@@ -340,7 +346,27 @@ public class CPlatformViewActivity extends AppCompatActivity {
                         Notification_Model notification2 = new Notification_Model(timestampPost, uid, "You have requested a collaboration with " + posterStoreName[0] + ".");
                         dataReference_Notification.document().set(notification2);
 
-                        CreateAlertDialog_Requested();
+                        // Update count requester for CPlatform
+                        HashMap<String, Object> results = new HashMap<>();
+                        int incrementRequesterCount = postData.getPendingRequestCount() + 1;
+                        results.put("pendingRequestCount", incrementRequesterCount);
+
+                        //-- Modify data => Query
+                        dataReference_CPlatform.document(postData.getCPost_uid()).update(results)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        pd.dismiss();
+                                        CreateAlertDialog_Requested();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(CPlatformViewActivity.this, "Error: Image not updated..", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                     }
                 });
             }

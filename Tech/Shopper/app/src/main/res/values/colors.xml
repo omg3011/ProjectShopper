@@ -11,6 +11,7 @@
     <color name="tabIndicatorColor">#FD6A3B</color>
     <color name="colorGrey">#EAEAEA</color>
     <color name="colorBlackAlpha">#37000000</color>
+    <color name="colorGreen">#10FF00</color>
 
     <color name="colorMainColour">#EE0044</color>
     <color name="colorMainDarkColour">#CC0044</color>

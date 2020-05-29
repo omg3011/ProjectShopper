@@ -63,9 +63,6 @@ import java.util.HashMap;
 import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ProfileFragment extends Fragment {
 
     //-- Firebase

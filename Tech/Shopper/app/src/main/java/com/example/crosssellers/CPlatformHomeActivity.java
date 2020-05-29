@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,10 +33,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import Adapters.AdapterCollabPost;
-import Adapters.AdapterUsers;
+import Adapters.AdapterCollabPost_CPlatform;
 import Models.CPlatform_Model;
-import Models.User_Model;
 
 public class CPlatformHomeActivity extends AppCompatActivity {
 
@@ -53,7 +48,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
     RecyclerView RV_collabPost;
 
     //-- Private variable(s)
-    AdapterCollabPost adapterCollabPost;
+    AdapterCollabPost_CPlatform adapterCollabPostCPlatform;
     List<CPlatform_Model> collabPostList;
     LinearLayoutManager manager;
 
@@ -75,11 +70,11 @@ public class CPlatformHomeActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Adapter
         collabPostList = new ArrayList<>();
-        adapterCollabPost = new AdapterCollabPost(this, collabPostList);
+        adapterCollabPostCPlatform = new AdapterCollabPost_CPlatform(this, collabPostList);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         RV_collabPost.setLayoutManager(manager);
-        RV_collabPost.setAdapter(adapterCollabPost);
+        RV_collabPost.setAdapter(adapterCollabPostCPlatform);
 
         //-- Retrieve data from database
         getCollabPostRelatedByTag();
@@ -206,7 +201,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                        adapterCollabPost.notifyDataSetChanged();
+                                        adapterCollabPostCPlatform.notifyDataSetChanged();
 
                                     }
                                     break;

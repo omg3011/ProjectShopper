@@ -33,8 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import Adapters.AdapterPromoPost;
-import Models.CPlatform_Model;
+import Adapters.AdapterPromoPost_Promo;
 import Models.CPromotion_Model;
 
 public class CPromotionHomeActivity  extends AppCompatActivity {
@@ -49,7 +48,7 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
     RecyclerView RV_promoPost;
 
     //-- Private variable(s)
-    AdapterPromoPost adapterPromoPost;
+    AdapterPromoPost_Promo adapterPromoPostPromo;
     List<CPromotion_Model> promoPostList;
     LinearLayoutManager manager;
 
@@ -71,11 +70,11 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Adapter
         promoPostList = new ArrayList<>();
-        adapterPromoPost = new AdapterPromoPost(this, promoPostList);
+        adapterPromoPostPromo = new AdapterPromoPost_Promo(this, promoPostList);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         RV_promoPost.setLayoutManager(manager);
-        RV_promoPost.setAdapter(adapterPromoPost);
+        RV_promoPost.setAdapter(adapterPromoPostPromo);
 
         //-- Retrieve data from database
         getPromoPostRelatedByTag();
@@ -202,7 +201,7 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
                                             }
                                         });
 
-                                        adapterPromoPost.notifyDataSetChanged();
+                                        adapterPromoPostPromo.notifyDataSetChanged();
 
                                     }
                                     break;

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProfileActivity_CPlatformView">
+
+
+    <!-- The top part -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@color/colorWhite">
+
+        <!-- Parent: Post -->
+        <LinearLayout
+            android:layout_weight="40"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <!-- Post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <!-- Post Header -->
+                <LinearLayout
+                    android:weightSum="100"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_weight="95"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Collaboration Info:"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <Button
+                        android:id="@+id/profile_cplatform_view_delete_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:backgroundTint="@color/colorMainColour"
+                        android:background="@drawable/ic_delete_black"/>
+
+                    <Button
+                        android:id="@+id/profile_cplatform_view_edit_btn"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:background="@drawable/ic_edit_black"/>
+                </LinearLayout>
+
+                <!-- Post Title -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Title:"
+                        android:fontFamily="@font/monda_bold"/>
+
+
+                    <TextView
+                        android:id="@+id/profile_cplatform_view_postTitle_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/monda"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+
+                <!-- Post Description -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/monda_bold"
+                        android:text="Description:" />
+
+
+                    <TextView
+                        android:id="@+id/profile_cplatform_view_postDescription_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/monda"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <!-- Post Tags -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Tags:"
+                        android:fontFamily="@font/monda_bold"/>
+
+
+                    <TextView
+                        android:id="@+id/profile_cplatform_view_postTags_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Sports"/>
+                </LinearLayout>
+
+                <!-- Post Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/monda_bold"
+                        android:text="Date Posted:"/>
+
+
+                    <TextView
+                        android:id="@+id/profile_cplatform_view_postDate_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="dd/mm/yyyy"/>
+                </LinearLayout>
+
+                <!-- Post Time -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/monda_bold"
+                        android:text="Time Posted:"/>
+
+
+                    <TextView
+                        android:id="@+id/profile_cplatform_view_postTime_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="hh:mm aa"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!-- The Middle part -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@color/colorWhite">
+
+        <!-- Parent: Post -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Post Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collab Requests:"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/open_sans_extrabold"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_cplatform_view_request_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGrey"/>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!-- The Bottom part -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@color/colorWhite">
+
+        <!-- Parent: Post -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Post Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collab Accepted:"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/open_sans_extrabold"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_cplatform_view_accepted_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGrey"/>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

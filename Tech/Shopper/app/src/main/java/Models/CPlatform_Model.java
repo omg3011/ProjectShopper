@@ -8,12 +8,15 @@ public class CPlatform_Model implements Serializable {
     //--------------------------------------------------------------//
     // Variable(s) Declaration
     //--------------------------------------------------------------//
+    String cpost_uid;
     String timestamp;
     List<String> uploads;
     String posterUid;       // Can get store info, store tag, etc..
     List<String> collabTag;
     String title;
     String description;
+    int pendingRequestCount; // No of ppl pending for request
+    boolean collab_closed_flag;
 
 
     //--------------------------------------------------------------//
@@ -21,18 +24,46 @@ public class CPlatform_Model implements Serializable {
     //--------------------------------------------------------------//
     public CPlatform_Model(){
     }
-    public CPlatform_Model(String timestamp, List<String> uploads, String posterUid, List<String> collabTag, String title, String description) {
+    public CPlatform_Model(String cpost_uid, String timestamp, List<String> uploads, String posterUid, List<String> collabTag, String title, String description, int pendingRequestCount, boolean collab_closed_flag) {
+        this.cpost_uid = cpost_uid;
         this.timestamp = timestamp;
         this.uploads = uploads;
         this.posterUid = posterUid;
         this.collabTag = collabTag;
         this.description = description;
+        this.pendingRequestCount = pendingRequestCount;
+        this.collab_closed_flag = collab_closed_flag;
         this.title = title;
     }
 
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
+
+
+    public boolean isCollab_closed_flag() {
+        return collab_closed_flag;
+    }
+
+    public void setCollab_closed_flag(boolean collab_closed_flag) {
+        this.collab_closed_flag = collab_closed_flag;
+    }
+
+    public String getCPost_uid() {
+        return cpost_uid;
+    }
+
+    public void setCpost_uid(String cpost_uid) {
+        this.cpost_uid = cpost_uid;
+    }
+
+    public int getPendingRequestCount() {
+        return pendingRequestCount;
+    }
+
+    public void setPendingRequestCount(int pendingRequestCount) {
+        this.pendingRequestCount = pendingRequestCount;
+    }
 
     public String getTitle() {
         return title;

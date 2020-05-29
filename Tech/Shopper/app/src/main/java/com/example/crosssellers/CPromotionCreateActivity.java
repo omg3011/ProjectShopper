@@ -212,7 +212,8 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         BTN_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateAlertDialog_Submit();
+                if(Check_Validate_Required_Field_Not_Empty())
+                    CreateAlertDialog_Submit();
             }
         });
 
@@ -252,43 +253,69 @@ public class CPromotionCreateActivity extends AppCompatActivity {
     boolean Check_Validate_Required_Field_Not_Empty()
     {
         boolean pass = true;
+        String error = "";
+
+        // Check Start Time
+        String checkTimeStart = ET_promoStart.getText().toString();
+        if(TextUtils.isEmpty(checkTimeStart)) {
+            ET_title.setError("Please input a start date.");
+            error += "Please input a start date.\n";
+            pass = false;
+        }
+
+        // Check End time
+        String checkTimeEnd = ET_promoEnd.getText().toString();
+        if(TextUtils.isEmpty(checkTimeEnd)) {
+            ET_title.setError("Please input a end date.");
+            error += "Please input a end date.\n";
+            pass = false;
+        }
 
         // Check Title
         String checkTitle = ET_title.getText().toString();
         if(TextUtils.isEmpty(checkTitle)) {
-            ET_title.setError("Please input a title");
+            ET_title.setError("Please input a title.");
+            error += "Please input a title.\n";
             pass = false;
         }
 
         // Check Description
         String checkDescription = ET_description.getText().toString();
         if(TextUtils.isEmpty(checkDescription)) {
-            ET_description.setError("Please input a description");
+            ET_description.setError("Please input a description.");
+            error += "Please input a description.\n";
             pass = false;
-        }
-        // Check Image
-        if(LL_uploads.getChildCount() == 0)
-        {
-            CreateAlertDialog_Missing_Fields();
         }
 
         // Check Tag
-        if(selectedItems.size() == 0) {
-            TV_idealTags.setError("Please choose a tag");
+        if(selectedItems == null || selectedItems.size() == 0) {
+            TV_idealTags.setError("Please choose a tag.");
+            error += "Please choose a tag.\n";
             pass = false;
         }
+
+        // Check Image
+        if(LL_uploads.getChildCount() == 0)
+        {
+            error += "Please upload a photo to continue.\n";
+            pass = false;
+        }
+
+        if(pass == false)
+            CreateAlertDialog_Missing_Fields(error);
+
         return pass;
     }
 
 
-    void CreateAlertDialog_Missing_Fields()
+    void CreateAlertDialog_Missing_Fields(String error)
     {
         // Alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(CPromotionCreateActivity.this);
 
         // Set Title
         builder.setTitle("Missing Field(s)");
-        builder.setMessage("Please upload a photo to continue.")
+        builder.setMessage(error)
                 .setNegativeButton(android.R.string.cancel, null);
         // Create and show dialog
         builder.create().show();
@@ -492,7 +519,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
 
         String duration = "";
         final String id = dataReference_CPromotion.document().getId();
-        final CPromotion_Model promo = new CPromotion_Model(title, description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null);
+        final CPromotion_Model promo = new CPromotion_Model(title, description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null, false);
         dataReference_CPromotion.document(id).set(promo);
 
         Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion.");

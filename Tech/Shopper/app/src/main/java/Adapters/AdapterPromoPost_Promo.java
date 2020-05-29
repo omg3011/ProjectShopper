@@ -19,23 +19,23 @@ import java.util.List;
 
 import Models.CPromotion_Model;
 
-public class AdapterPromoPost extends RecyclerView.Adapter<AdapterPromoPost.ViewHolder> {
+public class AdapterPromoPost_Promo extends RecyclerView.Adapter<AdapterPromoPost_Promo.ViewHolder> {
 
     Context context;
     List<CPromotion_Model> postList;
 
-    public AdapterPromoPost(Context context, List<CPromotion_Model> postList) {
+    public AdapterPromoPost_Promo(Context context, List<CPromotion_Model> postList) {
         this.context = context;
         this.postList = postList;
     }
 
 
     @Override
-    public AdapterPromoPost.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterPromoPost_Promo.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_cpromotion_home_helper, parent, false);
 
-        return new AdapterPromoPost.ViewHolder(v);
+        return new AdapterPromoPost_Promo.ViewHolder(v);
     }
 
 
