@@ -32,7 +32,7 @@
                 android:fontFamily="@font/monda_bold"/>
 
             <TextView
-                android:id="@+id/profile_cplatform_view_helper_postTitle_TV"
+                android:id="@+id/profile_cplatform_view_helper_storeTag_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Collaboration for 1 on 1"
@@ -68,11 +68,11 @@
                 android:foregroundTint="@color/colorMainColour"/>
 
             <Button
-                android:id="@+id/profile_cplatform_view_helper_requesterProfile_btn"
+                android:id="@+id/profile_cplatform_view_helper_chat_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/hollow_circle"
-                android:foreground="@drawable/ic_profile_black"
+                android:foreground="@drawable/ic_message_black"
                 android:foregroundTint="@color/colorAccent"/>
 
         </LinearLayout>

@@ -90,6 +90,28 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <!-- Button: Auto login -->
+    <RelativeLayout
+        android:id="@+id/login_RL_auto"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/login_passwordTIL"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="false">
+
+
+        <Button
+            android:id="@+id/login_loginbtn_auto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/rounded_button"
+            android:text="Admin"
+            android:fontFamily="@font/monda_bold"
+            android:textColor="@color/colorWhite"
+            />
+    </RelativeLayout>
+
     <!-- Button: Login -->
     <RelativeLayout
         android:id="@+id/login_RL"

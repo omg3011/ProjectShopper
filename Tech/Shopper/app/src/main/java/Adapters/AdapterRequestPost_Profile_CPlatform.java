@@ -1,8 +1,8 @@
 package Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +11,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crosssellers.CPromotionViewActivity;
 import com.example.crosssellers.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import Models.CPlatform_Model;
+import Models.Notification_Model;
 import Models.RequestMailBox_Model;
 
 public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<AdapterRequestPost_Profile_CPlatform.ViewHolder> {
@@ -31,13 +37,26 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
     Context context;
     List<RequestMailBox_Model> requestList;
     CollectionReference dataReference_User;
+    CollectionReference dataReference_Request;
+    CollectionReference dataReference_Notification;
+    CollectionReference dataReference_CPlatform;
     CPlatform_Model postData;
+    ProgressDialog pd;
+    FirebaseUser fUser;
+    int request1_accepted2;
 
-    public AdapterRequestPost_Profile_CPlatform(Context context, List<RequestMailBox_Model> postList, CollectionReference dataReference_User, CPlatform_Model postData) {
+
+    public AdapterRequestPost_Profile_CPlatform(Context context, List<RequestMailBox_Model> postList, CollectionReference dataReference_User, CPlatform_Model postData, CollectionReference dataReference_Request, CollectionReference dataReference_Notification, CollectionReference dataReference_CPlatform, int request1_accepted2) {
         this.context = context;
         this.requestList = postList;
         this.dataReference_User = dataReference_User;
+        this.dataReference_Request = dataReference_Request;
+        this.dataReference_CPlatform = dataReference_CPlatform;
         this.postData = postData;
+        this.pd = new ProgressDialog(context);
+        this.fUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.dataReference_Notification = dataReference_Notification;
+        this.request1_accepted2 = request1_accepted2;
     }
 
 
@@ -59,7 +78,7 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
         //-----------------------------------------------------------------------//
         //-- For requester store name
         final String[] requesterStoreName = new String[1];
-        final DocumentReference doc_user = dataReference_User.document(post.getUid());
+        final DocumentReference doc_user = dataReference_User.document(post.getRequester_UID());
 
         //-----------------------------------------------------------------------//
         // Update UI
@@ -68,42 +87,238 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                //-- Set Requester Store Name
+                //-- Set store name
                 requesterStoreName[0] = (String) documentSnapshot.get("storeName");
                 holder.TV_requesterStoreName.setText(requesterStoreName[0]);
 
                 //-- Set Post Title
-                holder.TV_requesterStoreName.setText(postData.getTitle());
+                holder.TV_requesterStoreTag.setText((String) documentSnapshot.get("storeTag"));
 
-                //-- Accept Btn
-                holder.BTN_accept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Accepted", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                //-- Show Request Pending UI
+                if(request1_accepted2 == 1)
+                {
+                    //-- Accept Btn
+                    holder.BTN_accept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendAcceptRequestToDB(post);
+                        }
+                    });
 
-                //-- Reject Btn
-                holder.BTN_reject.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Rejected", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    //-- Reject Btn
+                    holder.BTN_reject.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendRejectRequestToDB(post);
+                        }
+                    });
 
-                //-- View Requester Profile
-                holder.BTN_requesterProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "View Profile", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    //-- View Requester Profile
+                    holder.BTN_chat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "View Profile", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                //-- Show Request Accepted UI
+                else
+                {
+                    holder.BTN_accept.setVisibility(View.INVISIBLE);
+                    holder.BTN_reject.setVisibility(View.INVISIBLE);
+                    holder.BTN_chat.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
 
 
 
+    }
+
+    private void sendRejectRequestToDB(final RequestMailBox_Model post) {
+        HashMap<String, Object> results = new HashMap<>();
+        results.put("status", "rejected");
+        pd.setMessage("Rejecting. Please wait...");
+        pd.show();
+
+        //-- Modify data => Query
+        dataReference_Request.document(post.getRequestMailBoxID()).update(results)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        final String[] requesterStoreName = new String[1];
+                        final String[] myStoreName = new String[1];
+                        dataReference_User.document(post.getRequester_UID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                //-----------------------------------------------------------------------//
+                                // Get Requester Store Name
+                                //-----------------------------------------------------------------------//
+                                requesterStoreName[0] = (String) documentSnapshot.get("storeName");
+
+                                dataReference_User.document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+
+                                        //-----------------------------------------------------------------------//
+                                        // Get My Store Name
+                                        //-----------------------------------------------------------------------//
+                                        myStoreName[0] = (String) documentSnapshot.get("storeName");
+
+                                        final Long[] pendingRequestcount = new Long[1];
+                                        dataReference_CPlatform.document(post.getCplatformPost_ID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                                //-----------------------------------------------------------------------//
+                                                // Get My CPlatform post->pendingRequestCount
+                                                //-----------------------------------------------------------------------//
+                                                pendingRequestcount[0] = (Long)documentSnapshot.get("pendingRequestCount");
+                                                Log.d("Test", Long.toString(pendingRequestcount[0]));
+                                                pendingRequestcount[0]-=1;
+                                                Log.d("Test", Long.toString(pendingRequestcount[0]));
+                                                HashMap<String, Object> result_requestCount = new HashMap<>();
+                                                result_requestCount.put("pendingRequestCount", pendingRequestcount[0]);
+
+                                                dataReference_CPlatform.document(post.getCplatformPost_ID()).update(result_requestCount)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        //--------------------------------------------------------------------------------//
+                                                        // Notify database
+                                                        //--------------------------------------------------------------------------------//
+                                                        //-- Get current Timestamp
+                                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                                                        final String timestampPost = simpleDateFormat.format(new Date());
+
+                                                        // Send to rejected user, you have been rejected
+                                                        Notification_Model notification1 = new Notification_Model(timestampPost, post.getRequester_UID(), "You have been rejected to collaborate with " + myStoreName[0] + ".");
+                                                        dataReference_Notification.document().set(notification1);
+
+                                                        // Send to myself, i reject someone
+                                                        Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have rejected a collaboration with " + requesterStoreName[0] + ".");
+                                                        dataReference_Notification.document().set(notification2);
+
+
+                                                        //--------------------------------------------------------------------------------//
+                                                        // Update UI
+                                                        //--------------------------------------------------------------------------------//
+                                                        requestList.remove(post);
+                                                        pd.dismiss();
+                                                        notifyDataSetChanged();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                    }
+                });
+    }
+
+    private void sendAcceptRequestToDB(final RequestMailBox_Model post)
+    {
+        HashMap<String, Object> results = new HashMap<>();
+        results.put("status", "accepted");
+        pd.setMessage("Accepting. Please wait...");
+        pd.show();
+
+        //-- Modify data => Query
+        dataReference_Request.document(post.getRequestMailBoxID()).update(results)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        final String[] requesterStoreName = new String[1];
+                        final String[] myStoreName = new String[1];
+                        dataReference_User.document(post.getRequester_UID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                //-----------------------------------------------------------------------//
+                                // Get Requester Store Name
+                                //-----------------------------------------------------------------------//
+                                requesterStoreName[0] = (String) documentSnapshot.get("storeName");
+
+                                dataReference_User.document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+
+                                        //-----------------------------------------------------------------------//
+                                        // Get My Store Name
+                                        //-----------------------------------------------------------------------//
+                                        myStoreName[0] = (String) documentSnapshot.get("storeName");
+
+                                        final Long[] pendingRequestcount = new Long[1];
+                                        dataReference_CPlatform.document(post.getCplatformPost_ID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                                //-----------------------------------------------------------------------//
+                                                // Get My CPlatform post->pendingRequestCount
+                                                //-----------------------------------------------------------------------//
+                                                pendingRequestcount[0] = (Long)documentSnapshot.get("pendingRequestCount");
+                                                pendingRequestcount[0]-=1;
+                                                HashMap<String, Object> result_requestCount = new HashMap<>();
+                                                result_requestCount.put("pendingRequestCount", pendingRequestcount[0]);
+
+                                                dataReference_CPlatform.document(post.getCplatformPost_ID()).update(result_requestCount)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                //--------------------------------------------------------------------------------//
+                                                                // Notify database
+                                                                //--------------------------------------------------------------------------------//
+                                                                //-- Get current Timestamp
+                                                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                                                                final String timestampPost = simpleDateFormat.format(new Date());
+
+                                                                // Send to accepted user, you have been accpted
+                                                                Notification_Model notification1 = new Notification_Model(timestampPost, post.getRequester_UID(), "You have been accepted to collaborate with " + myStoreName[0] + ".");
+                                                                dataReference_Notification.document().set(notification1);
+
+                                                                // Send to myself, i accpted someone
+                                                                Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have accepted a collaboration with " + requesterStoreName[0] + ".");
+                                                                dataReference_Notification.document().set(notification2);
+
+
+                                                                //--------------------------------------------------------------------------------//
+                                                                // Update UI
+                                                                //--------------------------------------------------------------------------------//
+                                                                //requestList.remove(post);
+                                                                pd.dismiss();
+                                                                //notifyDataSetChanged();
+                                                            }
+                                                        });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                    }
+                });
     }
 
     @Override
@@ -113,17 +328,17 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView TV_requesterStoreName, TV_postTitle;
-        Button BTN_accept, BTN_reject, BTN_requesterProfile;
+        TextView TV_requesterStoreName, TV_requesterStoreTag;
+        Button BTN_accept, BTN_reject, BTN_chat;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             TV_requesterStoreName = itemView.findViewById(R.id.profile_cplatform_view_helper_storeName_TV);
-            TV_postTitle = itemView.findViewById(R.id.profile_cplatform_view_helper_postTitle_TV);
+            TV_requesterStoreTag = itemView.findViewById(R.id.profile_cplatform_view_helper_storeTag_TV);
             BTN_accept = itemView.findViewById(R.id.profile_cplatform_view_helper_accept_btn);
             BTN_reject = itemView.findViewById(R.id.profile_cplatform_view_helper_reject_btn);
-            BTN_requesterProfile = itemView.findViewById(R.id.profile_cplatform_view_helper_requesterProfile_btn);
+            BTN_chat = itemView.findViewById(R.id.profile_cplatform_view_helper_chat_btn);
         }
     }
 }

@@ -51,8 +51,8 @@ public class AdapterPromoPost_Promo extends RecyclerView.Adapter<AdapterPromoPos
             holder.TV_tags.setText(listString);
         }
 
-        //-- Set Description
-        holder.TV_post_title.setText(post.getDescription());
+        //-- Set Title
+        holder.TV_post_title.setText(post.getTitle());
 
         //-- Set Promo Date
         holder.TV_promoDate.setText(post.getTimestampStart() + " - " + post.getTimestampEnd());
