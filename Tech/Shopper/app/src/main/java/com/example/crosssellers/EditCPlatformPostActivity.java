@@ -148,7 +148,7 @@ public class EditCPlatformPostActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Create a Collaboration");
+        actionbar.setTitle("Edit Collaboration Post");
 
         //-- Enable "Actionbar"->back button
         actionbar.setDisplayHomeAsUpEnabled(true);

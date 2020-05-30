@@ -104,8 +104,6 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         graph_btm.getSecondScale().setMaxY(100);
         series2.setColor(Color.RED);
         graph_btm.getGridLabelRenderer().setVerticalLabelsSecondScaleColor(Color.RED);
-        // Write Description below
-        graph_top.getGridLabelRenderer().setHorizontalAxisTitle("Line-Graph: Yesterday Sale");
     }
 
     void SetupBarGraph_Top()
@@ -143,8 +141,6 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         graph_top.getLegendRenderer().setVisible(true);
         graph_top.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
-        // Write Description below
-        graph_top.getGridLabelRenderer().setHorizontalAxisTitle("Bar-Graph: Sales");
 
         // set the viewport wider than the data, to have a nice view
         graph_top.getViewport().setMinX(-10);

@@ -1,5 +1,6 @@
 package com.example.crosssellers;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -162,6 +163,18 @@ public class EditPromoPostActivity extends AppCompatActivity {
             addImageViewToLinearLayout(iv);
         }
 
+
+        //----------------------------------------------------------------------//
+        // Action bar                                                           //
+        //----------------------------------------------------------------------//
+        //-- Add built-in "Actionbar" and it's "Actionbar"->title
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setTitle("Edit Promotion Post");
+
+        //-- Enable "Actionbar"->back button
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setDisplayShowHomeEnabled(true);
+
         //------------------------------------------------------------------------//
         // Click Listener(s)
         //------------------------------------------------------------------------//
@@ -199,6 +212,26 @@ public class EditPromoPostActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
+
+    //------------------------------------------------------------------------//
+    // Function: To allow back button
+    //------------------------------------------------------------------------//
+    @Override
+    public boolean onSupportNavigateUp() {
+        //-- Go to previous activity
+        onBackPressed(); // Built-in function
+
+        return super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditPromoPostActivity.this, ProfileActivity_CPromotionView.class);
+        intent.putExtra("post", postData);
+        startActivity(intent);
+        finish();
+    }
 
     //-------------------------------------------//
     // Pick multi-images from gallery
