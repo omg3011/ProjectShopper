@@ -19,7 +19,7 @@
             android:text="Congratulations!"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textColor="@color/colorMainColour"
             />
 
@@ -39,7 +39,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:fontFamily="@font/montserrat"
             />
 
@@ -49,9 +49,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/custom_alert_dialog_created_promo_post_details_tv"
-            android:text="(Tips: View/Edit your listing at your profile)"
+            android:text="(View/Edit your listing at your profile)"
             android:gravity="center"
-            android:textSize="15sp"
+            android:textSize="12sp"
             />
 
     </RelativeLayout>
