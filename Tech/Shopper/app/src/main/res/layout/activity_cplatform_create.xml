@@ -246,7 +246,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@android:color/darker_gray" />
 
             <LinearLayout
@@ -298,6 +298,7 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/montserrat_bold"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"
