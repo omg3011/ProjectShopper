@@ -22,12 +22,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edit Collaboration Ideas"
-                android:textColor="@color/colorPrimary"
+                android:text="Your Collaboration Idea"
                 android:textStyle="bold"
-                android:fontFamily="@font/open_sans_extrabold"
-                android:layout_marginBottom="25dp"
-                android:textSize="20sp"/>
+                android:textColor="@color/colorMainColour"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp" />
 
 
             <!-- Parent: Title -->
@@ -41,15 +41,17 @@
                     android:layout_height="wrap_content"
                     android:text="Title:"
                     android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="16sp"/>
 
                 <EditText
                     android:id="@+id/edit_cplatform_create_title_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/monda_bold"
-                    android:hint="Set a title" />
+                    android:fontFamily="@font/open_sans"
+                    android:hint="Set a title"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -65,16 +67,18 @@
                     android:layout_height="wrap_content"
                     android:text="Description:"
                     android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="16sp"/>
 
                 <EditText
                     android:id="@+id/edit_cplatform_create_description_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15sp"
-                    android:fontFamily="@font/monda_bold"
-                    android:hint="Need help with something? Got\ncustomers to refer to others?\nExploring new ways to do business?" />
+                    android:fontFamily="@font/open_sans"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:hint="Need help with something?\nGot customers to refer to others?\nExploring new ways to do business?" />
 
 
             </LinearLayout>
@@ -88,23 +92,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Uploads:"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/edit_cplatform_create_add_photo_btn"
+                    android:id="@+id/cplatform_create_add_photo_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="Add"/>
+                    android:background="@drawable/rounded_button"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Add"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
 
                 <Button
-                    android:id="@+id/edit_cplatform_create_clear_photo_btn"
+                    android:id="@+id/cplatform_create_clear_photo_btn"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="Clear"/>
+                    android:layout_height="40dp"
+                    android:background="@drawable/textbox_border"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorMainDarkColour"
+                    android:textSize="14sp"
+                    android:text="Clear" />
             </LinearLayout>
 
             <HorizontalScrollView
@@ -137,18 +149,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choose your ideal partner:"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="50dp"/>
+                    android:layout_marginBottom="30dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:text="Choose your ideal partners:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/edit_cplatform_create_choose_partner_btn"
                     android:layout_width="120dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="100dp"
-                    android:text="Choose"/>
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="@drawable/rounded_button"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Choose"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
             </LinearLayout>
 
 
@@ -157,10 +173,11 @@
                 android:id="@+id/edit_cplatform_create_ideal_partner_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
                 android:hint="Display ideal partners here.."
-                android:textStyle="bold"
-                android:fontFamily="@font/open_sans_extrabold"
-                android:textSize="12sp"/>
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
 
             <View
                 android:layout_width="match_parent"
@@ -172,8 +189,12 @@
         <Button
             android:id="@+id/edit_cplatform_apply_changes_btn"
             android:layout_width="180dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_bold"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
             android:text="Apply Changes"/>
     </LinearLayout>
 

@@ -23,10 +23,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Your Store Details"
-                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:fontFamily="@font/open_sans_extrabold"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/colorMainColour"
+                android:fontFamily="@font/montserrat_bold"
                 android:textSize="20sp"/>
 
             <LinearLayout
@@ -35,14 +35,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Store Name:"/>
                 <TextView
                     android:id="@+id/cpromo_create_store_name_TV"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="ABC Pte Ltd"/>
             </LinearLayout>
 
@@ -53,14 +57,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Store Unit:"/>
                 <TextView
                     android:id="@+id/cpromo_create_store_unit_TV"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="#07-01"/>
             </LinearLayout>
 
@@ -71,14 +79,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Mall Name:"/>
                 <TextView
                     android:id="@+id/cpromo_create_mall_name_TV"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Tampines Mall"/>
             </LinearLayout>
 
@@ -89,14 +101,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="Tag:"/>
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
+                    android:text="Tags:"/>
                 <TextView
                     android:id="@+id/cpromo_create_storeTag_TV"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Sports, Kids"/>
             </LinearLayout>
         </LinearLayout>
@@ -105,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,11 +132,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your Promotion Ideas"
-                android:textColor="@color/colorPrimary"
+                android:text="Your Promotion Idea"
                 android:textStyle="bold"
-                android:fontFamily="@font/open_sans_extrabold"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/colorMainColour"
+                android:fontFamily="@font/montserrat_bold"
                 android:textSize="20sp"/>
 
 
@@ -141,15 +157,16 @@
                         android:layout_height="wrap_content"
                         android:text="Promo Start Date: "
                         android:textStyle="bold"
-                        android:fontFamily="@font/open_sans_extrabold"
-                        android:textSize="12sp"/>
+                        android:fontFamily="@font/open_sans_bold"
+                        android:textSize="16sp"/>
 
                     <EditText
                         android:id="@+id/cpromo_create_startDate_ET"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Click to input start date"
-                        android:textSize="15sp"/>
+                        android:fontFamily="@font/open_sans"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -165,15 +182,16 @@
                         android:layout_height="wrap_content"
                         android:text="Promo End Date: "
                         android:textStyle="bold"
-                        android:fontFamily="@font/open_sans_extrabold"
-                        android:textSize="12sp"/>
+                        android:fontFamily="@font/open_sans_bold"
+                        android:textSize="16sp"/>
 
                     <EditText
                         android:id="@+id/cpromo_create_endDate_ET"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Click to input end date"
-                        android:textSize="15sp"/>
+                        android:fontFamily="@font/open_sans"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -181,7 +199,6 @@
 
             <!-- Parent: Title -->
             <LinearLayout
-                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -193,15 +210,17 @@
                     android:layout_height="wrap_content"
                     android:text="Title:"
                     android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="16sp"/>
 
                 <EditText
                     android:id="@+id/cpromo_create_title_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:fontFamily="@font/monda_bold"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/open_sans"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
                     android:hint="Set a title" />
 
             </LinearLayout>
@@ -219,16 +238,18 @@
                     android:layout_height="wrap_content"
                     android:text="Description:"
                     android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="16sp"/>
 
                 <EditText
                     android:id="@+id/cpromo_create_description_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:fontFamily="@font/monda_bold"
-                    android:hint="Need help with something? Got\ncustomers to refer to others?\nExploring new ways to do business?" />
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/open_sans"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:hint="Need help with something? \nGot customers to refer to others?\nExploring new ways to do business?" />
 
             </LinearLayout>
 
@@ -243,20 +264,28 @@
                     android:layout_height="wrap_content"
                     android:text="Uploads:"
                     android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="16sp"/>
 
                 <Button
                     android:id="@+id/cpromo_create_add_photo_btn"
                     android:layout_marginHorizontal="20dp"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="Add"/>
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounded_button"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Add"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/cpromo_create_clear_photo_btn"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/textbox_border"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorMainDarkColour"
+                    android:textSize="14sp"
                     android:text="Clear"/>
             </LinearLayout>
 
@@ -292,16 +321,20 @@
                     android:layout_height="wrap_content"
                     android:text="Choose your ideal tags:"
                     android:textStyle="bold"
-                    android:fontFamily="@font/open_sans_extrabold"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="50dp"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="30dp"/>
 
                 <Button
                     android:id="@+id/cpromo_create_choose_tag_btn"
                     android:layout_width="120dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="100dp"
-                    android:text="Choose"/>
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="75dp"
+                    android:background="@drawable/rounded_button"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Choose"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
             </LinearLayout>
 
 
@@ -312,8 +345,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Display tags here.."
                 android:textStyle="bold"
-                android:fontFamily="@font/open_sans_extrabold"
-                android:textSize="12sp"/>
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/open_sans"/>
 
             <View
                 android:layout_width="match_parent"
@@ -324,9 +358,14 @@
 
         <Button
             android:id="@+id/cpromo_create_submit_btn"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
             android:text="Submit"/>
     </LinearLayout>
 

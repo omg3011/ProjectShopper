@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="100"
+    android:weightSum="90"
     tools:context=".CPromotionHomeActivity">
 
 
@@ -19,18 +19,20 @@
         android:layout_height="0dp"/>
 
     <RelativeLayout
-        android:layout_weight="20"
+        android:layout_weight="10"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorMainColour">
+        android:background="@color/colorWhite">
 
         <Button
             android:id="@+id/cpromo_create_promo_btn"
-            android:layout_width="150dp"
-            android:layout_height="70dp"
-            android:background="@color/colorWhite"
-            android:text="Create Promo"
-            android:fontFamily="@font/open_sans_bold"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:text="Create Promotion"
+            android:fontFamily="@font/montserrat_bold"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 
