@@ -134,7 +134,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_autologin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUser("z@gmail.com", "123456");
+                String tempEmail = "z@gmail.com";
+                String tempPW = "123456";
+                loginUser(tempEmail, tempPW);
             }
         });
         //-- Login button

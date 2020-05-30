@@ -60,11 +60,10 @@ public class CPromotionViewActivity extends AppCompatActivity {
     //LinearLayoutManager manager;
 
     // Views
-    TextView TV_postDescription, TV_postTag, TV_promoDate, TV_postTitle;
     TextView TV_storeName, TV_mallName, TV_storeUnit, TV_storeTag, TV_storeRatingQuantity, TV_storeRatingValue;
     RatingBar RB_storeRating;
     ImageView IV_storeProfile;
-    //RecyclerView RV_storeUploads;
+    TextView TV_postDescription, TV_postTag, TV_promoDate, TV_postTitle;
     ScrollView SV_scroller;
     LinearLayout LL_uploads;
 
@@ -120,7 +119,7 @@ public class CPromotionViewActivity extends AppCompatActivity {
 
 
         //---------------------------------------------------------------------------//
-        // Init RecyclerView List
+        // Init UploadImages List
         //---------------------------------------------------------------------------//
         // Adapter
         uploadsImageList = new ArrayList<>();
