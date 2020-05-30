@@ -19,10 +19,12 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_nav"
-        app:labelVisibilityMode="labeled">
+        android:layout_marginBottom="0dp"
+        android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_nav">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

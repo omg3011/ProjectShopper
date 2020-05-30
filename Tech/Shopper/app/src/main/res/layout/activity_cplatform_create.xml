@@ -23,11 +23,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Your Store Details"
-                android:textColor="@color/colorMainColour"
                 android:textStyle="bold"
+                android:textColor="@color/colorMainColour"
                 android:fontFamily="@font/montserrat_bold"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,9 +35,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Store Name:" />
                 <TextView
                     android:id="@+id/cplatform_create_store_name_TV"
@@ -45,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="ABC Pte Ltd"/>
             </LinearLayout>
 
@@ -55,9 +57,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Store Unit:"/>
                 <TextView
                     android:id="@+id/cplatform_create_store_unit_TV"
@@ -65,6 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="#07-01"/>
             </LinearLayout>
 
@@ -75,9 +79,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Mall Name:"/>
                 <TextView
                     android:id="@+id/cplatform_create_mall_name_TV"
@@ -85,6 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Tampines Mall"/>
             </LinearLayout>
 
@@ -95,9 +101,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="130dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Tags:"/>
                 <TextView
                     android:id="@+id/cplatform_create_tag_name_TV"
@@ -105,6 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
+                    android:textSize="16sp"
                     android:text="Sports, Kids"/>
             </LinearLayout>
         </LinearLayout>
@@ -124,13 +132,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:fontFamily="@font/open_sans"
-                android:text="Your Collaboration Ideas"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Your Collaboration Idea"
                 android:textColor="@color/colorMainColour"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
 
             <!-- Parent: Title -->
             <LinearLayout
@@ -141,19 +148,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Title:"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/cplatform_create_title_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15sp"
+                    android:layout_marginBottom="10sp"
                     android:fontFamily="@font/open_sans"
                     android:hint="Set a title"
-                    android:textSize="18sp" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -163,13 +171,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Description:"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -179,8 +186,8 @@
                     android:layout_marginBottom="15sp"
                     android:fontFamily="@font/open_sans"
                     android:hint="Need help with something?\nGot customers to refer to others?\nExploring new ways to do business?"
-                    android:textSize="18sp" />
-
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -193,9 +200,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="Uploads:"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <Button
@@ -215,9 +222,9 @@
                     android:layout_height="40dp"
                     android:background="@drawable/textbox_border"
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="Clear"
                     android:textColor="@color/colorMainDarkColour"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:text="Clear" />
             </LinearLayout>
 
             <HorizontalScrollView
@@ -250,17 +257,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="50dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="Choose your ideal partner:"
-                    android:textSize="14sp"
+                    android:layout_marginBottom="30dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:text="Choose your ideal partners:"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/cplatform_create_choose_partner_btn"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="75dp"
+                    android:layout_marginLeft="50dp"
                     android:background="@drawable/rounded_button"
                     android:fontFamily="@font/montserrat_bold"
                     android:text="Choose"
@@ -276,12 +283,13 @@
                 android:fontFamily="@font/open_sans"
                 android:hint="Display ideal partners here.."
                 android:textSize="16sp"
+                android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@android:color/darker_gray" />
         </LinearLayout>
 

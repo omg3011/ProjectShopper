@@ -11,6 +11,7 @@
     android:layout_marginHorizontal="3dp"
     app:contentPadding="5dp"
     android:id="@+id/cpromo_home_helper_click_CV"
+    android:background="@color/colorGrey"
     >
 
     <LinearLayout
@@ -27,6 +28,7 @@
             android:maxLines="1"
             android:maxLength="35"
             android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
             android:textSize="18sp"
             android:textColor="@color/colorBlack"/>
 
@@ -41,6 +43,8 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Promo Date: "
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
             <TextView
                 android:id="@+id/cpromo_home_helper_promoDate_TV"
@@ -48,6 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dd/mm/yyyy - dd/mm/yyyy"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
 
@@ -61,6 +67,8 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Tags: "
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
             <TextView
                 android:id="@+id/cpromo_home_helper_tags_TV"
@@ -68,6 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="F &amp; B, Kids"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
 
