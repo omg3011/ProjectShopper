@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SetupProfileActivity">
+    tools:context=".SetupProfileActivity"
+    android:layout_margin="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -52,27 +53,36 @@
             android:textColor="#63000000"
             android:textSize="20sp"/>
 -->
-        <Button
-            android:id="@+id/setup_profile_tag_button"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:paddingBottom="10dp"
-            android:text="Select Tag"
-            android:textSize="10sp" />
-            <!--
+        <!--
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/setup_profile_tags"
             -->
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/setup_profile_storetags_TV"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="Store Tag" />
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/setup_profile_storetags_TV"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="Store Tag"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/setup_profile_tag_button"
+            android:layout_width="140dp"
+            android:layout_height="30dp"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Select Tag"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -80,12 +90,13 @@
 
     <Button
         android:id="@+id/setup_profile_submitBtn"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/montserrat_bold"
         android:text="Submit"
+        android:textSize="16sp"
         android:textColor="@color/colorWhite" />
 </LinearLayout>

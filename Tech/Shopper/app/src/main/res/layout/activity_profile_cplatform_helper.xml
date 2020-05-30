@@ -61,7 +61,8 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="Tags: "
-                android:fontFamily="@font/monda_bold"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
 
             <TextView
@@ -70,7 +71,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:text="F &amp; B, Kids"
-                android:fontFamily="@font/monda"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack" />
         </LinearLayout>
 
@@ -84,7 +86,8 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="Date: "
-                android:fontFamily="@font/monda_bold"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
             <TextView
                 android:id="@+id/profile_cplatform_helper_date_TV"
@@ -92,7 +95,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dd/mm/yyyy"
-                android:fontFamily="@font/monda"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
 
@@ -105,7 +109,8 @@
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/monda_bold"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:text="Time: "
                 android:textColor="@color/colorBlack"/>
             <TextView
@@ -114,7 +119,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="xx:xx hrs"
-                android:fontFamily="@font/monda"
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
 
@@ -126,11 +132,11 @@
             <TextView
                 android:id="@+id/profile_cplatform_helper_closed_TV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Collab Closed"
+                android:layout_height="25dp"
+                android:text="Collaboration Closed"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:fontFamily="@font/monda_bold"
+                android:fontFamily="@font/open_sans_bold"
                 android:background="@drawable/rounded_button"/>
         </RelativeLayout>
 

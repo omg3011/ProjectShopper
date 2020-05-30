@@ -177,7 +177,7 @@
                         android:fontFamily="@font/open_sans"
                         android:textSize="16sp"
                         android:textColor="@color/colorBlack"
-                        android:layout_marginBottom="20dp"/>
+                        android:layout_marginBottom="10dp"/>
                 </LinearLayout>
             </LinearLayout>
 

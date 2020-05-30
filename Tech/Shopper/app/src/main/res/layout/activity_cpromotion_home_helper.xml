@@ -40,9 +40,9 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
-                android:text="Promo Date: "
+                android:text="Date: "
                 android:fontFamily="@font/open_sans"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
@@ -64,12 +64,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Tags: "
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
                 android:fontFamily="@font/open_sans"
-                android:textSize="15sp"
-                android:textColor="@color/colorBlack"/>
+                android:text="Tags: "
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
             <TextView
                 android:id="@+id/cpromo_home_helper_tags_TV"
                 android:layout_marginLeft="10dp"
