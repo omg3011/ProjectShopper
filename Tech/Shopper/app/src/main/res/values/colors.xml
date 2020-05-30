@@ -13,8 +13,9 @@
     <color name="colorBlackAlpha">#37000000</color>
     <color name="colorGreen">#10FF00</color>
 
-    <color name="colorMainColour">#EE0044</color>
+    <color name="colorMainColour">#E60037</color>
     <color name="colorMainDarkColour">#CC0044</color>
+    <color name="colorBackgroundColour">#FFF5F5</color>
 
 
 </resources>

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="Fragments.PromotionFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundColour">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_promo_rv"

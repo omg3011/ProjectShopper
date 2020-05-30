@@ -11,7 +11,7 @@
     android:layout_marginHorizontal="3dp"
     app:contentPadding="5dp"
     android:id="@+id/cpromo_home_helper_click_CV"
-    android:background="@color/colorGrey"
+    android:background="@color/colorBackgroundColour"
     >
 
     <LinearLayout

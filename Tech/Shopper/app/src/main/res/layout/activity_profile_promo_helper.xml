@@ -11,6 +11,7 @@
     android:layout_marginHorizontal="3dp"
     app:contentPadding="5dp"
     android:id="@+id/profile_promo_helper_click_CV"
+    android:background="@color/colorBackgroundColour"
     >
 
     <LinearLayout

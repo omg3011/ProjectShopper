@@ -9,10 +9,8 @@
     android:weightSum="90"
     tools:context=".CPlatformHomeActivity">
 
-
-
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/colorGrey"
+        android:background="@color/colorBackgroundColour"
         android:id="@+id/cplatform_home_RV"
         android:layout_weight="80"
         android:layout_width="match_parent"
