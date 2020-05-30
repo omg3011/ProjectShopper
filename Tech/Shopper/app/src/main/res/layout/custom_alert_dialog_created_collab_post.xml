@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Congratulations!"
-            android:fontFamily="@font/open_sans_extrabold"
+            android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
             android:textSize="30sp"
             android:textColor="@color/colorMainColour"
@@ -35,11 +35,12 @@
             android:id="@+id/custom_alert_dialog_created_collab_post_details_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your collaboration is listed."
+            android:text="Your collaboration has been listed."
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:fontFamily="@font/montserrat"
             />
 
 

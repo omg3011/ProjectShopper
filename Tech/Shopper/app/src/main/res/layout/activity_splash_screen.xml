@@ -18,14 +18,14 @@
 
     <TextView
         android:id="@+id/ss_name_TV"
-        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ss_icon_IV"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:fontFamily="@font/lemonada_semibold"
         android:text="Let's Collab"
-        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
         android:textSize="30sp"
-        android:fontFamily="@font/monda_bold"
-        android:textColor="@color/colorWhite"/>
+        android:textStyle="bold" />
 </RelativeLayout>

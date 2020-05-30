@@ -35,7 +35,8 @@
                 android:maxLines="1"
                 android:text="Looking for..."
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:fontFamily="@font/open_sans"/>
         </LinearLayout>
 
         <LinearLayout
@@ -44,33 +45,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
-                android:text="Tags: "
-                android:fontFamily="@font/monda_bold"
-                android:textColor="@color/colorBlack"/>
-
-            <TextView
-                android:id="@+id/profile_promo_helper_tags_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:text="F &amp; B, Kids"
-                android:fontFamily="@font/monda"
-                android:textColor="@color/colorBlack" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Promo: "
-                android:fontFamily="@font/monda_bold"
+                android:text="Date: "
+                android:fontFamily="@font/open_sans"
                 android:textColor="@color/colorBlack"/>
             <TextView
                 android:id="@+id/profile_promo_helper_date_TV"
@@ -78,8 +56,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dd/mm/yyyy - dd/mm/yyyy"
-                android:fontFamily="@font/monda"
+                android:fontFamily="@font/open_sans"
                 android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="Tags: "
+                android:fontFamily="@font/open_sans"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/profile_promo_helper_tags_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:text="F &amp; B, Kids"
+                android:fontFamily="@font/open_sans"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
         </LinearLayout>
 
 
@@ -91,11 +93,11 @@
             <TextView
                 android:id="@+id/profile_promo_helper_closed_TV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Promo Ended"
+                android:layout_height="25dp"
+                android:text="Promotion Ended"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:fontFamily="@font/monda_bold"
+                android:fontFamily="@font/open_sans_bold"
                 android:background="@drawable/rounded_button"/>
         </RelativeLayout>
     </LinearLayout>
