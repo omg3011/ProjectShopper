@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crosssellers.CPlatformViewActivity;
 import com.example.crosssellers.ProfileActivity_CPlatformView;
 import com.example.crosssellers.R;
 
@@ -55,7 +54,7 @@ public class AdapterCollabPost_Profile extends RecyclerView.Adapter<AdapterColla
             listString = TextUtils.join(", ", post.getCollabTag());
             holder.TV_tags.setText(listString);
         }
-        holder.TV_post_title.setText(post.getDescription());
+        holder.TV_post_title.setText(post.getTitle());
 
         Date date1 = null;
         try {

@@ -55,7 +55,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
     // Views
     TextView TV_postDescription, TV_postTag, TV_postTime, TV_postDate, TV_postTitle;
     RecyclerView RV_request, RV_accepted;
-    Button BTN_deletePost;
+    Button BTN_deletePost, BTN_editPost;
 
     // Adapter
     AdapterRequestPost_Profile_CPlatform adapterRequestPending;
@@ -96,6 +96,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         TV_postTime = findViewById(R.id.profile_cplatform_view_postTime_TV);
         TV_postDate = findViewById(R.id.profile_cplatform_view_postDate_TV);
         BTN_deletePost = findViewById(R.id.profile_cplatform_view_delete_btn);
+        BTN_editPost = findViewById(R.id.profile_cplatform_view_edit_btn);
 
         //-- Request pending
         RV_request = findViewById(R.id.profile_cplatform_view_request_RV);
@@ -152,7 +153,8 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         //Title
         TV_postTitle.setText(postData.getTitle());
         //Tag
-        String tags =  TextUtils.join(",", postData.getCollabTag());
+        List<String> listTag = postData.getCollabTag();
+        String tags =  TextUtils.join(",", listTag);
         TV_postTag.setText(tags);
         //Date & Time
         Date date1 = null;
@@ -173,6 +175,16 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         //------------------------------------------------------------------------//
         // Click Listener
         //------------------------------------------------------------------------//
+        BTN_editPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity_CPlatformView.this, EditCPlatformPostActivity.class);
+                intent.putExtra("post", postData);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         BTN_deletePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

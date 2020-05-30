@@ -154,6 +154,16 @@ public class ProfileActivity_CPromotionView extends AppCompatActivity {
         //------------------------------------------------------------------------//
         // Click Listener
         //------------------------------------------------------------------------//
+        BTN_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity_CPromotionView.this, EditPromoPostActivity.class);
+                intent.putExtra("post", postData);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         BTN_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

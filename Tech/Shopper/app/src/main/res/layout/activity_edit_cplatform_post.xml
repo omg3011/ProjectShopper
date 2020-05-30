@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your Collaboration Ideas"
+                android:text="Edit Collaboration Ideas"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:fontFamily="@font/open_sans_extrabold"

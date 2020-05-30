@@ -1,12 +1,18 @@
 package com.example.crosssellers;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,10 +32,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +74,10 @@ public class EditPromoPostActivity extends AppCompatActivity {
     CollectionReference dataReference_CPromotion;
     CollectionReference dataReference_User;
 
+    //-- Firebase Storage
+    StorageReference storageReference;
+    String storagePath = "Users_CPromotion_Uploads/";
+
     //-- Private
     DatePickerDialog pickerStartPromo, pickerEndPromo;
 
@@ -74,10 +88,18 @@ public class EditPromoPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_promo_post);
-/*
+
         //-- Load Data
         LoadData(savedInstanceState);
 
+        //-- Init DB
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        fireStore = FirebaseFirestore.getInstance();
+        dataReference_CPromotion = fireStore.collection("Promotions");
+        dataReference_Notification = fireStore.collection("Notifications");
+        dataReference_User = fireStore.collection("Users");
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         //------------------------------------------------------------------------//
         // Init View(s)
@@ -86,7 +108,7 @@ public class EditPromoPostActivity extends AppCompatActivity {
         BTN_chooseTags = findViewById(R.id.edit_cpromo_create_choose_tag_btn);
         BTN_upload_add = findViewById(R.id.edit_cpromo_create_add_photo_btn);
         BTN_upload_clear = findViewById(R.id.edit_cpromo_create_clear_photo_btn);
-        BTN_apply_changes = findViewById(R.id.edit_cplatform_apply_changes_btn);
+        BTN_apply_changes = findViewById(R.id.edit_cpromo_apply_changes_btn);
         ET_description = findViewById(R.id.edit_cpromo_create_description_et);
         ET_title = findViewById(R.id.edit_cpromo_create_title_et);
         ET_promoStart = findViewById(R.id.edit_cpromo_create_startDate_ET);
@@ -117,6 +139,7 @@ public class EditPromoPostActivity extends AppCompatActivity {
         //-- Set Tag
         String getTag = TextUtils.join(", ", postData.getTags());
         TV_idealTags.setText(getTag);
+        selectedItems = postData.getTags();
 
         //-- Set Upload Images
         uploadsImageList = new ArrayList<>();
@@ -156,6 +179,97 @@ public class EditPromoPostActivity extends AppCompatActivity {
                 CreateAlertDialog_Tag();
             }
         });
+
+
+        BTN_upload_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Photo_toUpload();
+            }
+        });
+
+        BTN_upload_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Clear_UploadPhotos();
+            }
+        });
+
+
+        dialog.dismiss();
+    }
+
+
+    //-------------------------------------------//
+    // Pick multi-images from gallery
+    //-------------------------------------------//
+    void Add_Photo_toUpload()
+    {
+        if(ActivityCompat.checkSelfPermission(EditPromoPostActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(EditPromoPostActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    100);
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setType("image/*");
+        startActivityForResult(intent, 1);
+    }
+
+    void Clear_UploadPhotos()
+    {
+        if(((LinearLayout) LL_uploads).getChildCount() > 0)
+            ((LinearLayout) LL_uploads).removeAllViews();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+
+            List<Bitmap> bitmaps = new ArrayList<>();
+            ClipData clipData = data.getClipData();
+            if (clipData != null) {
+                for (int i = 0; i < clipData.getItemCount(); ++i) {
+                    Uri imageUri = clipData.getItemAt(i).getUri();
+
+                    try {
+                        InputStream is = getContentResolver().openInputStream(imageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        bitmaps.add(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                Uri imageUri = data.getData();
+                try {
+                    InputStream is = getContentResolver().openInputStream(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    bitmaps.add(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //-- My code
+            for(Bitmap b : bitmaps)
+            {
+                ImageView iv = new ImageView(EditPromoPostActivity.this);
+                iv.setImageBitmap(b);
+                addImageViewToLinearLayout(iv);
+            }
+
+        }
+
     }
 
     void LoadData(final Bundle savedInstanceState){
@@ -200,27 +314,22 @@ public class EditPromoPostActivity extends AppCompatActivity {
         //------------------------------------------------------------------------------------------------------------//
         // Upload the model into database first
         //------------------------------------------------------------------------------------------------------------//
-        //-- Get Date (Now)
-        //String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        //-- Get Time (Now)
-        //String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-
         //-- Get current Timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-        String timestampPost = simpleDateFormat.format(new Date());
+        final String timestampPost = simpleDateFormat.format(new Date());
 
         //-- Get Promo start Timestamp
-        String timestampStart = ET_promoStart.getText().toString();
+        final String timestampStart = ET_promoStart.getText().toString();
 
         //-- Get Promo end Timestamp
-        String timestampEnd = ET_promoEnd.getText().toString();
+        final String timestampEnd = ET_promoEnd.getText().toString();
 
         //-- Get Description
-        String description = ET_description.getText().toString();
+        final String description = ET_description.getText().toString();
 
         //-- Get Title
-        String title = ET_title.getText().toString();
+        final String title = ET_title.getText().toString();
 
         //-- Get tags
         List<String> tags = selectedItems;
@@ -230,33 +339,23 @@ public class EditPromoPostActivity extends AppCompatActivity {
 
         String duration = "";
 
-        HashMap<String, Object> promo_results = new HashMap<>();
+        final HashMap<String, Object> promo_results = new HashMap<>();
         promo_results.put("title", title);
         promo_results.put("description", description);
         promo_results.put("timestampPost", timestampPost);
         promo_results.put("timestampEnd", timestampEnd);
-        promo_results.put("uploads", timestampEnd);
         promo_results.put("tags", tags);
 
-        //-- Modify data => Query
-        dataReference_CPromotion.document(postData.getPromotionPost_uid()).update(promo_results)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
 
-                    }
-                });
-
-        Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have edited promotion. (" + title + ")");
-        dataReference_Notification.document().set(notification);
 
         //------------------------------------------------------------------------------------------------------------//
         // Upload the image into storage
         //------------------------------------------------------------------------------------------------------------//
         String filePathAndName;
+        final List<String> uploadLinks = new ArrayList<>();
         for (int i = 0; i < LL_uploads.getChildCount(); ++i) {
             // Generate a unique file name
-            filePathAndName=storagePath + id + Integer.toString(i);
+            filePathAndName=storagePath + postData.getPromotionPost_uid() + Integer.toString(i);
 
             // Retrieve Uri
             ImageView iv = (ImageView) LL_uploads.getChildAt(i);
@@ -286,23 +385,43 @@ public class EditPromoPostActivity extends AppCompatActivity {
                     if (uriTask.isSuccessful())
                     {
                         String photoUrl = downloadUri.toString();
+                        uploadLinks.add(photoUrl);
 
-                        dataReference_CPromotion.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
+                        dataReference_CPromotion.document(postData.getPromotionPost_uid()).update("uploads", FieldValue.arrayUnion(photoUrl));
 
                         // Reach last update, we create alert dialog that says submitted collaboration post.
                         if(finalI == LL_uploads.getChildCount()-1)
                         {
-                            CreateAlertDialog_Submitted();
-                            dialog.dismiss();
+                            //-- Modify data => Query
+                            dataReference_CPromotion.document(postData.getPromotionPost_uid()).update(promo_results)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            dialog.dismiss();
+
+                                            postData.setUploads(uploadLinks);
+                                            postData.setTitle(title);
+                                            postData.setDescription(description);
+                                            postData.setTags(selectedItems);
+                                            postData.setTimestampStart(timestampStart);
+                                            postData.setTimestampEnd(timestampEnd);
+
+                                            Intent intent = new Intent(EditPromoPostActivity.this, ProfileActivity_CPromotionView.class);
+                                            intent.putExtra("post", postData);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+
+                            Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have edited a promotion post. (" + title + ")");
+                            dataReference_Notification.document().set(notification);
                         }
                     }
                 }
             });
-        }
 
-*/
+        }
     }
-/*
     void addImageViewToLinearLayout(ImageView iv)
     {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -427,5 +546,4 @@ public class EditPromoPostActivity extends AppCompatActivity {
         // Create and show dialog
         builder.create().show();
     }
-    */
 }

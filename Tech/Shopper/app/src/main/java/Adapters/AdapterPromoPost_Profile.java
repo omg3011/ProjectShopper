@@ -53,7 +53,7 @@ public class AdapterPromoPost_Profile  extends RecyclerView.Adapter<AdapterPromo
         }
 
         //-- Set Description
-        holder.TV_post_title.setText(post.getDescription());
+        holder.TV_post_title.setText(post.getTitle());
 
         //-- Set Promo Date
         holder.TV_promoDate.setText(post.getTimestampStart() + " - " + post.getTimestampEnd());
