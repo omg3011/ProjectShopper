@@ -19,7 +19,7 @@
     <!-- Button: Register -->
     <RelativeLayout
         android:id="@+id/main_register_rl"
-        android:layout_width="250dp"
+        android:layout_width="225dp"
         android:layout_height="50dp"
         android:layout_below="@id/main_logo_iv"
         android:layout_marginTop="100dp"
@@ -42,28 +42,28 @@
             android:elevation="2dp"
             android:backgroundTint="@color/colorWhite"
             />
+
         <TextView
             android:id="@+id/main_registerText"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Register"
-            android:elevation="2dp"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="15dp"
             android:layout_alignLeft="@+id/main_registerImage"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:text="Register"
             android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
     <!-- Button: Login -->
     <RelativeLayout
         android:id="@+id/main_login_rl"
-        android:layout_width="250dp"
+        android:layout_width="225dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/main_register_rl"
@@ -86,21 +86,21 @@
             android:elevation="2dp"
             android:backgroundTint="@color/colorWhite"
             />
+
         <TextView
             android:id="@+id/loginText"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Login"
-            android:elevation="2dp"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="15dp"
             android:layout_alignLeft="@+id/loginImage"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:text="Login"
             android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>
