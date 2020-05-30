@@ -267,7 +267,7 @@
                     android:id="@+id/cplatform_create_choose_partner_btn"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:background="@drawable/rounded_button"
                     android:fontFamily="@font/montserrat_bold"
                     android:text="Choose"

@@ -1,19 +1,32 @@
 package com.example.crosssellers;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -22,6 +35,16 @@ import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
+import Models.AverageSales_Model;
 
 public class ShopInsightActivity_Sales extends AppCompatActivity {
 
@@ -32,6 +55,9 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
     //-- View(s)
     GraphView graph_top, graph_btm;
     Spinner spinner_top, spinner_btm_start, spinner_btm_end;
+
+    //-- Variable(s)
+    String[] items, items2, items3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +74,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         spinner_btm_end = findViewById(R.id.shop_insight_sales_btm_end_spinner);
 
         //-- Init Spinner (Top)
-        String[] items = getResources().getStringArray(R.array.shopInsight_sales_top_spinner);
+        items = getResources().getStringArray(R.array.shopInsight_sales_top_spinner);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, items);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -56,7 +82,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
 
         //-- Init Spinner (Btm Start)
-        String[] items2 = getResources().getStringArray(R.array.shopInsight_sales_btm_start_spinner);
+        items2 = getResources().getStringArray(R.array.shopInsight_sales_btm_start_spinner);
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, items2);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -64,7 +90,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
 
         //-- Init Spinner (Btm end)
-        String[] items3 = getResources().getStringArray(R.array.shopInsight_sales_btm_end_spinner);
+        items3 = getResources().getStringArray(R.array.shopInsight_sales_btm_end_spinner);
         ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, items3);
         dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,10 +111,117 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         graph_top = (GraphView) findViewById(R.id.shop_insight_sales_top_GV);
         graph_btm = findViewById(R.id.shop_insight_sales_btm_GV);
 
-        SetupBarGraph_Top();
-        SetupLineGraph_Btm();
+        //-- Hardcode fill in dummy data to db
+/*
+        FillDummyData("21-5-2020");
+        FillDummyData("22-5-2020");
+        FillDummyData("10-5-2020");
+        FillDummyData("11-5-2020");
+        FillDummyData("01-5-2020");
+        FillDummyData("02-5-2020");
+        */
 
 
+        //----------------------------------------------------------------------//
+        // Spinner Listener                                                     //
+        //----------------------------------------------------------------------//
+        spinner_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String select = (String)items[position];
+
+                //-- Get today
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                String today = simpleDateFormat.format(new Date());
+
+                // Past 1 month
+                if(position == 0)
+                {
+                    SetupRetrieveDataForTopGraph(getFirstDayOfTheMonth(today, -1), getLastDayOfTheMonth(today, -1));
+                }
+                // Past 2 month
+                else if(position == 1)
+                {
+                    //SetupBarGraph_Top();
+                }
+                // Past 3 month
+                else if(position == 2)
+                {
+                    //SetupBarGraph_Top();
+                }
+
+                Log.d("Test", getLastDayOfTheMonth("05-05-2020", -2));
+                Log.d("Test", getFirstDayOfTheMonth("06-05-2020", -2));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        //SetupBarGraph_Top();
+        //SetupLineGraph_Btm();
+
+
+    }
+
+    void FillDummyData(String date)
+    {
+        List<String> rList1 = new ArrayList<>();
+        rList1.add("100");
+        rList1.add("200");
+        List<String> tList1 = new ArrayList<>();
+        tList1.add("11AM");
+        tList1.add("12PM");
+        AverageSales_Model avg = new AverageSales_Model(date, rList1, tList1, "YZllyzxb88RuRlXVcsCR2ppcDmP2");
+        dataReference_avgSales.document().set(avg);
+    }
+
+    String getLastDayOfTheMonth(String date, int offsetMonth) {
+        String lastDayOfTheMonth = "";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try{
+            java.util.Date dt= formatter.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dt);
+
+            calendar.add(Calendar.MONTH, 1 + offsetMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.add(Calendar.DATE, -1);
+
+
+            java.util.Date lastDay = calendar.getTime();
+
+            lastDayOfTheMonth = formatter.format(lastDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return lastDayOfTheMonth;
+    }
+
+
+    String getFirstDayOfTheMonth(String date, int offsetMonth) {
+        String firstDayOfTheMonth = "";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try{
+            java.util.Date dt= formatter.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dt);
+
+            calendar.add(Calendar.MONTH, offsetMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+            java.util.Date firstDay = calendar.getTime();
+
+            firstDayOfTheMonth = formatter.format(firstDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return firstDayOfTheMonth;
     }
 
     void SetupLineGraph_Btm()
@@ -119,36 +252,144 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         graph_btm.getGridLabelRenderer().setVerticalLabelsSecondScaleColor(Color.RED);
     }
 
-    void SetupBarGraph_Top()
+    void CalculateWeeklyRevenue(final Date startDate, final Date endDate)
     {
+        final List<AverageSales_Model> modelList = new ArrayList<>();
 
+        dataReference_avgSales.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots)
+            {
+                //--------------------------------------------------------------------//
+                // (1) Get Daily models
+                //--------------------------------------------------------------------//
+                for (DocumentSnapshot documentSnapshot : documentSnapshots)
+                {
+                    AverageSales_Model model = documentSnapshot.toObject(AverageSales_Model.class);
+
+                    if(!model.getUid().equals(fUser.getUid()))
+                        continue;
+
+                    Date date;
+                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    try {
+                        date = format.parse(model.getDateSold());
+
+                        if(WithinDateRange(date, startDate, endDate))
+                        {
+                            modelList.add(model);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                //--------------------------------------------------------------------//
+                // (2) Get Weekly Cost
+                //--------------------------------------------------------------------//
+                List<Integer> weeklyList = GetWeeklySales(modelList);
+
+                // There is 4 data here
+                InitBarGraph_Top(weeklyList);
+            }
+        });
+    }
+
+    int GetTotalSum(List<String> list)
+    {
+        int sum = 0;
+        for(String x : list)
+        {
+            int price = Integer.parseInt(x);
+            sum += price;
+        }
+
+        return sum;
+    }
+
+    List<Integer> GetWeeklySales(List<AverageSales_Model> dailyModels)
+    {
+        List<Integer> weekList = new ArrayList<>();
+        weekList.add(0);
+        weekList.add(0);
+        weekList.add(0);
+        weekList.add(0);
+        Log.d("Test", "List Size: " + Integer.toString(weekList.size()));
+
+        for(AverageSales_Model model : dailyModels)
+        {
+            Date date;
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+                // Get Date
+                date = format.parse(model.getDateSold());
+
+                // Get the cost
+                int totalCost = GetTotalSum(model.getRevenue());
+
+                // Get Week
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                int week = c.get(Calendar.WEEK_OF_MONTH);
+                week -= 1;
+
+                // Set cost
+                weekList.set(week, weekList.get(week) + totalCost);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return weekList;
+    }
+
+    boolean WithinDateRange(Date testDate, Date start, Date end)
+    {
+        return testDate.after(start) && testDate.before(end);
+    }
+
+    void SetupRetrieveDataForTopGraph(String startDateString, String endDateString)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        Date startDate = null;
+        try {
+            startDate = dateFormat.parse(startDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date endDate = null;
+        try {
+            endDate = dateFormat.parse(endDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        CalculateWeeklyRevenue(startDate, endDate);
+    }
+
+    void InitBarGraph_Top(List<Integer> weekList)
+    {
         //--------------------------------------------------------------------------------------//
         //
         // Bar Graph
         //
         //--------------------------------------------------------------------------------------//
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, -2),
-                new DataPoint(1, 5),
-                new DataPoint(4, 6)
-        });
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
+
+        for(int i = 0; i < weekList.size(); ++i) {
+            series.appendData(new DataPoint(i + 1, weekList.get(i)), false, 10);
+        }
         series.setColor(Color.BLUE);
+        series.setDrawValuesOnTop(true);
+
         series.setTitle("foo");
-        series.setAnimated(true);
+        //series.setAnimated(true);
         series.setDataWidth(1d);
         graph_top.addSeries(series);
 
-        // Create Bar Graph
-        BarGraphSeries<DataPoint> series2 = new BarGraphSeries<>(new DataPoint[] {
-                new DataPoint(-10, -5),
-                new DataPoint(1, 3),
-                new DataPoint(4, 1)
-        });
-        series2.setColor(Color.RED);
-        series2.setTitle("bar");
-        series2.setAnimated(true);
-        series2.setDataWidth(1d);
-        graph_top.addSeries(series2);
 
         // Show Legend
         graph_top.getLegendRenderer().setVisible(true);
@@ -156,10 +397,10 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
 
         // set the viewport wider than the data, to have a nice view
-        graph_top.getViewport().setMinX(-10);
-        graph_top.getViewport().setMaxX(10);
-        graph_top.getViewport().setMinY(-10);
-        graph_top.getViewport().setMaxY(10);
+        graph_top.getViewport().setMinX(1);
+        graph_top.getViewport().setMaxX(weekList.size());
+        graph_top.getViewport().setMinY(0);
+        graph_top.getViewport().setMaxY(1000);
         graph_top.getViewport().setXAxisBoundsManual(true);
 
 
@@ -171,12 +412,6 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
         //-- Event Listener: On Click
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series s, DataPointInterface dataPoint) {
-                Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
-            }
-        });
-        series2.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series s, DataPointInterface dataPoint) {
                 Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
