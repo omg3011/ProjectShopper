@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     //-- Cache References
     EditText et_email, et_password;
     TextView tv_notHaveAccount, tv_recoverPassword, tv_mall;
-    Button btn_login;
+    Button btn_login, btn_autologin;
     ProgressDialog progressDialog;
     SignInButton googleLoginBtn;
 
@@ -106,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.login_loginbtn);
         googleLoginBtn = findViewById(R.id.googleLoginBtn);
         tv_mall = findViewById(R.id.login_mall_TV);
+        btn_autologin = findViewById(R.id.login_loginbtn_auto);
 
 
 
@@ -129,6 +130,13 @@ public class LoginActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Register Event(s)                                                    //
         //----------------------------------------------------------------------//
+        //-- Auto login button
+        btn_autologin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginUser("z@gmail.com", "123456");
+            }
+        });
         //-- Login button
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override

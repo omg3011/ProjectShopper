@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crosssellers.CPromotionViewActivity;
+import com.example.crosssellers.ProfileActivity_CPromotionView;
 import com.example.crosssellers.R;
 
 import java.util.List;
@@ -72,7 +73,7 @@ public class AdapterPromoPost_Profile  extends RecyclerView.Adapter<AdapterPromo
             holder.CV_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, CPromotionViewActivity.class);
+                    Intent intent = new Intent(context, ProfileActivity_CPromotionView.class);
                     intent.putExtra("post", post);
                     context.startActivity(intent);
                 }

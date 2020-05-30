@@ -17,6 +17,7 @@ public class CPromotion_Model implements Serializable {
     List<String> tags;
     String posterUid;
     List<String> uploads;
+    String promotionPost_uid;
     boolean collab_closed_flag;
 
 
@@ -24,7 +25,8 @@ public class CPromotion_Model implements Serializable {
     // Constructor(s)
     //--------------------------------------------------------------//
     public CPromotion_Model(){}
-    public CPromotion_Model(String title, String description, String duration, String timestampStart, String timestampEnd, String timestampPost, List<String> tags, String posterUid, List<String> uploads, boolean collab_closed_flag) {
+    public CPromotion_Model(String promotionPost_uid, String title, String description, String duration, String timestampStart, String timestampEnd, String timestampPost, List<String> tags, String posterUid, List<String> uploads, boolean collab_closed_flag) {
+        this.promotionPost_uid = promotionPost_uid;
         this.description = description;
         this.title = title;
         this.duration = duration;
@@ -40,6 +42,14 @@ public class CPromotion_Model implements Serializable {
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
+
+    public String getPromotionPost_uid() {
+        return promotionPost_uid;
+    }
+
+    public void setPromotionPost_uid(String promotionPost_uid) {
+        this.promotionPost_uid = promotionPost_uid;
+    }
 
     public boolean isCollab_closed_flag() {
         return collab_closed_flag;

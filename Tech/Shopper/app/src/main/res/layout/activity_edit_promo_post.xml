@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditPromoPostActivity"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Promotion Ideas"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:fontFamily="@font/open_sans_extrabold"
+                android:layout_marginBottom="25dp"
+                android:textSize="20sp"/>
+
+
+            <!-- Promo Date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Promo Start Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Promo Start Date: "
+                        android:textStyle="bold"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:textSize="12sp"/>
+
+                    <EditText
+                        android:id="@+id/edit_cpromo_create_startDate_ET"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Click to input start date"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+
+                <!-- Promo End Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Promo End Date: "
+                        android:textStyle="bold"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:textSize="12sp"/>
+
+                    <EditText
+                        android:id="@+id/edit_cpromo_create_endDate_ET"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Click to input end date"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!-- Parent: Title -->
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title:"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="12sp"/>
+
+                <EditText
+                    android:id="@+id/edit_cpromo_create_title_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:fontFamily="@font/monda_bold"
+                    android:hint="Set a title" />
+
+            </LinearLayout>
+
+            <!-- Parent: Description -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description:"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="12sp"/>
+
+                <EditText
+                    android:id="@+id/edit_cpromo_create_description_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:fontFamily="@font/monda_bold"
+                    android:hint="Need help with something? Got\ncustomers to refer to others?\nExploring new ways to do business?" />
+
+            </LinearLayout>
+
+            <!-- Parent: Uploads -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Uploads:"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="12sp"/>
+
+                <Button
+                    android:id="@+id/edit_cpromo_create_add_photo_btn"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Add"/>
+
+                <Button
+                    android:id="@+id/edit_cpromo_create_clear_photo_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Clear"/>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <LinearLayout
+                    android:id="@+id/edit_cpromo_create_uploads_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose your ideal tags:"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="50dp"/>
+
+                <Button
+                    android:id="@+id/edit_cpromo_create_choose_tag_btn"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="100dp"
+                    android:text="Choose"/>
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/edit_cpromo_ideal_tags_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Display tags here.."
+                android:textStyle="bold"
+                android:fontFamily="@font/open_sans_extrabold"
+                android:textSize="12sp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/edit_cpromo_apply_changes_btn"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="Apply Changes"/>
+    </LinearLayout>
+
+</ScrollView>

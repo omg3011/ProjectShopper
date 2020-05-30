@@ -54,7 +54,7 @@ public class AdapterCollabPost_CPlatform extends RecyclerView.Adapter<AdapterCol
             listString = TextUtils.join(", ", post.getCollabTag());
             holder.TV_tags.setText(listString);
         }
-        holder.TV_post_title.setText(post.getDescription());
+        holder.TV_post_title.setText(post.getTitle());
 
         Date date1 = null;
         try {

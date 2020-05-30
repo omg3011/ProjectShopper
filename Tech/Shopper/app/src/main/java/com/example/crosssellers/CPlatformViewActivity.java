@@ -83,7 +83,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
         //-- Post
         SV_scroll = findViewById(R.id.cplatform_view_scroller);
         TV_postDescription = findViewById(R.id.cplatform_view_postDescription_TV);
-        TV_postTitle = findViewById(R.id.cplatform_view_postTime_TV);
+        TV_postTitle = findViewById(R.id.cplatform_view_postTitle_TV);
         TV_postTag = findViewById(R.id.cplatform_view_postTags_TV);
         TV_postTime = findViewById(R.id.cplatform_view_postTime_TV);
         TV_postDate = findViewById(R.id.cplatform_view_postDate_TV);
@@ -315,12 +315,13 @@ public class CPlatformViewActivity extends AppCompatActivity {
         // Upload the model into database first
         //------------------------------------------------------------------------------------------------------------//
         String status = "pending";
-        final String postID = postData.getPosterUid();
+        final String cplatform_postID = postData.getCPost_uid();
         final String uid = fUser.getUid();
-        RequestMailBox_Model requestModel = new RequestMailBox_Model(status, postID, uid);
+        final String request_postID = dataReference_RequestMailBox.document().getId().toString();
 
+        RequestMailBox_Model requestModel = new RequestMailBox_Model(status, cplatform_postID, uid, request_postID);
 
-        dataReference_RequestMailBox.document().set(requestModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dataReference_RequestMailBox.document(request_postID).set(requestModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 //-- Get current Timestamp
@@ -330,7 +331,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
 
                 // Send to poster ("Someone requested to collaborate with you")
                 final String[] posterStoreName = new String[1];
-                dataReference_User.document(postID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                dataReference_User.document(cplatform_postID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
@@ -339,7 +340,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
                         //-----------------------------------------------------------------------//
                         posterStoreName[0] = (String) documentSnapshot.get("storeName");
 
-                        Notification_Model notification1 = new Notification_Model(timestampPost, postID, posterStoreName[0] + " requested to collaborate with you.");
+                        Notification_Model notification1 = new Notification_Model(timestampPost, cplatform_postID, posterStoreName[0] + " requested to collaborate with you.");
                         dataReference_Notification.document().set(notification1);
 
                         // Send to requester ("You have request")

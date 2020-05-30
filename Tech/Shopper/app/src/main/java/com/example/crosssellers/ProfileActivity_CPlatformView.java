@@ -2,13 +2,19 @@ package com.example.crosssellers;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,8 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -27,8 +31,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +46,8 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
     FirebaseUser fUser;
     CollectionReference dataReference_User;
     CollectionReference dataReference_Request;
+    CollectionReference dataReference_Notification;
+    CollectionReference dataReference_CPlatform;
 
     // Get saved data
     CPlatform_Model postData;
@@ -49,12 +55,22 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
     // Views
     TextView TV_postDescription, TV_postTag, TV_postTime, TV_postDate, TV_postTitle;
     RecyclerView RV_request, RV_accepted;
+    Button BTN_deletePost;
 
     // Adapter
-    AdapterRequestPost_Profile_CPlatform adapterRequest;
-    List<RequestMailBox_Model> requestList;
-    LinearLayoutManager manager;
+    AdapterRequestPost_Profile_CPlatform adapterRequestPending;
+    List<RequestMailBox_Model> requestPendingList;
+    LinearLayoutManager manager_requestPending;
 
+
+    AdapterRequestPost_Profile_CPlatform adapterRequestAccepted;
+    List<RequestMailBox_Model> requestAcceptedList;
+    LinearLayoutManager manager_requestAccepted;
+
+    // Progress Dialog
+    ProgressDialog pd;
+
+    boolean runOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +81,10 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         //---------------------------------------------------------------------------//
         LoadData(savedInstanceState);
 
+        // Init Progress Dialog
+        pd = new ProgressDialog(this);
+        pd.setMessage("Loading...");
+        pd.show();
 
         //---------------------------------------------------------------------------//
         //  Init Views
@@ -75,6 +95,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         TV_postTag = findViewById(R.id.profile_cplatform_view_postTags_TV);
         TV_postTime = findViewById(R.id.profile_cplatform_view_postTime_TV);
         TV_postDate = findViewById(R.id.profile_cplatform_view_postDate_TV);
+        BTN_deletePost = findViewById(R.id.profile_cplatform_view_delete_btn);
 
         //-- Request pending
         RV_request = findViewById(R.id.profile_cplatform_view_request_RV);
@@ -87,19 +108,41 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         //------------------------------------------------------------------------//
         dataReference_User = FirebaseFirestore.getInstance().collection("Users");
         dataReference_Request = FirebaseFirestore.getInstance().collection("RequestMailBox");
+        dataReference_Notification = FirebaseFirestore.getInstance().collection("Notifications");
+        dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //------------------------------------------------------------------------//
         // Init RV
         //------------------------------------------------------------------------//
-        //-- Adapter for requestList
-        requestList = new ArrayList<>();
-        adapterRequest = new AdapterRequestPost_Profile_CPlatform(this, requestList, dataReference_User, postData);
-        manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        RV_request.setLayoutManager(manager);
-        RV_request.setAdapter(adapterRequest);
+        //-- Adapter for requestPendingList
+        requestPendingList = new ArrayList<>();
+        adapterRequestPending = new AdapterRequestPost_Profile_CPlatform(this, requestPendingList, dataReference_User, postData, dataReference_Request, dataReference_Notification, dataReference_CPlatform, 1);
+        manager_requestPending = new LinearLayoutManager(this);
+        manager_requestPending.setOrientation(LinearLayoutManager.VERTICAL);
+        RV_request.setLayoutManager(manager_requestPending);
+        RV_request.setAdapter(adapterRequestPending);
+
+        //-- Adapter for requestAcceptedList
+        requestAcceptedList = new ArrayList<>();
+        adapterRequestAccepted = new AdapterRequestPost_Profile_CPlatform(this, requestAcceptedList, dataReference_User, postData, dataReference_Request, dataReference_Notification, dataReference_CPlatform, 2);
+        manager_requestAccepted = new LinearLayoutManager(this);
+        manager_requestAccepted.setOrientation(LinearLayoutManager.VERTICAL);
+        RV_accepted.setLayoutManager(manager_requestAccepted);
+        RV_accepted.setAdapter(adapterRequestAccepted);
+
         getRequestPostRelatedToMe();
+
+        //----------------------------------------------------------------------//
+        // Action bar                                                           //
+        //----------------------------------------------------------------------//
+        //-- Add built-in "Actionbar" and it's "Actionbar"->title
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setTitle("Collaboration Post Profile");
+
+        //-- Enable "Actionbar"->back button
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setDisplayShowHomeEnabled(true);
 
         //------------------------------------------------------------------------//
         // Update UI for "post" data
@@ -127,9 +170,51 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         TV_postDate.setText(strDate);
 
 
-        //2. Get your RequestMailBox info from db
-        //   Get your requester UserProfile_Model
+        //------------------------------------------------------------------------//
+        // Click Listener
+        //------------------------------------------------------------------------//
+        BTN_deletePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, Object> results = new HashMap<>();
+                results.put("collab_closed_flag", true);
+                pd.setMessage("Closing Post. Please wait...");
+                pd.show();
 
+                //-- Modify data => Query
+                dataReference_CPlatform.document(postData.getCPost_uid()).update(results)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                pd.dismiss();
+                                Intent intent = new Intent(ProfileActivity_CPlatformView.this, DashboardActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                });
+            }
+        });
+
+    }
+
+
+    //------------------------------------------------------------------------//
+    // Function: To allow back button
+    //------------------------------------------------------------------------//
+    @Override
+    public boolean onSupportNavigateUp() {
+        //-- Go to previous activity
+        onBackPressed(); // Built-in function
+
+        return super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ProfileActivity_CPlatformView.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -164,12 +249,12 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
                 for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges())
                 {
                     RequestMailBox_Model model = doc.getDocument().toObject(RequestMailBox_Model.class);
+                    model.setMyRequestMailBoxID(doc.getDocument().getId());
+
 
                     // Only show my post
-                    if(!model.getUid().equals(fUser.getUid()))
-                    {
+                    if(!model.getRequester_UID().equals(fUser.getUid()))
                         continue;
-                    }
 
 
                     //------------------------------------------------------------------------------//
@@ -182,19 +267,45 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
                             //---------------------------------------------------------//
                             // Update UI to display the changes in the list
                             //---------------------------------------------------------//
-                            requestList.add(model);
+                            if(model.getStatus().equals("pending"))
+                            {
+                                requestPendingList.add(model);
+                                adapterRequestPending.notifyDataSetChanged();
+                            }
+                            else if(model.getStatus().equals("accepted"))
+                            {
+                                requestAcceptedList.add(model);
+                                adapterRequestAccepted.notifyDataSetChanged();
 
-                            adapterRequest.notifyDataSetChanged();
+                            }
                             break;
                         case MODIFIED:
+                            if(model.getStatus().equals("accepted") && !runOnce)
+                            {
+                                runOnce = true;
+
+                                Intent intent = new Intent(ProfileActivity_CPlatformView.this, ProfileActivity_CPlatformView.class);
+                                intent.putExtra("post", postData);
+                                startActivity(intent);
+                                //requestPendingList.remove(model);
+                                //requestAcceptedList.add(model);
+                                //adapterRequestPending.notifyDataSetChanged();
+                                //adapterRequestAccepted.notifyDataSetChanged();
+                            }
+                            if(model.getStatus().equals("rejected"))
+                            {
+                                requestPendingList.remove(model);
+                                adapterRequestPending.notifyDataSetChanged();
+                            }
                             break;
                         case REMOVED:
-                            // To be done later
                             break;
                         default:
                             throw new IllegalStateException("Unexpected value: " + doc.getType());
                     }
                 }
+
+                pd.dismiss();
             }
         });
     }
