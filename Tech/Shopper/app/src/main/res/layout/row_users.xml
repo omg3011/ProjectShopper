@@ -8,6 +8,7 @@
     app:cardElevation="2dp"
     app:cardBackgroundColor="@color/colorWhite"
     app:contentPadding="3dp"
+    android:background="@color/colorBackgroundColour"
     >
 
     <LinearLayout

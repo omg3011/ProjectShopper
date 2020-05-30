@@ -6,13 +6,29 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     android:layout_marginTop="20dp"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@color/colorBackgroundColour">
 
+    <!-- Text: Let's Collab-->
+    <TextView
+        android:id="@+id/ss_name_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/lemonada_bold"
+        android:text="Let's Collab"
+        android:textColor="@color/colorMainColour"
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
     <!-- Text: Login -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center_horizontal"
         android:text="Login"

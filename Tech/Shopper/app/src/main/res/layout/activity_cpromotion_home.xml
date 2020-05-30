@@ -12,7 +12,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/colorGrey"
+        android:background="@color/colorBackgroundColour"
         android:id="@+id/cpromo_home_RV"
         android:layout_weight="80"
         android:layout_width="match_parent"
