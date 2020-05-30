@@ -10,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -21,6 +25,11 @@ import com.jjoe64.graphview.series.Series;
 
 public class ShopInsightActivity_Sales extends AppCompatActivity {
 
+    //-- DB(s)
+    FirebaseUser fUser;
+    CollectionReference dataReference_avgSales;
+
+    //-- View(s)
     GraphView graph_top, graph_btm;
     Spinner spinner_top, spinner_btm_start, spinner_btm_end;
 
@@ -28,6 +37,10 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_insight_sales);
+
+        //-- Init DB
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        dataReference_avgSales = FirebaseFirestore.getInstance().collection("AvgDailySales");
 
         //-- Init View
         spinner_top = findViewById(R.id.shop_insight_sales_top_spinner);

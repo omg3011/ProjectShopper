@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,21 +8,46 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="20dp">
 
-        <Spinner
-            android:id="@+id/shop_insight_customer_top_spinner"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
+            android:text="Average Customer Spending"
+            android:textStyle="bold"
+            android:textColor="@color/colorMainColour"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Period:"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginBottom="10dp" />
+
+            <Spinner
+                android:id="@+id/shop_insight_customer_top_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
 
         <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:id="@+id/shop_insight_customer_top_GV"
+            android:id="@+id/shop_insight_sales_top_GV"
             android:layout_gravity="center_vertical"/>
 
 
@@ -33,19 +58,58 @@
             android:layout_marginVertical="30dp"/>
 
 
-        <Spinner
-            android:id="@+id/shop_insight_customer_btm_spinner"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No. Of Customer(s)"
+                android:textStyle="bold"
+                android:textColor="@color/colorMainColour"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Period:"
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginBottom="10dp" />
+
+                    <Spinner
+                        android:id="@+id/shop_insight_customer_btm_spinner"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:id="@+id/shop_insight_customer_btm_GV"
+            android:id="@+id/shop_insight_sales_btm_GV"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
