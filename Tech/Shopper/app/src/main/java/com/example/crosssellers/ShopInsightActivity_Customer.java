@@ -55,7 +55,7 @@ public class ShopInsightActivity_Customer extends AppCompatActivity {
         actionbar.setDisplayShowHomeEnabled(true);
 
         // Init View
-        graph_top = (GraphView) findViewById(R.id.shop_insight_customer_top_GV);
+        graph_top = findViewById(R.id.shop_insight_customer_top_GV);
         graph_btm = findViewById(R.id.shop_insight_customer_btm_GV);
 
         SetupLineGraph_Top();

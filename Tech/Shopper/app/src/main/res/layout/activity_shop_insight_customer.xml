@@ -47,7 +47,7 @@
         <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:id="@+id/shop_insight_sales_top_GV"
+            android:id="@+id/shop_insight_customer_top_GV"
             android:layout_gravity="center_vertical"/>
 
 
@@ -106,7 +106,7 @@
         <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:id="@+id/shop_insight_sales_btm_GV"
+            android:id="@+id/shop_insight_customer_btm_GV"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="10dp"/>
 
