@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditPromoPostActivity"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -252,7 +253,8 @@
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
-            android:text="Apply Changes"/>
+            android:text="Apply Changes"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
 </ScrollView>

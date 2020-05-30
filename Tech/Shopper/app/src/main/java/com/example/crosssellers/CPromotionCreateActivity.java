@@ -522,7 +522,7 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         final CPromotion_Model promo = new CPromotion_Model(id, title, description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null, false);
         dataReference_CPromotion.document(id).set(promo);
 
-        Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion.");
+        Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion " + title + ".");
         dataReference_Notification.document().set(notification);
 
         //------------------------------------------------------------------------------------------------------------//

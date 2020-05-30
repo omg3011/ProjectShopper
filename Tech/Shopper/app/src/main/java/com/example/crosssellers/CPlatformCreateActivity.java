@@ -455,7 +455,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         dataReference_CPlatform.document(id).set(collab);
 
 
-        Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration.");
+        Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration " + title + ".");
         dataReference_Notification.document().set(notification);
 
         //------------------------------------------------------------------------------------------------------------//
