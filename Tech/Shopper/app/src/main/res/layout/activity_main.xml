@@ -9,15 +9,31 @@
     android:background="@color/colorBackgroundColour">
 
     <!-- Image: Logo -->
-    <ImageView
-        android:id="@+id/main_logo_iv"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@mipmap/ic_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
 
     <!-- Button: Register -->
+
+    <ImageView
+        android:id="@+id/main_logo_iv"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/ic_logo" />
+
+    <!-- Text: Let's Collab-->
+    <TextView
+        android:id="@+id/ss_name_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="270dp"
+        android:fontFamily="@font/lemonada_bold"
+        android:text="Let's Collab"
+        android:textColor="@color/colorMainColour"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
     <RelativeLayout
         android:id="@+id/main_register_rl"
         android:layout_width="225dp"

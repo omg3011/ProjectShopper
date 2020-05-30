@@ -9,10 +9,28 @@
     android:layout_marginTop="20dp"
     android:background="@color/colorBackgroundColour">
 
+    <!-- Text: Let's Collab-->
+    <TextView
+        android:id="@+id/ss_name_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/lemonada_bold"
+        android:text="Let's Collab"
+        android:textColor="@color/colorMainColour"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
     <!-- Text: Register -->
+
+    <!-- TextView: Mall -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center_horizontal"
         android:text="Register"
@@ -21,7 +39,6 @@
         android:textSize="32sp"
         android:textStyle="bold" />
 
-    <!-- TextView: Mall -->
     <TextView
         android:id="@+id/register_mall_TV"
         android:layout_width="match_parent"
