@@ -379,6 +379,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         //--------------------------------------------------------------------------------------//
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
 
+
         for(int i = 0; i < weekList.size(); ++i) {
             series.appendData(new DataPoint(i + 1, weekList.get(i)), false, 10);
         }
