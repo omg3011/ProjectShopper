@@ -12,7 +12,7 @@
         android:id="@+id/chat_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorMainColour"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <!-- Receiver profile picture -->
@@ -22,7 +22,7 @@
             android:layout_height="35dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_default"
-            app:c_background_color="@color/colorPrimaryDark"/>
+            app:c_background_color="@color/colorMainDarkColour"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,19 +37,22 @@
                 android:id="@+id/chat_nameTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
                 android:text="His Name"
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <!-- Receiver status (Online/offline) -->
             <TextView
                 android:id="@+id/chat_statusTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
                 android:text="online"
                 android:textColor="@color/colorWhite"
-                android:textStyle="bold"/>
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>

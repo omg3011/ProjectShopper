@@ -18,7 +18,7 @@
         android:text="Login"
         android:textAlignment="center"
         android:textColor="@color/colorMainColour"
-        android:textSize="30sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
     <!-- Google Sign In Btn -->
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/login_emailTIL"
-        android:fontFamily="@font/montserrat"
+        android:fontFamily="@font/open_sans"
         android:text="xxx Mall"
         android:textSize="20sp" />
 
@@ -61,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textbox_border"
+            android:fontFamily="@font/open_sans"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:paddingVertical="10dp"
@@ -81,12 +82,13 @@
 
         <EditText
             android:id="@+id/login_passwordET"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textbox_border" />
+            android:background="@drawable/textbox_border"
+            android:fontFamily="@font/open_sans"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,6 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_RL"
         android:layout_marginTop="36dp"
+        android:fontFamily="@font/open_sans"
         android:gravity="center"
         android:text="@string/recover_password"
         android:textColor="@color/colorBlack" />
@@ -174,11 +177,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/dont_have_an_account"
-        android:gravity="center"
         android:layout_marginBottom="10dp"
-        android:textColor="@color/colorBlack"
-        />
+        android:fontFamily="@font/open_sans"
+        android:gravity="center"
+        android:text="@string/dont_have_an_account"
+        android:textColor="@color/colorBlack" />
 
 
 

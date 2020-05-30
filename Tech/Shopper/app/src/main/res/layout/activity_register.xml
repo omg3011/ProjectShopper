@@ -17,18 +17,18 @@
         android:text="Register"
         android:textAlignment="center"
         android:textColor="@color/colorMainColour"
-        android:textSize="30sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
     <!-- TextView: Mall -->
     <TextView
         android:id="@+id/register_mall_TV"
-        android:layout_above="@+id/emailTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/emailTIL"
+        android:fontFamily="@font/open_sans"
         android:text="xxx Mall"
-        android:textSize="20sp"
-        />
+        android:textSize="20sp" />
 
     <View
         android:layout_below="@+id/register_mall_TV"
@@ -83,7 +83,7 @@
     <!-- Button: Register -->
     <RelativeLayout
         android:id="@+id/register_RL"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_below="@id/passwordTIL"
         android:layout_marginTop="20dp"
