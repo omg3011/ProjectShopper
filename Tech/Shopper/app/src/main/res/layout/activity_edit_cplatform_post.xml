@@ -98,7 +98,7 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/cplatform_create_add_photo_btn"
+                    android:id="@+id/edit_cplatform_create_add_photo_btn"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="20dp"
@@ -109,7 +109,7 @@
                     android:textSize="14sp" />
 
                 <Button
-                    android:id="@+id/cplatform_create_clear_photo_btn"
+                    android:id="@+id/edit_cplatform_create_clear_photo_btn"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:background="@drawable/textbox_border"
