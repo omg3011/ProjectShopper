@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
@@ -380,14 +381,16 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
 
         for(int i = 0; i < weekList.size(); ++i) {
-            series.appendData(new DataPoint(i + 1, weekList.get(i)), false, 10);
+            series.appendData(new DataPoint(i + 1, weekList.get(i)), false, weekList.size());
         }
         series.setColor(Color.BLUE);
-        series.setDrawValuesOnTop(true);
 
         series.setTitle("foo");
         //series.setAnimated(true);
-        series.setDataWidth(1d);
+        series.setDataWidth(0.75d);
+        series.setSpacing(10);
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.RED);
         graph_top.addSeries(series);
 
 
@@ -397,17 +400,16 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
 
         // set the viewport wider than the data, to have a nice view
-        graph_top.getViewport().setMinX(1);
-        graph_top.getViewport().setMaxX(weekList.size());
+        graph_top.getViewport().setMinX(0);
+        graph_top.getViewport().setMaxX(weekList.size() + 1);
         graph_top.getViewport().setMinY(0);
         graph_top.getViewport().setMaxY(1000);
-        graph_top.getViewport().setXAxisBoundsManual(true);
 
 
-        graph_top.getViewport().setScrollable(true); // enables horizontal scrolling
-        graph_top.getViewport().setScrollableY(true); // enables vertical scrolling
+        //graph_top.getViewport().setScrollable(true); // enables horizontal scrolling
+        //graph_top.getViewport().setScrollableY(true); // enables vertical scrolling
         graph_top.getViewport().setScalable(true); // enables horizontal zooming and scrolling
-        graph_top.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+        //graph_top.getViewport().setScalableY(true); // enables vertical zooming and scrolling
 
 
         //-- Event Listener: On Click
