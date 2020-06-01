@@ -7,7 +7,7 @@
     tools:context=".ShopInsightActivity_Sales">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginVertical="20dp"
@@ -45,9 +45,10 @@
         </LinearLayout>
 
         <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="400dp"
             android:id="@+id/shop_insight_sales_top_GV"
+            android:layout_marginHorizontal="10dp"
             android:layout_gravity="center_vertical"/>
 
 
@@ -129,6 +130,7 @@
             android:layout_height="400dp"
             android:id="@+id/shop_insight_sales_btm_GV"
             android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="10dp"/>
 
     </LinearLayout>

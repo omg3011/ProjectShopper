@@ -26,44 +26,61 @@
 
 
     <string-array name="shopInsight_sales_top_spinner">
-        <item>Past 1 month sales</item>
-        <item>Past 2 months sales</item>
-        <item>Past 3 months sales</item>
+        <item>Past 1 month</item>
+        <item>Past 2 months</item>
+        <item>Past 3 months</item>
     </string-array>
 
 
     <string-array name="shopInsight_customer_top_spinner">
-        <item>Past 1 month Avg Spending/Customer</item>
-        <item>Past 2 months Avg Spending/Customer</item>
-        <item>Past 3 months Avg Spending/Customer</item>
+        <item>Past 1 month</item>
+        <item>Past 2 months</item>
+        <item>Past 3 months</item>
     </string-array>
 
 
     <string-array name="shopInsight_customer_btm_spinner">
-        <item>Past 1 month No. Of Customer</item>
-        <item>Past 2 months No. Of Customer</item>
-        <item>Past 3 months No. Of Customer</item>
+        <item>Past 1 month</item>
+        <item>Past 2 months</item>
+        <item>Past 3 months</item>
     </string-array>
 
 
     <string-array name="shopInsight_sales_btm_start_spinner">
-        <item>10am</item>
-        <item>11am</item>
-        <item>12am</item>
-        <item>1pm</item>
-        <item>2pm</item>
-        <item>3pm</item>
-        <item>4pm</item>
-        <item>5pm</item>
-        <item>6pm</item>
-        <item>7pm</item>
-        <item>8pm</item>
-        <item>9pm</item>
-        <item>10pm</item>
+        <item>10:00am</item>
+        <item>11:00am</item>
+        <item>12:00am</item>
+        <item>01:00pm</item>
+        <item>02:00pm</item>
+        <item>03:00pm</item>
+        <item>04:00pm</item>
+        <item>05:00pm</item>
+        <item>06:00pm</item>
+        <item>07:00pm</item>
+        <item>08:00pm</item>
+        <item>09:00pm</item>
+        <item>10:00pm</item>
     </string-array>
 
 
     <string-array name="shopInsight_sales_btm_end_spinner">
+        <item>10:00am</item>
+        <item>11:00am</item>
+        <item>12:00am</item>
+        <item>01:00pm</item>
+        <item>02:00pm</item>
+        <item>03:00pm</item>
+        <item>04:00pm</item>
+        <item>05:00pm</item>
+        <item>06:00pm</item>
+        <item>07:00pm</item>
+        <item>08:00pm</item>
+        <item>09:00pm</item>
+        <item>10:00pm</item>
+    </string-array>
+
+
+    <string-array name="shopInsight_sales_hour">
         <item>10am</item>
         <item>11am</item>
         <item>12am</item>

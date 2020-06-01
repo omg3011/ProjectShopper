@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
@@ -58,7 +59,10 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
     Spinner spinner_top, spinner_btm_start, spinner_btm_end;
 
     //-- Variable(s)
-    String[] items, items2, items3;
+    BarGraphSeries<DataPoint> barSeries;
+    String[] items, items2, items3, itemHeading;
+
+    LineGraphSeries<DataPoint> lineGraphSeries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_btm_start.setAdapter(dataAdapter2);
 
+        itemHeading = getResources().getStringArray(R.array.shopInsight_sales_hour);
 
         //-- Init Spinner (Btm end)
         items3 = getResources().getStringArray(R.array.shopInsight_sales_btm_end_spinner);
@@ -113,13 +118,13 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         graph_btm = findViewById(R.id.shop_insight_sales_btm_GV);
 
         //-- Hardcode fill in dummy data to db
-/*
-        FillDummyData("21-5-2020");
-        FillDummyData("22-5-2020");
-        FillDummyData("10-5-2020");
-        FillDummyData("11-5-2020");
-        FillDummyData("01-5-2020");
-        FillDummyData("02-5-2020");
+        /*
+        FillDummyData("21-1-2020");
+        FillDummyData("22-1-2020");
+        FillDummyData("10-1-2020");
+        FillDummyData("11-1-2020");
+        FillDummyData("01-1-2020");
+        FillDummyData("02-1-2020");
         */
 
 
@@ -136,25 +141,23 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
                 String today = simpleDateFormat.format(new Date());
+                int currMonth = getMonth(today);
 
                 // Past 1 month
                 if(position == 0)
                 {
-                    SetupRetrieveDataForTopGraph(getFirstDayOfTheMonth(today, -1), getLastDayOfTheMonth(today, -1));
+                    SetupRetrieveDataForTopGraph(getFirstDayOfTheMonth(today, -1), getLastDayOfTheMonth(today, -1), 1, currMonth);
                 }
                 // Past 2 month
                 else if(position == 1)
                 {
-                    //SetupBarGraph_Top();
+                    SetupRetrieveDataForTopGraph(getFirstDayOfTheMonth(today, -2), getLastDayOfTheMonth(today, -1), 2, currMonth);
                 }
                 // Past 3 month
                 else if(position == 2)
                 {
-                    //SetupBarGraph_Top();
+                    SetupRetrieveDataForTopGraph(getFirstDayOfTheMonth(today, -3), getLastDayOfTheMonth(today, -1), 3, currMonth);
                 }
-
-                Log.d("Test", getLastDayOfTheMonth("05-05-2020", -2));
-                Log.d("Test", getFirstDayOfTheMonth("06-05-2020", -2));
             }
 
             @Override
@@ -162,12 +165,279 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
             }
         });
-        //SetupBarGraph_Top();
-        //SetupLineGraph_Btm();
+
+
+        spinner_btm_start.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String select = (String)items2[position];
+                SetupRetrieveDataForBtmGraph(select, spinner_btm_end.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinner_btm_end.setSelection(12);
+        spinner_btm_end.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String select = (String)items3[position];
+                SetupRetrieveDataForBtmGraph(select, spinner_btm_start.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
 
+
+    //------------------------------------------------------------------------------------//
+    //
+    //  Init Function(s)
+    //
+    //------------------------------------------------------------------------------------//
+
+    void SetupRetrieveDataForTopGraph(String startDateString, String endDateString, final int noOfMonths, final int currMonth)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        Date startDate = null;
+        try {
+            startDate = dateFormat.parse(startDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date endDate = null;
+        try {
+            endDate = dateFormat.parse(endDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        CalculateWeeklyRevenue(startDate, endDate, noOfMonths, currMonth);
+    }
+
+    void InitBarGraph_Top(List<Integer> weekList)
+    {
+        if(barSeries != null)
+            graph_top.removeSeries(barSeries);
+
+        //--------------------------------------------------------------------------------------//
+        //
+        // Bar Graph
+        //
+        //--------------------------------------------------------------------------------------//
+        barSeries = new BarGraphSeries<>();
+
+
+        for(int i = 0; i < weekList.size(); ++i) {
+            barSeries.appendData(new DataPoint(i + 1, weekList.get(i)), true, weekList.size());
+        }
+        barSeries.setColor(Color.BLUE);
+
+        barSeries.setDataWidth(0.75d);
+        barSeries.setSpacing(10);
+        barSeries.setDrawValuesOnTop(true);
+        barSeries.setValuesOnTopColor(Color.RED);
+        graph_top.addSeries(barSeries);
+        graph_top.getGridLabelRenderer().setHorizontalAxisTitle("Week");
+        graph_top.getGridLabelRenderer().setVerticalAxisTitle("Sales(SGD)");
+
+        //StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph_top);
+        //staticLabelsFormatter.setHorizontalLabels(new String[]{"a", "x", "y", "z", "b"});
+        //graph_top.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+
+        // Show Legend
+        //graph_top.getLegendRenderer().setVisible(true);
+        //graph_top.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
+
+        // set the viewport wider than the data, to have a nice view
+        graph_top.getViewport().setYAxisBoundsManual(true);
+        graph_top.getViewport().setXAxisBoundsManual(true);
+        graph_top.getViewport().setMinX(0);
+        graph_top.getViewport().setMaxX(weekList.size() + 1);
+        graph_top.getViewport().setMinY(0);
+        graph_top.getViewport().setMaxY(2500);
+
+        graph_top.getViewport().setScrollable(true); // enables horizontal scrolling
+        graph_top.getViewport().setScrollableY(true); // enables vertical scrolling
+        graph_top.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+        graph_top.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+        //graph_top.getGridLabelRenderer().setLabelVerticalWidth(5);
+
+
+        //-- Event Listener: On Click
+        barSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series s, DataPointInterface dataPoint) {
+                Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    void SetupRetrieveDataForBtmGraph(String startTimeString, String endTimeString)
+    {
+        Date startDate = null;
+        Date endDate = null;
+
+        //-- Get Start Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mmaa");
+        try {
+            startDate = dateFormat.parse(startTimeString);
+        }
+        catch (ParseException e) {
+        }
+
+        //-- Get End Date
+        try {
+            endDate = dateFormat.parse(endTimeString);
+        }
+        catch (ParseException e) {
+        }
+
+        CalculateAverageCustomerSales(startDate, endDate);
+    }
+
+
+    void InitBarGraph_Btm(List<Integer> hourList)
+    {
+        if(lineGraphSeries != null)
+            graph_btm.removeSeries(lineGraphSeries);
+
+        //--------------------------------------------------------------------------------------//
+        //
+        // Bar Graph
+        //
+        //--------------------------------------------------------------------------------------//
+        lineGraphSeries = new LineGraphSeries<>();
+
+
+        for(int i = 0; i < hourList.size(); ++i) {
+            lineGraphSeries.appendData(new DataPoint(i + 1, hourList.get(i)), true, hourList.size());
+        }
+        lineGraphSeries.setColor(Color.BLUE);
+
+        graph_btm.addSeries(lineGraphSeries);
+        //graph_btm.getGridLabelRenderer().setHorizontalAxisTitle("Time");
+        //graph_btm.getGridLabelRenderer().setVerticalAxisTitle("Sales(SGD)");
+
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph_btm);
+        staticLabelsFormatter.setHorizontalLabels(itemHeading);
+        graph_btm.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+
+        // Show Legend
+        //graph_top.getLegendRenderer().setVisible(true);
+        //graph_top.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
+
+        // set the viewport wider than the data, to have a nice view
+        graph_btm.getViewport().setYAxisBoundsManual(true);
+        graph_btm.getViewport().setXAxisBoundsManual(true);
+        graph_btm.getViewport().setMinX(0);
+        graph_btm.getViewport().setMaxX(hourList.size());
+        graph_btm.getViewport().setMinY(0);
+        graph_btm.getViewport().setMaxY(1000);
+
+
+        graph_btm.getViewport().setScrollable(true); // enables horizontal scrolling
+        graph_btm.getViewport().setScrollableY(true); // enables horizontal scrolling
+        graph_btm.getViewport().setScalable(true);
+        graph_btm.getViewport().setScalableY(true);
+
+
+        //-- Event Listener: On Click
+        lineGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series s, DataPointInterface dataPoint) {
+                Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    //------------------------------------------------------------------------------------//
+    //
+    //  Average Customer Sales
+    //
+    //------------------------------------------------------------------------------------//
+    void CalculateAverageCustomerSales(Date startTime, Date endtime)
+    {
+        final List<AverageSales_Model> modelList = new ArrayList<>();
+
+        dataReference_avgSales.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots)
+            {
+                //--------------------------------------------------------------------//
+                // (1) Get Daily models
+                //--------------------------------------------------------------------//
+                for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                    AverageSales_Model model = documentSnapshot.toObject(AverageSales_Model.class);
+
+                    // (!model.getUid().equals(fUser.getUid()))
+                    //    continue;
+
+                    if (model.getDateSold().equals("21-3-2020")) {
+                        modelList.add(model);
+                    }
+                }
+                //--------------------------------------------------------------------//
+                // (2) Get Weekly Cost
+                //--------------------------------------------------------------------//
+                List<Integer> salesByHourList = GetHourlySales(modelList);
+
+                // There is 4 data here
+                InitBarGraph_Btm(salesByHourList);
+            }
+        });
+    }
+
+
+    List<Integer> GetHourlySales(List<AverageSales_Model> dailyModels)
+    {
+        List<Integer> hourList = new ArrayList<>();
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+        hourList.add(0);
+
+        for(AverageSales_Model model : dailyModels)
+        {
+            for(int i = 0; i < model.getRevenue().size(); ++i)
+            {
+                hourList.set(i, Integer.parseInt(model.getRevenue().get(i)));
+            }
+        }
+        return hourList;
+    }
+
+    //------------------------------------------------------------------------------------//
+    //
+    //  Past Month Sales
+    //
+    //------------------------------------------------------------------------------------//
     void FillDummyData(String date)
     {
         List<String> rList1 = new ArrayList<>();
@@ -178,6 +448,21 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         tList1.add("12PM");
         AverageSales_Model avg = new AverageSales_Model(date, rList1, tList1, "YZllyzxb88RuRlXVcsCR2ppcDmP2");
         dataReference_avgSales.document().set(avg);
+    }
+
+    int getMonth(String date)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date dt= null;
+        try {
+            dt = formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+
+        return calendar.get(Calendar.MONTH);
     }
 
     String getLastDayOfTheMonth(String date, int offsetMonth) {
@@ -225,35 +510,71 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         return firstDayOfTheMonth;
     }
 
-    void SetupLineGraph_Btm()
+
+    int GetTotalSum(List<String> list)
     {
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 8)
-        });
-        graph_btm.addSeries(series);
+        int sum = 0;
+        for(String x : list)
+        {
+            int price = Integer.parseInt(x);
+            sum += price;
+        }
 
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-
-        // set second scale
-        graph_btm.getSecondScale().addSeries(series2);
-        // the y bounds are always manual for second scale
-        graph_btm.getSecondScale().setMinY(0);
-        graph_btm.getSecondScale().setMaxY(100);
-        series2.setColor(Color.RED);
-        graph_btm.getGridLabelRenderer().setVerticalLabelsSecondScaleColor(Color.RED);
+        return sum;
     }
 
-    void CalculateWeeklyRevenue(final Date startDate, final Date endDate)
+    List<Integer> GetWeeklySales(List<AverageSales_Model> dailyModels, int noOfMonths, int currMonth)
+    {
+        List<Integer> weekList = new ArrayList<>();
+        for(int i = 0; i < noOfMonths; ++i)
+        {
+            weekList.add(0);
+            weekList.add(0);
+            weekList.add(0);
+            weekList.add(0);
+        }
+
+        for(AverageSales_Model model : dailyModels)
+        {
+            Date date;
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+                // Get Date
+                date = format.parse(model.getDateSold());
+
+                // Get the cost
+                int totalCost = GetTotalSum(model.getRevenue());
+
+                // Get Week
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                int week = c.get(Calendar.WEEK_OF_MONTH);
+                week -= 1;
+                int month = c.get(Calendar.MONTH);
+
+                // Set cost
+                if(week < 0)
+                    week = 0;
+
+                // Which month
+                int multiplier = currMonth - month - 1;
+                if(multiplier < 0) multiplier = 0;
+                week += multiplier * 4;
+                weekList.set(week, weekList.get(week) + totalCost);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return weekList;
+    }
+
+    boolean WithinDateRange(Date testDate, Date start, Date end)
+    {
+        return testDate.after(start) && testDate.before(end);
+    }
+
+    void CalculateWeeklyRevenue(final Date startDate, final Date endDate, final int noOfMonths, final int currMonth)
     {
         final List<AverageSales_Model> modelList = new ArrayList<>();
 
@@ -268,8 +589,8 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
                 {
                     AverageSales_Model model = documentSnapshot.toObject(AverageSales_Model.class);
 
-                    if(!model.getUid().equals(fUser.getUid()))
-                        continue;
+                    //if(!model.getUid().equals(fUser.getUid()))
+                    //    continue;
 
                     Date date;
                     SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
@@ -289,7 +610,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
                 //--------------------------------------------------------------------//
                 // (2) Get Weekly Cost
                 //--------------------------------------------------------------------//
-                List<Integer> weeklyList = GetWeeklySales(modelList);
+                List<Integer> weeklyList = GetWeeklySales(modelList, noOfMonths, currMonth);
 
                 // There is 4 data here
                 InitBarGraph_Top(weeklyList);
@@ -297,130 +618,8 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         });
     }
 
-    int GetTotalSum(List<String> list)
-    {
-        int sum = 0;
-        for(String x : list)
-        {
-            int price = Integer.parseInt(x);
-            sum += price;
-        }
-
-        return sum;
-    }
-
-    List<Integer> GetWeeklySales(List<AverageSales_Model> dailyModels)
-    {
-        List<Integer> weekList = new ArrayList<>();
-        weekList.add(0);
-        weekList.add(0);
-        weekList.add(0);
-        weekList.add(0);
-        Log.d("Test", "List Size: " + Integer.toString(weekList.size()));
-
-        for(AverageSales_Model model : dailyModels)
-        {
-            Date date;
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            try {
-                // Get Date
-                date = format.parse(model.getDateSold());
-
-                // Get the cost
-                int totalCost = GetTotalSum(model.getRevenue());
-
-                // Get Week
-                Calendar c = Calendar.getInstance();
-                c.setTime(date);
-                int week = c.get(Calendar.WEEK_OF_MONTH);
-                week -= 1;
-
-                // Set cost
-                weekList.set(week, weekList.get(week) + totalCost);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return weekList;
-    }
-
-    boolean WithinDateRange(Date testDate, Date start, Date end)
-    {
-        return testDate.after(start) && testDate.before(end);
-    }
-
-    void SetupRetrieveDataForTopGraph(String startDateString, String endDateString)
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-        Date startDate = null;
-        try {
-            startDate = dateFormat.parse(startDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Date endDate = null;
-        try {
-            endDate = dateFormat.parse(endDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        CalculateWeeklyRevenue(startDate, endDate);
-    }
-
-    void InitBarGraph_Top(List<Integer> weekList)
-    {
-        //--------------------------------------------------------------------------------------//
-        //
-        // Bar Graph
-        //
-        //--------------------------------------------------------------------------------------//
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
 
 
-        for(int i = 0; i < weekList.size(); ++i) {
-            series.appendData(new DataPoint(i + 1, weekList.get(i)), false, weekList.size());
-        }
-        series.setColor(Color.BLUE);
-
-        series.setTitle("foo");
-        //series.setAnimated(true);
-        series.setDataWidth(0.75d);
-        series.setSpacing(10);
-        series.setDrawValuesOnTop(true);
-        series.setValuesOnTopColor(Color.RED);
-        graph_top.addSeries(series);
-
-
-        // Show Legend
-        graph_top.getLegendRenderer().setVisible(true);
-        graph_top.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-
-
-        // set the viewport wider than the data, to have a nice view
-        graph_top.getViewport().setMinX(0);
-        graph_top.getViewport().setMaxX(weekList.size() + 1);
-        graph_top.getViewport().setMinY(0);
-        graph_top.getViewport().setMaxY(1000);
-
-
-        //graph_top.getViewport().setScrollable(true); // enables horizontal scrolling
-        //graph_top.getViewport().setScrollableY(true); // enables vertical scrolling
-        graph_top.getViewport().setScalable(true); // enables horizontal zooming and scrolling
-        //graph_top.getViewport().setScalableY(true); // enables vertical zooming and scrolling
-
-
-        //-- Event Listener: On Click
-        series.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series s, DataPointInterface dataPoint) {
-                Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
     //------------------------------------------------------------------------//
