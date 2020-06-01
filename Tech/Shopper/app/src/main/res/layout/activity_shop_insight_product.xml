@@ -1,9 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ShopInsightActivity_Product">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Top 5 Products / Services (Past Month)"
+            android:textStyle="bold"
+            android:textColor="@color/colorMainColour"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Top 5 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(1) Brown Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(2) Yellow Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(3) Red Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(4) Green Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(5) Old Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="10dp" />
+            </LinearLayout>
+
+            <!-- Horizontal Bar chart -->
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/shop_insight_product_HBC"/>
+        </LinearLayout>
+
+
+        <!-- Title -->
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Monthly Sales (Past Month)"
+            android:textStyle="bold"
+            android:textColor="@color/colorMainColour"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/shop_insight_product_PC"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+
+        <!-- Title -->
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Post Best Seller (Past 3 Months)"
+            android:textStyle="bold"
+            android:textColor="@color/colorMainColour"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:layout_marginVertical="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(March)"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center"
+                    android:textSize="12sp"/>
+                <!-- Title -->
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Black Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(April)"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center"
+                    android:textSize="12sp"/>
+                <!-- Title -->
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Black Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(May)"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center"
+                    android:textSize="12sp"/>
+                <!-- Title -->
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Black Sugar Tea"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

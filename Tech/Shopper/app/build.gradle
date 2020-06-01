@@ -56,6 +56,9 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.3.2'
     // Get rid of default_web_client_id compile error
 
+    // Bar Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     // Image Slider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
 

@@ -1,35 +1,25 @@
 package com.example.crosssellers;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
-import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -62,7 +52,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
     BarGraphSeries<DataPoint> barSeries;
     String[] items, items2, items3, itemHeading;
 
-    LineGraphSeries<DataPoint> lineGraphSeries;
+    BarGraphSeries<DataPoint> barGraphSeries2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +161,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                String select = (String)items2[position];
-                SetupRetrieveDataForBtmGraph(select, spinner_btm_end.getSelectedItem().toString());
+                SetupBtmGraphFake(position, spinner_btm_end.getSelectedItemPosition());
             }
 
             @Override
@@ -185,9 +174,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         spinner_btm_end.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String select = (String)items3[position];
-                SetupRetrieveDataForBtmGraph(select, spinner_btm_start.getSelectedItem().toString());
+                SetupBtmGraphFake(spinner_btm_start.getSelectedItemPosition(), position);
             }
 
             @Override
@@ -287,6 +274,42 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         });
     }
 
+    void SetupBtmGraphFake(int leftIndex, int rightIndex)
+    {
+        // Create 13 slots
+        List<Integer> hourList = new ArrayList<>();
+        String[] labels = getResources().getStringArray(R.array.shopInsight_sales_hour);
+        for(int i = 0; i < 12; ++i)
+        {
+            hourList.add(0);
+        }
+
+        // Assign value to each
+        hourList.set(0, 30);
+        hourList.set(1, 0);
+        hourList.set(2, 35);
+        hourList.set(3, 0);
+        hourList.set(4, 65);
+        hourList.set(5, 32);
+        hourList.set(6, 34);
+        hourList.set(7, 0);
+        hourList.set(8, 37);
+        hourList.set(9, 36);
+        hourList.set(10, 90);
+        hourList.set(11, 120);
+
+        List<Integer> chooseHours = new ArrayList<>();
+        List<String> chooseLabels = new ArrayList<>();
+
+        for(int i = leftIndex; i < rightIndex; ++i)
+        {
+            chooseHours.add(hourList.get(i));
+            chooseLabels.add(labels[i]);
+        }
+
+        InitBarGraph_Btm(chooseHours, chooseLabels);
+    }
+
     void SetupRetrieveDataForBtmGraph(String startTimeString, String endTimeString)
     {
         Date startDate = null;
@@ -311,31 +334,46 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
     }
 
 
-    void InitBarGraph_Btm(List<Integer> hourList)
+    void InitBarGraph_Btm(List<Integer> hourList, List<String> labels)
     {
-        if(lineGraphSeries != null)
-            graph_btm.removeSeries(lineGraphSeries);
+        if(barGraphSeries2 != null)
+            graph_btm.removeSeries(barGraphSeries2);
 
         //--------------------------------------------------------------------------------------//
         //
         // Bar Graph
         //
         //--------------------------------------------------------------------------------------//
-        lineGraphSeries = new LineGraphSeries<>();
+        barGraphSeries2 = new BarGraphSeries<>();
 
 
         for(int i = 0; i < hourList.size(); ++i) {
-            lineGraphSeries.appendData(new DataPoint(i + 1, hourList.get(i)), true, hourList.size());
+            barGraphSeries2.appendData(new DataPoint(i + 1, hourList.get(i)), true, hourList.size());
         }
-        lineGraphSeries.setColor(Color.BLUE);
+        barGraphSeries2.setColor(Color.BLUE);
+        barGraphSeries2.setDataWidth(0.75d);
+        barGraphSeries2.setSpacing(10);
+        barGraphSeries2.setDrawValuesOnTop(true);
 
-        graph_btm.addSeries(lineGraphSeries);
+
+        barGraphSeries2.setValuesOnTopColor(Color.RED);
+
+        graph_btm.addSeries(barGraphSeries2);
         //graph_btm.getGridLabelRenderer().setHorizontalAxisTitle("Time");
         //graph_btm.getGridLabelRenderer().setVerticalAxisTitle("Sales(SGD)");
 
-        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph_btm);
-        staticLabelsFormatter.setHorizontalLabels(itemHeading);
-        graph_btm.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        String[] array = new String[labels.size()];
+        labels.toArray(array); // fill the array
+
+        if(labels.size() >= 2)
+        {
+            StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph_btm);
+            staticLabelsFormatter.setHorizontalLabels(array);
+            graph_btm.getGridLabelRenderer().setNumVerticalLabels(4);
+            graph_btm.getGridLabelRenderer().setNumHorizontalLabels(4);
+            graph_btm.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+        }
 
 
         // Show Legend
@@ -359,7 +397,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
 
         //-- Event Listener: On Click
-        lineGraphSeries.setOnDataPointTapListener(new OnDataPointTapListener() {
+        barGraphSeries2.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series s, DataPointInterface dataPoint) {
                 Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
@@ -400,7 +438,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
                 List<Integer> salesByHourList = GetHourlySales(modelList);
 
                 // There is 4 data here
-                InitBarGraph_Btm(salesByHourList);
+                //InitBarGraph_Btm(salesByHourList);
             }
         });
     }
@@ -560,6 +598,8 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
                 int multiplier = currMonth - month - 1;
                 if(multiplier < 0) multiplier = 0;
                 week += multiplier * 4;
+                if(week > weekList.size()-1)
+                    week = weekList.size()-1;
                 weekList.set(week, weekList.get(week) + totalCost);
 
             } catch (ParseException e) {

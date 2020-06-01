@@ -85,7 +85,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="150dp"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="Period:"
                         android:textColor="@color/colorBlack"
@@ -94,7 +94,7 @@
 
                     <Spinner
                         android:id="@+id/shop_insight_customer_btm_spinner"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"/>
                 </LinearLayout>
