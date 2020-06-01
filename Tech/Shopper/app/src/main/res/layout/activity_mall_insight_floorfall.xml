@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MallInsightActivity_Floorfall"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Floor:"
+            android:textStyle="bold"
+            android:textColor="@color/colorMainColour"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="30dp" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/mall_insight_floorfall_btn0"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="01"
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/textbox_border"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/mall_insight_floorfall_btn1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="02"
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/textbox_border"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/mall_insight_floorfall_btn2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="03"
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/textbox_border"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/mall_insight_floorfall_btn3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="04"
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/textbox_border"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mall_insight_floorfall_LL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/bg_receiver"
+                android:layout_margin="10dp"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/bg_sender"
+                android:layout_margin="10dp"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/bg_receiver"
+                android:layout_margin="10dp"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/bg_sender"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -4,13 +4,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -24,16 +23,14 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ShopInsightActivity_Product extends AppCompatActivity {
+public class MallInsightActivity_Competitor extends AppCompatActivity {
 
-    //-- View(s)
-    HorizontalBarChart mChart;
     PieChart pChart;
+
 
     public class CategoryBarChartXaxisFormatter extends ValueFormatter implements IAxisValueFormatter {
 
@@ -117,94 +114,27 @@ public class ShopInsightActivity_Product extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_insight_product);
+        setContentView(R.layout.activity_mall_insight_competitor);
 
-        pChart = findViewById(R.id.shop_insight_product_PC);
-        mChart = findViewById(R.id.shop_insight_product_HBC);
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
+        pChart = findViewById(R.id.mall_insight_competitor_PC);
 
-        mChart = (HorizontalBarChart) findViewById(R.id.shop_insight_product_HBC);
-        mChart.setDrawBarShadow(false);
-        mChart.setDrawValueAboveBar(true);
-        mChart.getDescription().setEnabled(false);
-        mChart.setPinchZoom(false);
-        mChart.setDrawGridBackground(false);
-
-
-        XAxis xl = mChart.getXAxis();
-       // xl.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xl.setDrawAxisLine(true);
-        xl.setDrawGridLines(false);
-        //CategoryBarChartXaxisFormatter xaxisFormatter = new CategoryBarChartXaxisFormatter(labels);
-        //xl.setValueFormatter(xaxisFormatter);
-        xl.setGranularity(1);
-        //..
-        xl.setDrawLabels(false);
-
-        YAxis yl = mChart.getAxisLeft();
-        yl.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        yl.setDrawGridLines(false);
-        yl.setEnabled(false);
-        yl.setAxisMinimum(0f);
-
-
-        YAxis yr = mChart.getAxisRight();
-        yr.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        yr.setDrawGridLines(false);
-        yr.setAxisMinimum(0f);
-        yr.setAxisMaximum(100);
-        yr.setDrawLabels(false);
-
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-        yVals1.add(new BarEntry(0, 5));
-        yVals1.add(new BarEntry(1, 12));
-        yVals1.add(new BarEntry(2, 15));
-        yVals1.add(new BarEntry(3, 18));
-        yVals1.add(new BarEntry(4, 60));
-
-
-        BarDataSet set1;
-        set1 = new BarDataSet(yVals1, "DataSet 1");
-        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-        dataSets.add(set1);
-        BarData data = new BarData(dataSets);
-        data.setValueTextSize(10f);
-        data.setBarWidth(.9f);
-        mChart.setData(data);
-        mChart.getLegend().setEnabled(false);
-
-        /*
-        final String[] weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu"};
-
-            // Set the value formatter
-        YAxis yAxis = mChart.getAxisLeft();
-        yAxis.setValueFormatter(new IndexAxisValueFormatter(weekdays));
-        yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-
-         */
-
-        pChart.setUsePercentValues(false);
+        pChart.setUsePercentValues(true);
 
         List<PieEntry> value = new ArrayList<>();
-        value.add(new PieEntry(600, "BST"));
-        value.add(new PieEntry(180, "YST"));
-        value.add(new PieEntry(150, "RST"));
-        value.add(new PieEntry(120, "GST"));
-        value.add(new PieEntry(50, "OST"));
+        value.add(new PieEntry(60, "H&M"));
+        value.add(new PieEntry(5, "CK"));
+        value.add(new PieEntry(5, "GG"));
+        value.add(new PieEntry(10, "OG"));
+        value.add(new PieEntry(20, "CJ"));
 
-        PieDataSet pieDataSet = new PieDataSet(value, "(Top 5 Products)");
+        PieDataSet pieDataSet = new PieDataSet(value, "(% of Sales)");
 
         PieData pieData = new PieData(pieDataSet);
-        pChart.setData(pieData);
         pieData.setValueTextSize(15f);
         pieData.setHighlightEnabled(true);
+        pChart.setData(pieData);
+        //for rotating anti-clockwise
+        pChart.spin( 500,0,-360f, Easing.EaseInOutQuad);
         pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
 
@@ -213,13 +143,12 @@ public class ShopInsightActivity_Product extends AppCompatActivity {
         //----------------------------------------------------------------------//
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Product/Service Insights");
+        actionbar.setTitle("Competitor Insights");
 
         //-- Enable "Actionbar"->back button
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setDisplayShowHomeEnabled(true);
     }
-
 
     //------------------------------------------------------------------------//
     // Function: To allow back button
@@ -235,9 +164,8 @@ public class ShopInsightActivity_Product extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ShopInsightActivity_Product.this, ShopInsightActivity_Home.class);
+        Intent intent = new Intent(MallInsightActivity_Competitor.this, MallInsightActivity_Home.class);
         startActivity(intent);
         finish();
     }
 }
-

@@ -10,6 +10,19 @@
     tools:context=".CPromotionHomeActivity">
 
 
+    <Button
+        android:id="@+id/cpromo_home_filter_btn"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Filter"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button"
+        android:textSize="15sp"
+        android:layout_margin="10dp"
+        />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:background="@color/colorBackgroundColour"
@@ -25,7 +38,7 @@
         android:background="@color/colorWhite">
 
         <Button
-            android:id="@+id/cpromo_create_promo_btn"
+            android:id="@+id/cpromo_home_create_promo_btn"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:text="Create Promotion"

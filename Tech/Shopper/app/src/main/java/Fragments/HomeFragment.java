@@ -23,10 +23,9 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.crosssellers.CPlatformHomeActivity;
 import com.example.crosssellers.CPromotionHomeActivity;
 import com.example.crosssellers.MainActivity;
-import com.example.crosssellers.MallInsightActivity;
+import com.example.crosssellers.MallInsightActivity_Home;
 import com.example.crosssellers.R;
 import com.example.crosssellers.ShopInsightActivity_Home;
-import com.example.crosssellers.ShopInsightActivity_Sales;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -91,7 +90,7 @@ public class HomeFragment extends Fragment {
                     }
                     else if(TV_mall.getText().equals("Mall Insights"))
                     {
-                        Intent intent = new Intent(getActivity(), MallInsightActivity.class);
+                        Intent intent = new Intent(getActivity(), MallInsightActivity_Home.class);
                         intent.putExtra("mall", TV_mall.getText());
                         startActivity(intent);
                         getActivity().finish();

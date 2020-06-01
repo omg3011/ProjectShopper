@@ -3,6 +3,7 @@ package Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.crosssellers.CPromotionViewActivity;
 import com.example.crosssellers.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Models.CPromotion_Model;
@@ -22,11 +24,13 @@ import Models.CPromotion_Model;
 public class AdapterPromoPost_Promo extends RecyclerView.Adapter<AdapterPromoPost_Promo.ViewHolder> {
 
     Context context;
-    List<CPromotion_Model> postList;
+    List<CPromotion_Model> postList_current;
+    List<CPromotion_Model> postList_copy;
 
-    public AdapterPromoPost_Promo(Context context, List<CPromotion_Model> postList) {
+    public AdapterPromoPost_Promo(Context context, List<CPromotion_Model> postList_current) {
         this.context = context;
-        this.postList = postList;
+        this.postList_current = postList_current;
+        this.postList_copy = postList_current;
     }
 
 
@@ -41,7 +45,7 @@ public class AdapterPromoPost_Promo extends RecyclerView.Adapter<AdapterPromoPos
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final CPromotion_Model post = postList.get(position);
+        final CPromotion_Model post = postList_current.get(position);
 
         //-- Set Tags
         String listString;
@@ -69,7 +73,39 @@ public class AdapterPromoPost_Promo extends RecyclerView.Adapter<AdapterPromoPos
 
     @Override
     public int getItemCount() {
-        return postList.size();
+        return postList_current.size();
+    }
+
+    public void filter(List<String> textList) {
+        if(textList.size() <= 0)
+        {
+        }
+        else if(textList.contains("All"))
+        {
+            postList_current = postList_copy;
+        }
+        else
+        {
+            ArrayList<CPromotion_Model> result = new ArrayList<>();
+
+            // Check each tag selected in the filter
+            for(CPromotion_Model item: postList_copy)
+            {
+                for(String text : textList)
+                {
+                    if(CheckListContainString(item.getTags(), text))
+                        result.add(item);
+                }
+            }
+
+            postList_current = result;
+        }
+        notifyDataSetChanged();
+    }
+
+    boolean CheckListContainString(List<String> tags, String check)
+    {
+        return tags.contains(check);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

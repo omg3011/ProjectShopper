@@ -97,7 +97,7 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/shop_insight_product_PC"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="400dp"/>
 
 
         <!-- Title -->

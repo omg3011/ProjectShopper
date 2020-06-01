@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -38,13 +41,16 @@ import Models.CPromotion_Model;
 
 public class CPromotionHomeActivity  extends AppCompatActivity {
 
+    //-- Private Variables
+    List<String> selectedItems;
+
     //-- DB(s)
     FirebaseUser fUser;
     CollectionReference dataReference_CPromotion;
     CollectionReference dataReference_User;
 
     //-- View(s)
-    Button BTN_create_promotion;
+    Button BTN_create_promotion, BTN_filter;
     RecyclerView RV_promoPost;
 
     //-- Private variable(s)
@@ -58,7 +64,8 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_cpromotion_home);
 
         //-- Cache Reference
-        BTN_create_promotion = findViewById(R.id.cpromo_create_promo_btn);
+        BTN_create_promotion = findViewById(R.id.cpromo_home_create_promo_btn);
+        BTN_filter = findViewById(R.id.cpromo_home_filter_btn);
         RV_promoPost = findViewById(R.id.cpromo_home_RV);
 
         //-- Init DB
@@ -82,6 +89,12 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Register Event Listener                                              //
         //----------------------------------------------------------------------//
+        BTN_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateAlertDialog_Tag();
+            }
+        });
         BTN_create_promotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +115,40 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
         actionbar.setDisplayShowHomeEnabled(true);
     }
 
+
+    void CreateAlertDialog_Tag()
+    {
+        selectedItems = new ArrayList<>();
+        AlertDialog.Builder builder = new AlertDialog.Builder(CPromotionHomeActivity.this);
+        builder.setTitle("Select Tags");
+
+        builder.setMultiChoiceItems(R.array.store_tags2, null, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                String[] items = getResources().getStringArray(R.array.store_tags2);
+                if(isChecked)
+                    selectedItems.add(items[which]);
+                else if(selectedItems.contains(items[which]))
+                    selectedItems.remove(items[which]);
+            }
+        });
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                adapterPromoPostPromo.filter(selectedItems);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.create().show();
+    }
 
     //------------------------------------------------------------------------//
     // Function: To allow back button

@@ -170,7 +170,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
             }
         });
 
-        spinner_btm_end.setSelection(12);
+        spinner_btm_end.setSelection(3);
         spinner_btm_end.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

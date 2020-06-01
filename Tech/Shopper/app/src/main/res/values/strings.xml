@@ -25,6 +25,25 @@
     </string-array>
 
 
+    <string-array name="store_tags2">
+        <item>All</item>
+        <item>Fashion &amp; Accessories</item>
+        <item>Jewellery, Optical &amp; Watches</item>
+        <item>Health &amp; Beauty</item>
+        <item>Sports</item>
+        <item>Kids</item>
+        <item>Education &amp; Enrichment</item>
+        <item>Food &amp; Beverage</item>
+        <item>Supermarkets &amp; Value Store</item>
+        <item>Electrical &amp; Electronics</item>
+        <item>Telecommunications</item>
+        <item>Entertainment</item>
+        <item>Home &amp; Living</item>
+        <item>Gifts &amp; Hobbies</item>
+        <item>General Services</item>
+    </string-array>
+
+
     <string-array name="shopInsight_sales_top_spinner">
         <item>Past 1 month</item>
         <item>Past 2 months</item>
