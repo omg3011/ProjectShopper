@@ -56,6 +56,7 @@
         </LinearLayout>
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -101,6 +102,38 @@
                 android:fontFamily="@font/open_sans"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="Ratings: "
+                android:fontFamily="@font/open_sans"
+                android:textSize="15sp"
+                android:textColor="@color/colorBlack"/>
+            <RatingBar
+                android:id="@+id/cplatform_home_helper_rating_RB"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/profile3_ratingValue_TV"
+                android:layout_below="@id/profile3_storeUnit_TV"
+                android:indeterminate="false"
+                android:isIndicator="true"
+                android:transformPivotX="0dp"
+                android:max="5"
+                android:rating="4"
+                android:scaleX="1.2"
+                android:scaleY="1.2"/>
+
         </LinearLayout>
 
     </LinearLayout>

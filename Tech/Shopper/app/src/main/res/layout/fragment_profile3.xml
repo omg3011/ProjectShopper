@@ -106,7 +106,19 @@
                     android:textStyle="bold"
                     android:textSize="18sp"
                     />
+
+                <Button
+                    android:id="@+id/profile3_store_edit_BTN"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/hollow_circle"
+                    android:foreground="@drawable/ic_edit_black"
+                    android:foregroundTint="@color/colorMainColour"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentBottom="true"/>
             </RelativeLayout>
+
 
             <ImageView
                 android:id="@+id/profile3_store_image_IV"

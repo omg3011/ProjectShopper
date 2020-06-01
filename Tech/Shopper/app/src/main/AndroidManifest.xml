@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MallInsightActivity_Tenant"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".MallInsightActivity_Tenant" />
         <activity android:name=".MallInsightActivity_Competitor" />
         <activity android:name=".MallInsightActivity_Floorfall" />
         <activity android:name=".EditPromoPostActivity" />
