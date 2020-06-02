@@ -30,16 +30,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="StoreName"
-                android:fontFamily="@font/open_sans_bold"
+                android:fontFamily="@font/montserrat_bold"
                 android:textSize="18dp"/>
 
             <TextView
                 android:id="@+id/profile_cplatform_view_helper_storeTag_TV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Collaboration for 1 on 1"
-                android:fontFamily="@font/open_sans"
+                android:text="FnB"
+                android:fontFamily="@font/montserrat"
                 android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/profile_cplatform_view_helper_storeUnit_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="#01-01"
+                android:fontFamily="@font/montserrat"
+                android:textSize="15dp"/>
+
+
+            <RatingBar
+                android:layout_marginTop="3dp"
+                android:id="@+id/profile_cplatform_view_helper_rating_RB"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:isIndicator="true"
+                android:transformPivotX="0dp"
+                android:max="5"
+                android:rating="4"
+                android:scaleY="1.2"/>
 
         </LinearLayout>
 
@@ -48,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="40"
             android:orientation="horizontal"
-            android:gravity="center"
+            android:gravity="end"
             android:layout_marginTop="5dp">
 
 
@@ -71,6 +93,7 @@
                 android:foregroundTint="@color/colorMainColour"/>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/profile_cplatform_view_helper_chat_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

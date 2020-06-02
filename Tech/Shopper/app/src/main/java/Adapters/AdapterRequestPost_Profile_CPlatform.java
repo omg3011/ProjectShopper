@@ -1,18 +1,22 @@
 package Adapters;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crosssellers.ChatActivity;
 import com.example.crosssellers.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +34,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import Models.CPlatform_Model;
+import Models.FriendList_Model;
 import Models.Notification_Model;
 import Models.RequestMailBox_Model;
 
@@ -40,13 +46,15 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
     CollectionReference dataReference_Request;
     CollectionReference dataReference_Notification;
     CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_FriendList;
     CPlatform_Model postData;
     ProgressDialog pd;
     FirebaseUser fUser;
     int request1_accepted2;
+    Activity activity;
 
 
-    public AdapterRequestPost_Profile_CPlatform(Context context, List<RequestMailBox_Model> postList, CollectionReference dataReference_User, CPlatform_Model postData, CollectionReference dataReference_Request, CollectionReference dataReference_Notification, CollectionReference dataReference_CPlatform, int request1_accepted2) {
+    public AdapterRequestPost_Profile_CPlatform(Context context, List<RequestMailBox_Model> postList, CollectionReference dataReference_User, CPlatform_Model postData, CollectionReference dataReference_Request, CollectionReference dataReference_Notification, CollectionReference dataReference_CPlatform, int request1_accepted2, Activity activity, CollectionReference dataReference_FriendList) {
         this.context = context;
         this.requestList = postList;
         this.dataReference_User = dataReference_User;
@@ -57,6 +65,8 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
         this.fUser = FirebaseAuth.getInstance().getCurrentUser();
         this.dataReference_Notification = dataReference_Notification;
         this.request1_accepted2 = request1_accepted2;
+        this.activity = activity;
+        this.dataReference_FriendList = dataReference_FriendList;
     }
 
 
@@ -94,9 +104,16 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                 //-- Set Post Title
                 holder.TV_requesterStoreTag.setText((String) documentSnapshot.get("storeTag"));
 
+                //-- Set Store unit
+                holder.TV_requesterStoreUnit.setText((String) documentSnapshot.get("storeUnit"));
+
                 //-- Show Request Pending UI
                 if(request1_accepted2 == 1)
                 {
+                    holder.BTN_accept.setVisibility(View.VISIBLE);
+                    holder.BTN_reject.setVisibility(View.VISIBLE);
+                    holder.BTN_chat.setVisibility(View.GONE);
+
                     //-- Accept Btn
                     holder.BTN_accept.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -113,20 +130,28 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                         }
                     });
 
-                    //-- View Requester Profile
-                    holder.BTN_chat.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(context, "View Profile", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
                 //-- Show Request Accepted UI
                 else
                 {
-                    holder.BTN_accept.setVisibility(View.INVISIBLE);
-                    holder.BTN_reject.setVisibility(View.INVISIBLE);
-                    holder.BTN_chat.setVisibility(View.INVISIBLE);
+                    holder.BTN_accept.setVisibility(View.GONE);
+                    holder.BTN_reject.setVisibility(View.GONE);
+                    holder.BTN_chat.setVisibility(View.VISIBLE);
+                    //-- View Requester Profile
+                    holder.BTN_chat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            /* Click user from userList to start chatting / messaging.
+                             * > Start Activity by putting UID of receiver
+                             * > we will use that UID to identify the user we are gonna chat with.
+                             */
+                            Intent intent = new Intent(context, ChatActivity.class);
+                            intent.putExtra("hisUid", post.getRequester_UID());
+                            intent.putExtra("cpostUID", post.getCplatformPost_ID());
+                            context.startActivity(intent);
+                            activity.finish();
+                        }
+                    });
                 }
             }
         });
@@ -203,7 +228,6 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                                                         // Send to myself, i reject someone
                                                         Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have rejected a collaboration with " + requesterStoreName[0] + ".");
                                                         dataReference_Notification.document().set(notification2);
-
 
                                                         //--------------------------------------------------------------------------------//
                                                         // Update UI
@@ -297,6 +321,14 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                                                                 dataReference_Notification.document().set(notification2);
 
 
+
+
+                                                                // Send to DB, friendList
+                                                                //(String friendPost_uid, String requester_uid, String owner_uid, String cpost_uid)
+                                                                String id = dataReference_FriendList.document().getId();
+                                                                FriendList_Model friendModel = new FriendList_Model(id, post.getRequester_UID(), postData.getPosterUid(), postData.getCPost_uid());
+                                                                dataReference_FriendList.document(id).set(friendModel);
+
                                                                 //--------------------------------------------------------------------------------//
                                                                 // Update UI
                                                                 //--------------------------------------------------------------------------------//
@@ -328,14 +360,17 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView TV_requesterStoreName, TV_requesterStoreTag;
+        TextView TV_requesterStoreName, TV_requesterStoreTag, TV_requesterStoreUnit;
         Button BTN_accept, BTN_reject, BTN_chat;
+        RatingBar RB;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             TV_requesterStoreName = itemView.findViewById(R.id.profile_cplatform_view_helper_storeName_TV);
             TV_requesterStoreTag = itemView.findViewById(R.id.profile_cplatform_view_helper_storeTag_TV);
+            TV_requesterStoreUnit = itemView.findViewById(R.id.profile_cplatform_view_helper_storeUnit_TV);
+            RB = itemView.findViewById(R.id.profile_cplatform_view_helper_rating_RB);
             BTN_accept = itemView.findViewById(R.id.profile_cplatform_view_helper_accept_btn);
             BTN_reject = itemView.findViewById(R.id.profile_cplatform_view_helper_reject_btn);
             BTN_chat = itemView.findViewById(R.id.profile_cplatform_view_helper_chat_btn);

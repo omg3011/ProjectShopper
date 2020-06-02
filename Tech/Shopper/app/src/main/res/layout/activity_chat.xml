@@ -25,43 +25,67 @@
             app:c_background_color="@color/colorMainDarkColour"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            <!-- Receiver name -->
-            <TextView
-                android:id="@+id/chat_nameTV"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/open_sans"
-                android:text="His Name"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp">
 
-            <!-- Receiver status (Online/offline) -->
-            <TextView
-                android:id="@+id/chat_statusTV"
-                android:layout_width="match_parent"
+                <!-- Receiver name -->
+                <TextView
+                    android:id="@+id/chat_nameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:text="His Name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- Receiver status (Online/offline) -->
+                <TextView
+                    android:id="@+id/chat_statusTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:text="online"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <!-- Completed Collab -->
+            <Button
+                android:id="@+id/chat_completed_btn"
+                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/open_sans"
-                android:text="online"
-                android:textColor="@color/colorWhite"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
+                android:text="Finish"
+                android:textSize="10sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/colorBackgroundColour"
+                android:textColor="@color/colorMainColour"/>
         </LinearLayout>
+
+
     </androidx.appcompat.widget.Toolbar>
-    
+
+
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_RV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/chat_toolbar"
         android:layout_marginBottom="60dp"/>
     

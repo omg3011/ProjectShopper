@@ -5,15 +5,19 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +44,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,16 +79,6 @@ public class SetupProfileActivity extends AppCompatActivity {
 
     //-- Progress Dialog
     ProgressDialog pd;
-
-    //-- Permission Constants
-    private static final int CAMERA_REQUEST_CODE = 100;
-    private static final int STORAGE_REQUEST_CODE = 200;
-    private static final int IMAGE_PICK_GALLERY_CODE = 300;
-    private static final int IMAGE_PICK_CAMERA_CODE = 400;
-
-    //-- Arrays Of Permissions to be requested
-    String cameraPermissions[];
-    String storagePermissions[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,17 +116,13 @@ public class SetupProfileActivity extends AppCompatActivity {
         //-- Init Progress dialog
         pd = new ProgressDialog(SetupProfileActivity.this);
 
-        //-- Init arrays of permissions
-        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
         //----------------------------------------------------------------------//
         // Register Event Listener                                              //
         //----------------------------------------------------------------------//
         CV_profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateAlertDialog_Photos();
+                Add_Photo_toUpload();
             }
         });
         BTN_select_tags.setOnClickListener(new View.OnClickListener() {
@@ -242,196 +234,73 @@ public class SetupProfileActivity extends AppCompatActivity {
     }
 
 
-    private void CreateAlertDialog_Photos() {
-
-        String options[] = {"Camera", "Gallery"};
-
-        // Alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(SetupProfileActivity.this);
-
-        // Set Title
-        builder.setTitle("Pick Image From");
-        // Set Items to dialog
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle dialog item clicks
-
-                //-- Camera Clicked
-                if(which == 0)
-                {
-                    if(!checkCameraPermissions())
-                        requestCameraPermissions();
-                    else
-                        pickFromCamera();
-                }
-                //-- Gallery Clicked
-                else if(which == 1)
-                {
-                    if(!checkStoragePermissions())
-                        requestStoragePermissions();
-                    else
-                        pickFromGallery();
-                }
-            }
-        });
-
-        // Create and show dialog
-        builder.create().show();
-    }
-
-
-    //----------------------------------------------------------//
-    //
-    //  HANDLE PERMISSION
-    //
-    //----------------------------------------------------------//
-    private boolean checkStoragePermissions()
+    //-------------------------------------------//
+    // Pick multi-images from gallery
+    //-------------------------------------------//
+    void Add_Photo_toUpload()
     {
-        // Check if storage permission is enabled or not
-        //- return true if enabled, false if not enabled
+        if(ActivityCompat.checkSelfPermission(SetupProfileActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(SetupProfileActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    100);
+            return;
+        }
 
-        boolean result = ContextCompat.checkSelfPermission(SetupProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == (PackageManager.PERMISSION_GRANTED);
-        return result;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void requestStoragePermissions(){
-        // Request run-time storage permission
-        requestPermissions(storagePermissions, STORAGE_REQUEST_CODE);
-    }
-
-
-    private boolean checkCameraPermissions()
-    {
-        // Check if storage permission is enabled or not
-        //- return true if enabled, false if not enabled
-
-        boolean result1 = ContextCompat.checkSelfPermission(SetupProfileActivity.this, Manifest.permission.CAMERA)
-                == (PackageManager.PERMISSION_GRANTED);
-
-        boolean result2 = ContextCompat.checkSelfPermission(SetupProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == (PackageManager.PERMISSION_GRANTED);
-        return (result1 && result2);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void requestCameraPermissions(){
-        // Request run-time storage permission
-        requestPermissions(cameraPermissions, CAMERA_REQUEST_CODE);
-    }
-
-
-    //----------------------------------------------------------//
-    //
-    //  HANDLE Sub Utility(s)
-    //
-    //----------------------------------------------------------//
-    private void pickFromCamera() {
-        // Intent of picking image from device camera
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "Temp Pic");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");
-
-        // Put Image uri
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-        // Intent to start camera
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
-        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
-    }
-    private void pickFromGallery() {
-        // Pick from gallery
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
-        galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent, IMAGE_PICK_GALLERY_CODE);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setType("image/*");
+        startActivityForResult(intent, 1);
     }
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // This method is called when user press Allow or Deny from permission request dialog
-        //-- Here we will handle permission cases (allow & deny)
-
-        switch(requestCode)
-        {
-            case CAMERA_REQUEST_CODE:
-            {
-                // Picking from camera, first check if camera and storage permissions allowed or not
-                if(grantResults.length > 0)
-                {
-                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
-                    // Permission enabled
-                    if(cameraAccepted && writeStorageAccepted)
-                    {
-                        pickFromCamera();
-                    }
-                    // Permission denied
-                    else
-                    {
-                        Toast.makeText(SetupProfileActivity.this, "Please enable camera & storage permission", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-            break;
-            case STORAGE_REQUEST_CODE:
-            {
-                // Picking from gallery, first check if cstorage permissions allowed or not
-                if(grantResults.length > 0)
-                {
-                    boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
-                    // Permission enabled
-                    if(writeStorageAccepted)
-                    {
-                        pickFromGallery();
-                    }
-                    // Permission denied
-                    else
-                    {
-                        Toast.makeText(SetupProfileActivity.this, "Please enable storage permission", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-            break;
-        }
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        // This method will be called after picking image from Camera/Gallery
-        if(resultCode == RESULT_OK)
-        {
-            if(requestCode == IMAGE_PICK_GALLERY_CODE)
-            {
-                //Image is picked from gallery, get uri of image
-                image_uri = data.getData();
-
-                Picasso.get()
-                        .load(image_uri)
-                        .placeholder(R.drawable.ic_add_image)
-                        .error(R.drawable.ic_error)
-                        .into(CV_profileImage);
-
-            }
-            if(requestCode == IMAGE_PICK_CAMERA_CODE)
-            {
-                //Image is picked from camera, get uri of image
-                Picasso.get()
-                        .load(image_uri)
-                        .placeholder(R.drawable.ic_add_image)
-                        .error(R.drawable.ic_error)
-                        .into(CV_profileImage);
-            }
-        }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+            List<Bitmap> bitmaps = new ArrayList<>();
+            ClipData clipData = data.getClipData();
+            if (clipData != null) {
+                for (int i = 0; i < clipData.getItemCount(); ++i) {
+                    Uri imageUri = clipData.getItemAt(i).getUri();
+                    image_uri = imageUri;
+
+                    try {
+                        InputStream is = getContentResolver().openInputStream(imageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        bitmaps.add(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                Uri imageUri = data.getData();
+                image_uri = imageUri;
+                try {
+                    InputStream is = getContentResolver().openInputStream(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    bitmaps.add(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //-- My code
+            for(Bitmap b : bitmaps)
+            {
+                CV_profileImage.setImageBitmap(b);
+            }
+
+        }
+
     }
+
+
+
+
+
 }

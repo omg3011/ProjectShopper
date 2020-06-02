@@ -451,7 +451,7 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         String title = ET_title.getText().toString();
 
         final String id = dataReference_CPlatform.document().getId();
-        final CPlatform_Model collab = new CPlatform_Model(id, timestamp, null, user.getUid(), selectedItems, description, title, 0, false);
+        final CPlatform_Model collab = new CPlatform_Model(id, timestamp, null, user.getUid(), selectedItems, title, description, 0, false);
         dataReference_CPlatform.document(id).set(collab);
 
 

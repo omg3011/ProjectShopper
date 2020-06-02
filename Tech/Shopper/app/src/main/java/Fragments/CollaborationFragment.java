@@ -47,6 +47,7 @@ public class CollaborationFragment extends Fragment {
     FirebaseUser fUser;
     CollectionReference dataReference_CPlatform;
     CollectionReference dataReference_User;
+    CollectionReference dataReference_Request;
 
     //-- View(s)
     RecyclerView RV_list;
@@ -81,6 +82,7 @@ public class CollaborationFragment extends Fragment {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
         dataReference_User = FirebaseFirestore.getInstance().collection("Users");
+        dataReference_Request = FirebaseFirestore.getInstance().collection("RequestMailBox");
 
 
         //----------------------------------------------------------------------//
@@ -88,7 +90,7 @@ public class CollaborationFragment extends Fragment {
         //----------------------------------------------------------------------//
         // Adapter
         collabPostList = new ArrayList<>();
-        adapterCollabPost = new AdapterCollabPost_Profile(getContext(), collabPostList);
+        adapterCollabPost = new AdapterCollabPost_Profile(getContext(), collabPostList, dataReference_Request);
         int numberOfColumns = 2;
         manager = new GridLayoutManager(getContext(), numberOfColumns);
         RV_list.setLayoutManager(manager);

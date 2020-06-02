@@ -48,6 +48,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
     CollectionReference dataReference_Request;
     CollectionReference dataReference_Notification;
     CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_FriendList;
 
     // Get saved data
     CPlatform_Model postData;
@@ -61,6 +62,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
     AdapterRequestPost_Profile_CPlatform adapterRequestPending;
     List<RequestMailBox_Model> requestPendingList;
     LinearLayoutManager manager_requestPending;
+
 
 
     AdapterRequestPost_Profile_CPlatform adapterRequestAccepted;
@@ -111,6 +113,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         dataReference_Request = FirebaseFirestore.getInstance().collection("RequestMailBox");
         dataReference_Notification = FirebaseFirestore.getInstance().collection("Notifications");
         dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
+        dataReference_FriendList = FirebaseFirestore.getInstance().collection("FriendList");
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //------------------------------------------------------------------------//
@@ -118,7 +121,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
         //------------------------------------------------------------------------//
         //-- Adapter for requestPendingList
         requestPendingList = new ArrayList<>();
-        adapterRequestPending = new AdapterRequestPost_Profile_CPlatform(this, requestPendingList, dataReference_User, postData, dataReference_Request, dataReference_Notification, dataReference_CPlatform, 1);
+        adapterRequestPending = new AdapterRequestPost_Profile_CPlatform(this, requestPendingList, dataReference_User, postData, dataReference_Request, dataReference_Notification, dataReference_CPlatform, 1, this, dataReference_FriendList);
         manager_requestPending = new LinearLayoutManager(this);
         manager_requestPending.setOrientation(LinearLayoutManager.VERTICAL);
         RV_request.setLayoutManager(manager_requestPending);
@@ -126,7 +129,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
 
         //-- Adapter for requestAcceptedList
         requestAcceptedList = new ArrayList<>();
-        adapterRequestAccepted = new AdapterRequestPost_Profile_CPlatform(this, requestAcceptedList, dataReference_User, postData, dataReference_Request, dataReference_Notification, dataReference_CPlatform, 2);
+        adapterRequestAccepted = new AdapterRequestPost_Profile_CPlatform(this, requestAcceptedList, dataReference_User, postData, dataReference_Request, dataReference_Notification, dataReference_CPlatform, 2, this, dataReference_FriendList);
         manager_requestAccepted = new LinearLayoutManager(this);
         manager_requestAccepted.setOrientation(LinearLayoutManager.VERTICAL);
         RV_accepted.setLayoutManager(manager_requestAccepted);
@@ -265,7 +268,7 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
 
 
                     // Only show my post
-                    if(!model.getRequester_UID().equals(fUser.getUid()))
+                    if(!model.getCplatformPost_ID().equals(postData.getCPost_uid()))
                         continue;
 
 

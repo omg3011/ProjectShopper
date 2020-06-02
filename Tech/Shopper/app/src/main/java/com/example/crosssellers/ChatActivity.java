@@ -71,6 +71,7 @@ public class ChatActivity extends AppCompatActivity {
     String hisUid;                          // Usage: Receiver(Others) unique id from database
     String myUid;                           // Usage: Sender(Me) unique id from database
     String hisImage;                        // Usage: Receiver(Others) profile picture url
+    String cpostUID;
 
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
@@ -107,11 +108,11 @@ public class ChatActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Chat");
 
         //-- Enable "Actionbar"->back button
+        actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setDisplayShowHomeEnabled(true);
+        //actionbar.setDisplayShowHomeEnabled(true);
 
         //--------------------------------------------------------------------------------------//
         // Setup Scrolling List UI
@@ -132,6 +133,7 @@ public class ChatActivity extends AppCompatActivity {
         // Get save data from previous activity
         Intent intent = getIntent();
         hisUid = intent.getStringExtra("hisUid");
+        cpostUID = intent.getStringExtra("cpostUID");
 
 
 
@@ -154,7 +156,7 @@ public class ChatActivity extends AppCompatActivity {
                         continue;
 
                     // Only look for receiver (other) Uid, since we are only talking to him.
-                    if(otherUid.equals(hisUid))
+                    if(otherUid.equals(hisUid) && cpostUID.equals(doc.getString("cpost_uid")))
                     {
                         // Get data
                         String name = doc.getString("name");
@@ -171,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                         //-- Display ""
                         else if(TextUtils.isEmpty(onlineStatus)) {
-                            TV_status.setText("");
+                            TV_status.setText("offline");
                         }
 
                         //-- Display "Last seen at: dd/mm/yyyy hh:mm am/pm"
@@ -302,53 +304,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    //-------------------------------------------------------------------------------------------------//
-    // Function: Display Buttons in the action bar
-    //-------------------------------------------------------------------------------------------------//
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        // Hide SearchView, as we dont need it here
-        menu.findItem(R.id.action_search).setVisible(false);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    //-------------------------------------------------------------------------------------------------//
-    // Function: Click Buttons in the action bar
-    //-------------------------------------------------------------------------------------------------//
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_logout)
-        {
-            //---------------------------------------------------------------------------------//
-            // Sign out of google account
-            //---------------------------------------------------------------------------------//
-            //-- Check is sign-in using google
-            GoogleSignInOptions gso = new GoogleSignInOptions.
-                    Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
-                    build();
-            GoogleSignInClient googleSignInClient= GoogleSignIn.getClient(this,gso);
-
-            if(googleSignInClient != null)
-            {
-                googleSignInClient.signOut();
-            }
-
-            //---------------------------------------------------------------------------------//
-            // Sign out of firebase database
-            //---------------------------------------------------------------------------------//
-            firebaseAuth.signOut();
-
-            //---------------------------------------------------------------------------------//
-            // Go to home
-            //---------------------------------------------------------------------------------//
-            checkUserStatus();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
@@ -485,7 +441,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //-- Push to database
         String timestamp = String.valueOf(System.currentTimeMillis());
-        Chat_Model chat_model = new Chat_Model(myUid, hisUid, message, timestamp, false);
+        Chat_Model chat_model = new Chat_Model(myUid, hisUid, message, timestamp, false, cpostUID);
         dataReference_chat.add(chat_model);
 
         //-- Reset editText after sending message

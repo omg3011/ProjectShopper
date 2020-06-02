@@ -170,6 +170,13 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                 }
+
+                if(queryDocumentSnapshots.getDocuments().size() == 0)
+                {
+                    slideModels.add(new SlideModel("https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.ip.sx%2Fwere-thrilled-to-welcome-our-new-software-developer-calin-d06057dd2fc&psig=AOvVaw3fPVlYZHW7bs_C_0yO_8io&ust=1591176825421000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOCT9N_p4ukCFQAAAAAdAAAAABAD", "Welcome!"));
+                    imageSlider.setImageList(slideModels, true);
+
+                }
             }
         });
 

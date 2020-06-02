@@ -1,9 +1,6 @@
 package Models;
 
-import com.google.common.collect.Maps;
-
 import java.util.List;
-import java.util.Map;
 
 public class User_Model
 {
@@ -49,6 +46,7 @@ public class User_Model
     //--------------------------------------------------------------//
     // Getter(s) / Setter(s)
     //--------------------------------------------------------------//
+
     public float getRatingValue() {
         return ratingValue;
     }

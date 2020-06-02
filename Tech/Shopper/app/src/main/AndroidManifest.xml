@@ -66,7 +66,7 @@
         <activity
             android:name=".ChatActivity"
             android:parentActivityName=".DashboardActivity"
-            android:theme="@style/AppThemeNo" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".SelectMallActivity" />

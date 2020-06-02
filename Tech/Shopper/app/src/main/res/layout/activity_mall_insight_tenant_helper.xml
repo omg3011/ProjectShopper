@@ -57,6 +57,7 @@
 
         </LinearLayout>
 
+        <!--
         <Button
             android:id="@+id/mall_insight_tenant_helper_chat_btn"
             android:layout_alignParentEnd="true"
@@ -67,6 +68,7 @@
             android:background="@drawable/hollow_circle"
             android:foreground="@drawable/ic_message_black"
             android:foregroundTint="@color/colorMainColour"/>
+            -->
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

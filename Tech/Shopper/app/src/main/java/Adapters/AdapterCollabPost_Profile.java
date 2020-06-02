@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crosssellers.ProfileActivity_CPlatformView;
 import com.example.crosssellers.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,15 +27,18 @@ import java.util.List;
 import java.util.Locale;
 
 import Models.CPlatform_Model;
+import Models.RequestMailBox_Model;
 
 public class AdapterCollabPost_Profile extends RecyclerView.Adapter<AdapterCollabPost_Profile.ViewHolder> {
 
     Context context;
     List<CPlatform_Model> postList;
+    CollectionReference database_Request;
 
-    public AdapterCollabPost_Profile(Context context, List<CPlatform_Model> postList) {
+    public AdapterCollabPost_Profile(Context context, List<CPlatform_Model> postList, CollectionReference database_Request) {
         this.context = context;
         this.postList = postList;
+        this.database_Request = database_Request;
     }
 
 
@@ -44,7 +51,7 @@ public class AdapterCollabPost_Profile extends RecyclerView.Adapter<AdapterColla
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterCollabPost_Profile.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final AdapterCollabPost_Profile.ViewHolder holder, final int position) {
         final CPlatform_Model post = postList.get(position);
 
         //-- Set Text
@@ -56,6 +63,7 @@ public class AdapterCollabPost_Profile extends RecyclerView.Adapter<AdapterColla
         }
         holder.TV_post_title.setText(post.getTitle());
 
+        // Set date
         Date date1 = null;
         try {
             date1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(post.getTimestamp());
@@ -90,8 +98,23 @@ public class AdapterCollabPost_Profile extends RecyclerView.Adapter<AdapterColla
         }
 
         //-- Set Request Count
-        int requestCount = post.getPendingRequestCount();
-        holder.TV_requestCount.setText(Integer.toString(requestCount));
+        database_Request.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int counter = 0;
+                for(DocumentSnapshot doc : queryDocumentSnapshots)
+                {
+                    RequestMailBox_Model requestModel = doc.toObject(RequestMailBox_Model.class);
+
+                    if(requestModel.getCplatformPost_ID().equals(post.getCPost_uid()))
+                    {
+                        if(requestModel.getStatus().equals("pending"))
+                            counter++;
+                    }
+                }
+                holder.TV_requestCount.setText(Integer.toString(counter));
+            }
+        });
 
     }
 

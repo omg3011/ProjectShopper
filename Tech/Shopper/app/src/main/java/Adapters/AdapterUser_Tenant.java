@@ -53,6 +53,7 @@ public class AdapterUser_Tenant extends RecyclerView.Adapter<AdapterUser_Tenant.
         holder.TV_storeUnit.setText(post.getStoreUnit());
 
         // Chat Button
+        /*
         holder.Btn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +62,8 @@ public class AdapterUser_Tenant extends RecyclerView.Adapter<AdapterUser_Tenant.
                 //context.startActivity(intent);
             }
         });
+
+         */
     }
 
 
@@ -99,7 +102,7 @@ public class AdapterUser_Tenant extends RecyclerView.Adapter<AdapterUser_Tenant.
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView TV_storeName, TV_storeTag, TV_storeUnit;
-        Button Btn_chat;
+        //Button Btn_chat;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +110,7 @@ public class AdapterUser_Tenant extends RecyclerView.Adapter<AdapterUser_Tenant.
             TV_storeName = itemView.findViewById(R.id.mall_insight_tenant_helper_storeName_TV);
             TV_storeTag = itemView.findViewById(R.id.mall_insight_tenant_helper_storeTag_TV);
             TV_storeUnit = itemView.findViewById(R.id.mall_insight_tenant_helper_storeUnit_TV);
-            Btn_chat = itemView.findViewById(R.id.mall_insight_tenant_helper_chat_btn);
+            //Btn_chat = itemView.findViewById(R.id.mall_insight_tenant_helper_chat_btn);
         }
     }
     boolean CheckListContainString(List<String> tags, String check)

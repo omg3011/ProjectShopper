@@ -9,6 +9,7 @@ public class Chat_Model {
     String receiver;
     String message;
     String timestamp;
+    String cpost_uid;
     boolean isSeen;
 
     //--------------------------------------------------------------//
@@ -16,17 +17,27 @@ public class Chat_Model {
     //--------------------------------------------------------------//
     public Chat_Model(){}
 
-    public Chat_Model(String sender, String receiver, String message, String timestamp, boolean isSeen) {
+    public Chat_Model(String sender, String receiver, String message, String timestamp, boolean isSeen, String cpost_uid) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.timestamp = timestamp;
         this.isSeen = isSeen;
+        this.cpost_uid = cpost_uid;
     }
 
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
+
+    public String getCpost_uid() {
+        return cpost_uid;
+    }
+
+    public void setCpost_uid(String cpost_uid) {
+        this.cpost_uid = cpost_uid;
+    }
+
     public String getSender() {
         return sender;
     }
