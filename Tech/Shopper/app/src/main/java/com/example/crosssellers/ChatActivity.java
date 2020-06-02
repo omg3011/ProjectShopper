@@ -8,13 +8,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,6 +31,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,13 +47,20 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import Adapters.AdapterChat;
+import Models.CPlatform_Model;
+import Models.CPromotion_Model;
 import Models.Chat_Model;
+import Models.RequestMailBox_Model;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -56,6 +71,8 @@ public class ChatActivity extends AppCompatActivity {
     TextView TV_name, TV_status;
     EditText ET_message;
     ImageButton BTN_send;
+    Button BTN_details;
+    Button BTN_completed;
 
     //-- Firebase Cache Reference(s)
     FirebaseAuth firebaseAuth;              // Usage: Access firebase
@@ -63,6 +80,8 @@ public class ChatActivity extends AppCompatActivity {
     CollectionReference dataReference_user; // Usage: (EventListener) Check if user got OnDataChanged() for "new" user
     CollectionReference dataReference_chat; // Usage: (EventListener) Check if user got OnDataChanged() for "new/modified" messages
     CollectionReference dataReference_seen; // Usage: (EventListener) Check if user has OnDataChanged() for "seen" chat messages
+    CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_RequestMailBox;
 
     List<Chat_Model> chatList;
     AdapterChat adapterChat;
@@ -71,7 +90,11 @@ public class ChatActivity extends AppCompatActivity {
     String hisUid;                          // Usage: Receiver(Others) unique id from database
     String myUid;                           // Usage: Sender(Me) unique id from database
     String hisImage;                        // Usage: Receiver(Others) profile picture url
-    String cpostUID;
+    RequestMailBox_Model requestPost;
+    CPlatform_Model cplatformPost;
+
+    //-- Progres Dialog
+    ProgressDialog pd;
 
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
@@ -93,6 +116,8 @@ public class ChatActivity extends AppCompatActivity {
         TV_status = findViewById(R.id.chat_statusTV);
         ET_message = findViewById(R.id.chat_messageET);
         BTN_send = findViewById(R.id.chat_sendBTN);
+        BTN_details = findViewById(R.id.chat_view_c_details_btn);
+        BTN_completed = findViewById(R.id.chat_completed_btn);
 
         //-- Init Firebase
         firebaseAuth = FirebaseAuth.getInstance();
@@ -102,6 +127,10 @@ public class ChatActivity extends AppCompatActivity {
         dataReference_chat = fireStore.collection("Chats");
         dataReference_seen = fireStore.collection("Chats");
 
+        dataReference_CPlatform = fireStore.collection("CPlatform");
+        dataReference_RequestMailBox = fireStore.collection("RequestMailBox");
+
+        pd = new ProgressDialog(this);
 
         //----------------------------------------------------------------------//
         // Action bar                                                           //
@@ -133,7 +162,16 @@ public class ChatActivity extends AppCompatActivity {
         // Get save data from previous activity
         Intent intent = getIntent();
         hisUid = intent.getStringExtra("hisUid");
-        cpostUID = intent.getStringExtra("cpostUID");
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            requestPost= null;
+            cplatformPost= null;
+        } else {
+            requestPost = (RequestMailBox_Model) extras.getSerializable("requestPost");
+            cplatformPost = (CPlatform_Model) extras.getSerializable("cplatformPost");
+        }
+
 
 
 
@@ -141,6 +179,18 @@ public class ChatActivity extends AppCompatActivity {
         //--------------------------------------------------------------------------------------//
         // Setup Event Listener
         //--------------------------------------------------------------------------------------//
+        BTN_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateAlertDialog_Details();
+            }
+        });
+        BTN_completed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateAlertDialog_Complete();
+            }
+        });
         //-- Listener to update data of (UI) ChatActivity, the most TOP ui
         dataReference_user.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -156,10 +206,10 @@ public class ChatActivity extends AppCompatActivity {
                         continue;
 
                     // Only look for receiver (other) Uid, since we are only talking to him.
-                    if(otherUid.equals(hisUid) && cpostUID.equals(doc.getString("cpost_uid")))
+                    if(otherUid.equals(hisUid))
                     {
                         // Get data
-                        String name = doc.getString("name");
+                        String storeName = doc.getString("storeName");
                         String email = doc.getString("email");
                         String onlineStatus = doc.getString("onlineStatus");
                         hisImage = doc.getString("image");
@@ -188,14 +238,14 @@ public class ChatActivity extends AppCompatActivity {
                         //---------------------------------------------------------//
                         // String cannot be empty, will crash
                         //---------------------------------------------------------//
-                        if(name.isEmpty()) name = email;
+                        if(storeName.isEmpty()) storeName = email;
 
                         if(hisImage.isEmpty()) hisImage = "Error";
 
                         //---------------------------------------------------------//
-                        // Update receiver (other) "name" ui
+                        // Update receiver (other) "storeName" ui
                         //---------------------------------------------------------//
-                        TV_name.setText(name);
+                        TV_name.setText(storeName);
 
 
                         //---------------------------------------------------------//
@@ -247,6 +297,103 @@ public class ChatActivity extends AppCompatActivity {
         seenMessage();
     }
 
+
+    private void CreateAlertDialog_Details() {
+
+        // Alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+
+        // Custom layout for alert dialog
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_dialog_cpost_details, null);
+
+        //-- Title
+        TextView tv_title = view.findViewById(R.id.custom_dialog_cpost_cdetails_title_TV);
+        tv_title.setText(cplatformPost.getTitle());
+
+        //-- Description
+        TextView tv_description = view.findViewById(R.id.custom_dialog_cpost_cdetails_description_TV);
+        tv_description.setText(cplatformPost.getDescription());
+
+        //-- Tags
+        TextView tv_tag = view.findViewById(R.id.custom_dialog_cpost_cdetails_tags_TV);
+        String tags = TextUtils.join(", ", cplatformPost.getCollabTag());
+        tv_tag.setText(tags);
+
+        Date date1 = null;
+        try {
+            date1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(cplatformPost.getTimestamp());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String strDate = dateFormat.format(date1);
+
+        java.text.DateFormat dateFormat2 = new SimpleDateFormat("hh:mm aa");
+        String strTime = dateFormat2.format(date1);
+
+        //-- Date Posted
+        TextView tv_date = view.findViewById(R.id.custom_dialog_cpost_cdetails_date_TV);
+        tv_date.setText(strDate);
+
+        //-- Time Posted
+        TextView tv_time = view.findViewById(R.id.custom_dialog_cpost_cdetails_time_TV);
+        tv_time.setText(strTime);
+
+
+        builder.setView(view)
+                .setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        // Create and show dialog
+        builder.create().show();
+    }
+
+
+    private void CreateAlertDialog_Complete() {
+
+        // Alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+
+        // Set Title
+        builder.setTitle("Confirmation");
+        builder.setMessage("Are you sure you want to close the collaboration?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        pd.setMessage("Closing collaboration. Please wait..");
+                        pd.show();
+
+                        // Close CPlatform->Is_Collab_flag
+                        HashMap<String, Object> cpostResult = new HashMap<>();
+                        cpostResult.put("collab_closed_flag", true);
+                        dataReference_CPlatform.document(cplatformPost.getCPost_uid()).update(cpostResult).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                // Remove RequestMailBox
+                                dataReference_RequestMailBox.document(requestPost.getRequestMailBoxID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("Test", "Deleted: " + requestPost.getRequestMailBoxID());
+                                        pd.dismiss();
+                                        startActivity(new Intent(ChatActivity.this, DashboardActivity.class));
+                                        finish();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("Test", "Failed");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null);
+        // Create and show dialog
+        builder.create().show();
+    }
     @Override
     protected void onStart() {
         //--------------------------------------------------------------------------------------//
@@ -441,7 +588,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //-- Push to database
         String timestamp = String.valueOf(System.currentTimeMillis());
-        Chat_Model chat_model = new Chat_Model(myUid, hisUid, message, timestamp, false, cpostUID);
+        Chat_Model chat_model = new Chat_Model(myUid, hisUid, message, timestamp, false, requestPost.getCplatformPost_ID());
         dataReference_chat.add(chat_model);
 
         //-- Reset editText after sending message

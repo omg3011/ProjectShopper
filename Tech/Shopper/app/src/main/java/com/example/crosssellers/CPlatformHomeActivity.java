@@ -209,6 +209,8 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                                         break;
                                     case REMOVED:
                                         // To be done later
+                                        collabPostList.remove(model);
+                                        adapterCollabPostCPlatform.notifyDataSetChanged();
                                         break;
                                     default:
                                         throw new IllegalStateException("Unexpected value: " + doc.getType());

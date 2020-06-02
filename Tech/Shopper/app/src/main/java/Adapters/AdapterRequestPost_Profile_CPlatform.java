@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -147,7 +148,8 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                              */
                             Intent intent = new Intent(context, ChatActivity.class);
                             intent.putExtra("hisUid", post.getRequester_UID());
-                            intent.putExtra("cpostUID", post.getCplatformPost_ID());
+                            intent.putExtra("requestPost", post);
+                            intent.putExtra("cplatformPost", postData);
                             context.startActivity(intent);
                             activity.finish();
                         }

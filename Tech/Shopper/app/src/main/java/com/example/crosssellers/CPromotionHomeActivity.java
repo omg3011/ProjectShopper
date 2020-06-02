@@ -256,6 +256,8 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
                                     break;
                                 case REMOVED:
                                     // To be done later
+                                    promoPostList.remove(model);
+                                    adapterPromoPostPromo.notifyDataSetChanged();
                                     break;
                                 default:
                                     throw new IllegalStateException("Unexpected value: " + doc.getType());

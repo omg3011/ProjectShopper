@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="100">
+            android:weightSum="100"
+            android:layout_marginVertical="10dp">
 
             <TextView
                 android:id="@+id/profile_promo_helper_post_title_TV"
@@ -64,7 +65,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:layout_width="75dp"
@@ -89,7 +91,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/profile_promo_helper_closed_TV"
@@ -98,8 +100,9 @@
                 android:text="Promotion Ended"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:fontFamily="@font/open_sans_bold"
-                android:background="@drawable/rounded_button"/>
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/rounded_button"
+                android:gravity="center"/>
         </RelativeLayout>
     </LinearLayout>
 

@@ -21,65 +21,82 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="centerCrop"
+            android:layout_marginHorizontal="5dp"
             android:src="@drawable/ic_default"
             app:c_background_color="@color/colorMainDarkColour"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp">
 
-            <LinearLayout
+            <!-- Receiver name -->
+            <TextView
+                android:id="@+id/chat_nameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="start"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp">
-
-                <!-- Receiver name -->
-                <TextView
-                    android:id="@+id/chat_nameTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans"
-                    android:text="His Name"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <!-- Receiver status (Online/offline) -->
-                <TextView
-                    android:id="@+id/chat_statusTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans"
-                    android:text="online"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <!-- Completed Collab -->
-            <Button
-                android:id="@+id/chat_completed_btn"
-                android:layout_margin="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Finish"
-                android:textSize="10sp"
                 android:fontFamily="@font/montserrat_bold"
-                android:background="@drawable/rounded_button"
-                android:backgroundTint="@color/colorBackgroundColour"
-                android:textColor="@color/colorMainColour"/>
+                android:text="His Name"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxLength="14"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Receiver status (Online/offline) -->
+            <TextView
+                android:id="@+id/chat_statusTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="online"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxLength="22"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
+
+
 
 
     </androidx.appcompat.widget.Toolbar>
 
+    <!-- Completed Collab -->
+    <Button
+        android:id="@+id/chat_completed_btn"
+        android:layout_margin="8dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:text="Completed"
+        android:textSize="10sp"
+        android:fontFamily="@font/montserrat_bold"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorBackgroundColour"
+        android:textColor="@color/colorMainColour"
+        android:layout_alignParentEnd="true"
+        />
+
+    <Button
+        android:id="@+id/chat_view_c_details_btn"
+        android:layout_below="@+id/chat_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="View Collaboration Details"
+        android:backgroundTint="@color/colorSplashscreenBackground"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"/>
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -88,7 +105,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/chat_toolbar"
         android:layout_marginBottom="60dp"/>
-    
+
     <!-- Send message, Edit Text and button in layout -->
     <LinearLayout
         android:id="@+id/chat_chatLayout"
@@ -108,6 +125,7 @@
             android:padding="15dp"
             android:inputType="textCapSentences|textMultiLine"
             android:layout_width="0dp"
+            android:textColor="@color/colorBlack"
             android:layout_height="wrap_content"/>
 
         <!-- Button: Send Message -->

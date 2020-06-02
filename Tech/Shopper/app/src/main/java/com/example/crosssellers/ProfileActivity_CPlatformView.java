@@ -314,6 +314,17 @@ public class ProfileActivity_CPlatformView extends AppCompatActivity {
                             }
                             break;
                         case REMOVED:
+                            if(requestPendingList.contains(model))
+                            {
+                                requestPendingList.remove(model);
+                                adapterRequestPending.notifyDataSetChanged();
+                            }
+
+                            if(requestAcceptedList.contains(model))
+                            {
+                                requestAcceptedList.remove(model);
+                                adapterRequestAccepted.notifyDataSetChanged();
+                            }
                             break;
                         default:
                             throw new IllegalStateException("Unexpected value: " + doc.getType());

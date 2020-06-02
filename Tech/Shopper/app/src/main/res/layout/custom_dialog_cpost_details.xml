@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/custom_dialog_cpost_c_details_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Collaboration Details"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/colorMainColour"
+            />
+
+        <View
+            android:id="@+id/custom_dialog_cpost_cdetails_view"
+            android:layout_below="@+id/custom_dialog_cpost_c_details_tv"
+            android:layout_width="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+
+        <LinearLayout
+            android:layout_below="@+id/custom_dialog_cpost_cdetails_view"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorWhite">
+
+            <!-- Parent: Post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <!-- Post Title -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Title:"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/colorMainColour"
+                        android:textSize="16sp"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_dialog_cpost_cdetails_title_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"/>
+
+                </LinearLayout>
+
+
+                <!-- Post Description -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="Description:"
+                        android:textColor="@color/colorMainColour"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="16sp"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_dialog_cpost_cdetails_description_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 For 1 Free..."
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
+
+
+                <!-- Post Tags -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Possible Collaborators:"
+                        android:textColor="@color/colorMainColour"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="16sp"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_dialog_cpost_cdetails_tags_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Sports"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
+
+                <!-- Post Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorMainColour"
+                        android:text="Date Posted:"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_dialog_cpost_cdetails_date_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="dd/mm/yyyy"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
+
+                <!-- Post Time -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorMainColour"
+                        android:text="Time Posted:"/>
+
+
+                    <TextView
+                        android:id="@+id/custom_dialog_cpost_cdetails_time_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="hh:mm aa"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginBottom="20dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

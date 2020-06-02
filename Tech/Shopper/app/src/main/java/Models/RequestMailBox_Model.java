@@ -1,6 +1,8 @@
 package Models;
 
-public class RequestMailBox_Model {
+import java.io.Serializable;
+
+public class RequestMailBox_Model implements Serializable {
 
     private String status;
     private String cplatformPost_ID;
