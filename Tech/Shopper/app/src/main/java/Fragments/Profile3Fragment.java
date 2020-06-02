@@ -16,10 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.crosssellers.EditProfileActivity;
 import com.example.crosssellers.MainActivity;
 import com.example.crosssellers.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,6 +51,7 @@ public class Profile3Fragment extends Fragment {
     TextView TV_storeName, TV_mallName, TV_storeUnit, TV_storeTag, TV_ratingQuantity, TV_ratingValue;
     RatingBar RB_rating;
     ImageView IV_storeImage;
+    Button BTN_editProfile;
 
     //-- Setup database
     private FirebaseAuth mAuth;
@@ -90,6 +93,16 @@ public class Profile3Fragment extends Fragment {
         TV_ratingValue = view.findViewById(R.id.profile3_ratingValue_TV);
         RB_rating = view.findViewById(R.id.profile3_rating_RB);
         IV_storeImage = view.findViewById(R.id.profile3_store_image_IV);
+
+        BTN_editProfile = view.findViewById(R.id.profile3_store_edit_BTN);
+
+        BTN_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), EditProfileActivity.class));
+                getActivity().finish();
+            }
+        });
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("Loading store profile...");

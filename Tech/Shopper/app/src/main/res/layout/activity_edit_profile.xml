@@ -14,7 +14,7 @@
         android:layout_height="150dp">
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-            android:id="@+id/setup_profile_image_cv"
+            android:id="@+id/edit_setup_profile_image_cv"
             android:layout_marginVertical="10dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -25,14 +25,14 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/setup_profile_storeName_et"
+        android:id="@+id/edit_setup_profile_storeName_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Store Name"
         android:textSize="20sp"/>
 
     <EditText
-        android:id="@+id/setup_profile_storeUnit_et"
+        android:id="@+id/edit_setup_profile_storeUnit_et"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/setup_profile_storetags_TV"
+            android:id="@+id/edit_setup_profile_storetags_TV"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -74,7 +74,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/setup_profile_tag_button"
+            android:id="@+id/edit_setup_profile_tag_button"
             android:layout_width="140dp"
             android:layout_height="30dp"
             android:background="@drawable/rounded_button"
@@ -89,7 +89,7 @@
         android:background="@android:color/darker_gray"/>
 
     <Button
-        android:id="@+id/setup_profile_submitBtn"
+        android:id="@+id/edit_setup_profile_submitBtn"
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_gravity="center"

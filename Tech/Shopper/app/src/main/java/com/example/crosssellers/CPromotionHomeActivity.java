@@ -211,6 +211,8 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
                             //    continue;
                             //}
 
+                            if(model.isCollab_closed_flag())
+                                continue;
 
                             //------------------------------------------------------------------------------//
                             // (3) If the post's tag, contains this user tag, then show it

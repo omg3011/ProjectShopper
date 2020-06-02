@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundColour"
     tools:context=".MallInsightActivity_Tenant">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/mall_insight_tenant_filter_btn"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Filter"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button"
+        android:textSize="15sp"
+        android:layout_margin="10dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/colorBackgroundColour"
+        android:id="@+id/mall_insight_tenant_RV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

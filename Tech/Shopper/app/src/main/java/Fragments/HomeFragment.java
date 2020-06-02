@@ -8,19 +8,24 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.crosssellers.CPlatformHomeActivity;
+import com.example.crosssellers.CPlatformViewActivity;
 import com.example.crosssellers.CPromotionHomeActivity;
 import com.example.crosssellers.MainActivity;
 import com.example.crosssellers.MallInsightActivity_Home;
@@ -29,11 +34,19 @@ import com.example.crosssellers.ShopInsightActivity_Home;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Models.CPlatform_Model;
 
 
 /**
@@ -43,10 +56,16 @@ public class HomeFragment extends Fragment {
 
     //-- Setup database
     private FirebaseAuth mAuth;
+    FirebaseUser fUser;
+    CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_User;
+    List<CPlatform_Model> modelList = new ArrayList<>();
 
     //-- View component
     ImageSlider imageSlider;
     GridLayout gridLayout;
+
+    int numOfFeature = 4;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -64,6 +83,9 @@ public class HomeFragment extends Fragment {
         //----------------------------------------------------------------------//
         //-- Cache Database
         mAuth = FirebaseAuth.getInstance();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
+        dataReference_User = FirebaseFirestore.getInstance().collection("Users");
 
         //-- Init Views
         imageSlider = view.findViewById(R.id.home_IS);
@@ -113,16 +135,43 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        //-- Setup Grid
-
         //-- Setup ImageSlider
-        List<SlideModel> slideModels = new ArrayList<>();
-        slideModels.add(new SlideModel("https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1066/https://www.knetizen.com/wp-content/uploads/2019/07/BLACKPINK-Jennie-2.jpeg", "BlackPink1"));
-        slideModels.add(new SlideModel("https://lh3.googleusercontent.com/4mflEEJlSkBungqNgt7Q6ir7vQjdP30_EqtA8JOGKsYL56z3Z53K0UoO_iAAnoLIa8Tpnwqe8sIKmSWXMW9ypO-JRZ4znDU1=w1600-rw", "BlackPink2"));
-        slideModels.add(new SlideModel("https://lh3.googleusercontent.com/Dr6Smjtx7pEkYnroIl13L-Ezv2SWeEmfoTJbkxU9aQeaCsJx38Kb6sP0ded8aub8aRqozUZIPhjX1Yp8TQDrBYuc8Cw0n0jB_VQ=w1600-rw", "BlackPink3"));
-        slideModels.add(new SlideModel("https://lh3.googleusercontent.com/WEg0z9f75hMaWY322TUi2REGviUS54iZBJJgblijZQY2PqmuKdPgUU4Jvw7t6fdjGIPsJiTXEfmvIS2S-fhgAuzyg-TeAO5P=w1600-rw", "BlackPink4"));
+        final List<SlideModel> slideModels = new ArrayList<>();
+        dataReference_CPlatform.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(int i = 0; i < queryDocumentSnapshots.getDocuments().size(); ++i)
+                {
+                    DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(i);
+                    CPlatform_Model model = documentSnapshot.toObject(CPlatform_Model.class);
 
-        imageSlider.setImageList(slideModels, true);
+                    if(!model.isCollab_closed_flag())
+                    {
+                        // Add Data
+                        slideModels.add(new SlideModel(model.getUploads().get(0), model.getTitle()));
+                        modelList.add(model);
+
+                        // Countdown
+                        numOfFeature--;
+                    }
+
+                    if(i == queryDocumentSnapshots.getDocuments().size()-1 || numOfFeature <= 0)
+                    {
+                        imageSlider.setImageList(slideModels, true);
+                        imageSlider.setItemClickListener(new ItemClickListener() {
+                            @Override
+                            public void onItemSelected(int i) {
+                                Intent intent = new Intent(getContext(), CPlatformViewActivity.class);
+                                intent.putExtra("post", modelList.get(i));
+                                getContext().startActivity(intent);
+                            }
+                        });
+
+                        break;
+                    }
+                }
+            }
+        });
 
         return view;
     }

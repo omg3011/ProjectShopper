@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -163,56 +164,60 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                             //{
                             //    continue;
                             //}
-
-
-                            //------------------------------------------------------------------------------//
-                            // (3) If the post's tag, contains this user tag, then show it
-                            //------------------------------------------------------------------------------//
-                            //-- Is message added / modified / removed?
-                            switch(doc.getType())
+                            if(!model.isCollab_closed_flag())
                             {
-                                case ADDED:
-                                    if(model.getCollabTag().contains(userTag[0]))
-                                    {
-                                        //---------------------------------------------------------//
-                                        // Update UI to display the changes in the list
-                                        //---------------------------------------------------------//
-                                        collabPostList.add(model);
 
-                                        collabPostList.sort(new Comparator<CPlatform_Model>()
+                                //------------------------------------------------------------------------------//
+                                // (3) If the post's tag, contains this user tag, then show it
+                                //------------------------------------------------------------------------------//
+                                //-- Is message added / modified / removed?
+                                switch(doc.getType())
+                                {
+                                    case ADDED:
+                                        if(model.getCollabTag().contains(userTag[0]))
                                         {
-                                            @Override
-                                            public int compare(CPlatform_Model o1, CPlatform_Model o2) {
-                                                //-- Get Timestamp
-                                                Date date1 = null;
-                                                Date date2 = null;
-                                                try {
-                                                    date1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o1.getTimestamp());
-                                                } catch (ParseException ex) {
-                                                    ex.printStackTrace();
+                                            //---------------------------------------------------------//
+                                            // Update UI to display the changes in the list
+                                            //---------------------------------------------------------//
+                                            collabPostList.add(model);
+
+                                            collabPostList.sort(new Comparator<CPlatform_Model>()
+                                            {
+                                                @Override
+                                                public int compare(CPlatform_Model o1, CPlatform_Model o2) {
+                                                    //-- Get Timestamp
+                                                    Date date1 = null;
+                                                    Date date2 = null;
+                                                    try {
+                                                        date1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o1.getTimestamp());
+                                                    } catch (ParseException ex) {
+                                                        ex.printStackTrace();
+                                                    }
+                                                    try {
+                                                        date2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o2.getTimestamp());
+                                                    } catch (ParseException ex) {
+                                                        ex.printStackTrace();
+                                                    }
+
+                                                    return date2.compareTo(date1);
                                                 }
-                                                try {
-                                                    date2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).parse(o2.getTimestamp());
-                                                } catch (ParseException ex) {
-                                                    ex.printStackTrace();
-                                                }
+                                            });
 
-                                                return date2.compareTo(date1);
-                                            }
-                                        });
+                                            adapterCollabPostCPlatform.notifyDataSetChanged();
 
-                                        adapterCollabPostCPlatform.notifyDataSetChanged();
-
-                                    }
-                                    break;
-                                case MODIFIED:
-                                    break;
-                                case REMOVED:
-                                    // To be done later
-                                    break;
-                                default:
-                                    throw new IllegalStateException("Unexpected value: " + doc.getType());
+                                        }
+                                        break;
+                                    case MODIFIED:
+                                        break;
+                                    case REMOVED:
+                                        // To be done later
+                                        break;
+                                    default:
+                                        throw new IllegalStateException("Unexpected value: " + doc.getType());
+                                }
                             }
+
+
                         }
                     }
                 });
