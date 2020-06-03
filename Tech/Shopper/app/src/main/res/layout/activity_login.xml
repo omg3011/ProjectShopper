@@ -10,12 +10,11 @@
     android:background="@color/colorBackgroundColour">
 
     <LinearLayout
-        android:id="@+id/login_ll"
+        android:id="@+id/Login_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
-
 
         <!-- Text: Let's Collab-->
         <TextView
@@ -38,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
             android:fontFamily="@font/montserrat_bold"
             android:text="Login"
             android:textAlignment="center"
@@ -56,11 +54,11 @@
 
 
     <LinearLayout
+        android:id="@+id/login_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/login_ll">
-
+        android:layout_below="@+id/Login_details">
 
         <!-- TextView: Mall -->
         <TextView
@@ -209,9 +207,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/login_details">
 
         <!-- Text: Recover password -->
         <TextView
@@ -222,7 +222,7 @@
             android:text="@string/recover_password"
             android:textColor="@color/colorBlack"
             android:textAlignment="center"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/dont_have_account_tv"

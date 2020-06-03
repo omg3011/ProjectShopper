@@ -9,136 +9,152 @@
     android:layout_marginTop="20dp"
     android:background="@color/colorBackgroundColour">
 
-    <!-- Text: Let's Collab-->
-    <TextView
-        android:id="@+id/ss_name_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/lemonada_bold"
-        android:text="Let's Collab"
-        android:textColor="@color/colorMainColour"
-        android:textSize="35sp"
-        android:textStyle="bold" />
-
-    <!-- Text: Register -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/Register_Screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:gravity="center_horizontal"
-        android:text="Register"
-        android:textAlignment="center"
-        android:textColor="@color/colorMainColour"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <!-- TextView: Mall -->
-    <TextView
-        android:id="@+id/register_mall_TV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/emailTIL"
-        android:fontFamily="@font/open_sans_bold"
-        android:text="xxx Mall"
-        android:textSize="20sp" />
-
-    <View
-        android:layout_below="@+id/register_mall_TV"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
-
-    <!-- EditText: Email -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/emailTIL">
-
-        <EditText
-            android:id="@+id/emailET"
-            android:inputType="textEmailAddress"
-            android:hint="Email"
-            android:background="@drawable/textbox_border"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
-            android:paddingLeft="10dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <!-- EditText: Password -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/passwordTIL"
-        android:layout_below="@id/emailTIL"
-        app:passwordToggleEnabled="true">
-
-        <EditText
-            android:id="@+id/passwordET"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:paddingLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textbox_border" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Button: Register -->
-    <RelativeLayout
-        android:id="@+id/register_RL"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/passwordTIL"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true">
-
-        <Button
-            android:id="@+id/register_registerbtn"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/rounded_button"
-            />
-        <ImageView
-            android:id="@+id/registerImage"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/user"
-            android:scaleType="fitXY"
-            android:layout_margin="10dp"
-            android:elevation="2dp"
-            android:backgroundTint="@color/colorWhite"
-            />
-
+        <!-- Text: Let's Collab-->
         <TextView
-            android:id="@+id/registerText"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignLeft="@+id/registerImage"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="15dp"
-            android:elevation="2dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:gravity="center"
-            android:text="Register"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
+            android:id="@+id/ss_name_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/lemonada_bold"
+            android:text="Let's Collab"
+            android:textColor="@color/colorMainColour"
+            android:textSize="35sp"
             android:textStyle="bold" />
-    </RelativeLayout>
+
+        <!-- Text: Register -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center_horizontal"
+            android:text="Register"
+            android:textAlignment="center"
+            android:textColor="@color/colorMainColour"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Register_Details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="120dp"
+        android:layout_below="@+id/Register_Screen">
+        <!-- TextView: Mall -->
+        <TextView
+            android:id="@+id/register_mall_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/emailTIL"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="xxx Mall"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_below="@+id/register_mall_TV"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+
+        <!-- EditText: Email -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/emailTIL">
+
+            <EditText
+                android:id="@+id/emailET"
+                android:inputType="textEmailAddress"
+                android:hint="Email"
+                android:background="@drawable/textbox_border"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:paddingLeft="10dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- EditText: Password -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/passwordTIL"
+            android:layout_below="@id/emailTIL"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/passwordET"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textbox_border" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Button: Register -->
+        <RelativeLayout
+            android:id="@+id/register_RL"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/passwordTIL"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/register_registerbtn"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/rounded_button"
+                />
+            <ImageView
+                android:id="@+id/registerImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/user"
+                android:scaleType="fitXY"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                android:backgroundTint="@color/colorWhite"
+                />
+
+            <TextView
+                android:id="@+id/registerText"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignLeft="@+id/registerImage"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:elevation="2dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:text="Register"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <!-- Text: Go to login page -->
     <TextView
@@ -147,7 +163,7 @@
         android:layout_height="wrap_content"
         android:text="@string/already_have_an_account"
         android:gravity="center"
-        android:layout_below="@+id/register_RL"
+        android:layout_below="@+id/Register_Details"
         android:layout_marginTop="30dp"
         android:textColor="@color/colorBlack"
         />
