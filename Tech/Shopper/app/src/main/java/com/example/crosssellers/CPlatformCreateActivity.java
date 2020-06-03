@@ -455,8 +455,9 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         dataReference_CPlatform.document(id).set(collab);
 
 
-        Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration " + title + ".");
-        dataReference_Notification.document().set(notification);
+        final String notify_id = dataReference_Notification.document().getId();
+        Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration " + title + ".", notify_id);
+        dataReference_Notification.document(notify_id).set(notification);
 
         //------------------------------------------------------------------------------------------------------------//
         // Upload the image into storage

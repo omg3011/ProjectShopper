@@ -185,12 +185,20 @@ public class ChatActivity extends AppCompatActivity {
                 CreateAlertDialog_Details();
             }
         });
-        BTN_completed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateAlertDialog_Complete();
-            }
-        });
+
+        if(cplatformPost.getPosterUid().equals(firebaseAuth.getCurrentUser().getUid()))
+        {
+            BTN_completed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CreateAlertDialog_Complete();
+                }
+            });
+        }
+        else
+        {
+            BTN_completed.setVisibility(View.GONE);
+        }
         //-- Listener to update data of (UI) ChatActivity, the most TOP ui
         dataReference_user.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -290,6 +298,12 @@ public class ChatActivity extends AppCompatActivity {
         //---------------------------------------------------------------------------------------------//
         chatList = new ArrayList<>();
 
+
+        // Adapter
+        adapterChat = new AdapterChat(ChatActivity.this, chatList, hisImage);
+        adapterChat.notifyDataSetChanged();
+        recyclerView.setAdapter(adapterChat);
+
         //--------------------------------------------------------------------------------------//
         // Setup 2 more Event Listener
         //--------------------------------------------------------------------------------------//
@@ -372,7 +386,9 @@ public class ChatActivity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
 
                                 // Remove RequestMailBox
-                                dataReference_RequestMailBox.document(requestPost.getRequestMailBoxID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                HashMap<String, Object> crequestResult = new HashMap<>();
+                                crequestResult.put("status", "completed");
+                                dataReference_RequestMailBox.document(requestPost.getRequestMailBoxID()).update(crequestResult).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("Test", "Deleted: " + requestPost.getRequestMailBoxID());
@@ -465,6 +481,10 @@ public class ChatActivity extends AppCompatActivity {
         dataReference_seen.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                // If got error, end
+                if(e != null)
+                    return;
+
                 // Check until required info is received
                 List<String> seenList = new ArrayList<>();
                 for (DocumentSnapshot doc : queryDocumentSnapshots) {
@@ -509,6 +529,7 @@ public class ChatActivity extends AppCompatActivity {
     // Function: (EventListener) OnDataChange(), display all chat messages
     //-------------------------------------------------------------------------------------------------//
     private void readMessages() {
+        final int[] sized = {0};
         dataReference_chat.orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -537,14 +558,13 @@ public class ChatActivity extends AppCompatActivity {
                                 //---------------------------------------------------------//
                                 // Update UI to display the changes in the list
                                 //---------------------------------------------------------//
-                                // Adapter
-                                adapterChat = new AdapterChat(ChatActivity.this, chatList, hisImage);
-                                adapterChat.notifyDataSetChanged();
-                                recyclerView.setAdapter(adapterChat);
-
-
                                 // Scroll all the way down
-                                recyclerView.scrollToPosition(chatList.size() - 1);
+                                sized[0] = chatList.size() - 1;
+                                if(sized[0] < 0) sized[0] = 0;
+                                recyclerView.scrollToPosition(sized[0]);
+
+                                // Update display ui to display modified value
+                                adapterChat.notifyDataSetChanged();
                                 break;
                             case MODIFIED:
                                 //-----------------------------------------------------------------------//
@@ -560,11 +580,22 @@ public class ChatActivity extends AppCompatActivity {
                                     adapterChat.notifyDataSetChanged();
 
                                     // Scroll all the way down
-                                    recyclerView.scrollToPosition(chatList.size() - 1);
+                                    int sized = chatList.size() - 1;
+                                    if(sized < 0) sized = 0;
+                                    recyclerView.scrollToPosition(sized);
                                 }
                                 break;
                             case REMOVED:
                                 // To be done later
+                                chatList.remove(chat);
+                                // Update display ui to display modified value
+                                adapterChat.notifyDataSetChanged();
+
+                                // Scroll all the way down
+                                sized[0] = chatList.size() - 1;
+                                if(sized[0] < 0) sized[0] = 0;
+                                recyclerView.scrollToPosition(sized[0]);
+
                                 break;
                         }
                     }
@@ -620,7 +651,7 @@ public class ChatActivity extends AppCompatActivity {
         //-- User not signed in
         else
         {
-            startActivity(new Intent(ChatActivity.this, MainActivity.class));
+            startActivity(new Intent(ChatActivity.this, SelectMallActivity.class));
             finish();
         }
     }

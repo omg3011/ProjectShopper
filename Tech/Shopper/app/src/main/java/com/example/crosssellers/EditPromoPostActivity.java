@@ -446,8 +446,9 @@ public class EditPromoPostActivity extends AppCompatActivity {
                                         }
                                     });
 
-                            Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have edited a promotion post. (" + title + ")");
-                            dataReference_Notification.document().set(notification);
+                            final String notify_id1 = dataReference_Notification.document().getId();
+                            Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have edited a promotion post. (" + title + ")", notify_id1);
+                            dataReference_Notification.document(notify_id1).set(notification);
                         }
                     }
                 }

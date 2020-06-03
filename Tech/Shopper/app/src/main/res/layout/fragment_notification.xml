@@ -1,14 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="Fragments.NotificationFragment"
-    android:background="@color/colorBackgroundColour">
+    android:background="@color/colorBackgroundColour"
+    android:orientation="vertical"
+    android:weightSum="100"
+    android:layout_margin="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="10dp"
         android:id="@+id/notification_rv"
+        android:layout_weight="95"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"/>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/notification_clear_all_btn"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserrat_bold"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:text="Clear all"/>
+</LinearLayout>

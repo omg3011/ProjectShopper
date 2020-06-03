@@ -1,6 +1,7 @@
 package com.example.crosssellers;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,14 +24,20 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -42,9 +50,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import Adapters.AdapterUsers;
 import Models.CPlatform_Model;
 import Models.Notification_Model;
 import Models.RequestMailBox_Model;
+import Models.User_Model;
+
+import static android.view.View.GONE;
 
 public class CPlatformViewActivity extends AppCompatActivity {
 
@@ -157,15 +169,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setDisplayShowHomeEnabled(true);
 
-        //---------------------------------------------------------------------------//
-        //  Add Event Listener
-        //---------------------------------------------------------------------------//
-        BTN_request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateAlertDialog_Request();
-            }
-        });
+
 
         //---------------------------------------------------------------------------//
         //  Database
@@ -202,6 +206,65 @@ public class CPlatformViewActivity extends AppCompatActivity {
         String strTime = dateFormat2.format(date1);
         TV_postTime.setText(strTime);
         TV_postDate.setText(strDate);
+
+        //---------------------------------------------------------------------------//
+        //  Add Event Listener
+        //---------------------------------------------------------------------------//
+        // Get all data from path ^
+        dataReference_RequestMailBox.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean found = false;
+                            List<DocumentSnapshot> myListOfDocuments = task.getResult().getDocuments();
+
+                            for(DocumentSnapshot doc : myListOfDocuments)
+                            {
+                                RequestMailBox_Model rModel = doc.toObject(RequestMailBox_Model.class);
+
+                                // CPostID is same
+                                if(rModel.getCplatformPost_ID().equals(postData.getCPost_uid()))
+                                {
+                                    // I am the requester
+                                    if(rModel.getRequester_UID().equals(fUser.getUid()))
+                                    {
+                                        found = true;
+                                        BTN_request.setText(rModel.getStatus().toUpperCase());
+                                        BTN_request.setBackgroundColor(Color.GRAY);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(!found)
+                            {
+                                // Edit
+                                if(postData.getPosterUid().equals(fUser.getUid()))
+                                {
+                                    BTN_request.setText("Edit Post");
+                                    BTN_request.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Create_to_EditPost();
+                                        }
+                                    });
+                                }
+                                // Request
+                                else
+                                {
+                                    BTN_request.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            CreateAlertDialog_Request();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+
 
         //-- Update UI for "store" data
         //-- Retrieve data from database
@@ -285,6 +348,13 @@ public class CPlatformViewActivity extends AppCompatActivity {
         }
     }
 
+    void Create_to_EditPost()
+    {
+        Intent intent = new Intent(CPlatformViewActivity.this, EditCPlatformPostActivity.class);
+        intent.putExtra("post", postData);
+        startActivity(intent);
+        finish();
+    }
     private void CreateAlertDialog_Request() {
 
         // Alert dialog
@@ -319,7 +389,7 @@ public class CPlatformViewActivity extends AppCompatActivity {
         final String uid = fUser.getUid();
         final String request_postID = dataReference_RequestMailBox.document().getId().toString();
 
-        RequestMailBox_Model requestModel = new RequestMailBox_Model(status, cplatform_postID, uid, request_postID);
+        RequestMailBox_Model requestModel = new RequestMailBox_Model(status, cplatform_postID, uid, request_postID, postData.getPosterUid());
 
         dataReference_RequestMailBox.document(request_postID).set(requestModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -340,12 +410,14 @@ public class CPlatformViewActivity extends AppCompatActivity {
                         //-----------------------------------------------------------------------//
                         posterStoreName[0] = (String) documentSnapshot.get("storeName");
 
-                        Notification_Model notification1 = new Notification_Model(timestampPost, cplatform_postID, posterStoreName[0] + " requested to collaborate with you.");
-                        dataReference_Notification.document().set(notification1);
+                        final String notify_id1 = dataReference_Notification.document().getId();
+                        Notification_Model notification1 = new Notification_Model(timestampPost, cplatform_postID, posterStoreName[0] + " requested to collaborate with you.", notify_id1);
+                        dataReference_Notification.document(notify_id1).set(notification1);
 
                         // Send to requester ("You have request")
-                        Notification_Model notification2 = new Notification_Model(timestampPost, uid, "You have requested a collaboration with " + posterStoreName[0] + ".");
-                        dataReference_Notification.document().set(notification2);
+                        final String notify_id2 = dataReference_Notification.document().getId();
+                        Notification_Model notification2 = new Notification_Model(timestampPost, uid, "You have requested a collaboration with " + posterStoreName[0] + ".", notify_id2);
+                        dataReference_Notification.document(notify_id2).set(notification2);
 
                         // Update count requester for CPlatform
                         HashMap<String, Object> results = new HashMap<>();

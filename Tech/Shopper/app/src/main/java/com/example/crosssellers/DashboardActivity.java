@@ -9,24 +9,16 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import Fragments.ChatListFragment;
 import Fragments.HomeFragment;
 import Fragments.NotificationFragment;
-import Fragments.Profile3Fragment;
 import Fragments.ProfileFragment;
-import Fragments.UsersFragment;
+import Fragments.ChatFragment;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -68,6 +60,10 @@ public class DashboardActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
+
+
+        navigationView.getOrCreateBadge(R.id.nav_notification).setNumber(2);
+        navigationView.getOrCreateBadge(R.id.nav_profile).setNumber(4);
 
         //----------------------------------------------------------------------//
         // Default Transaction: Home Fragment                                   //
@@ -123,7 +119,7 @@ public class DashboardActivity extends AppCompatActivity {
                             //Profile fragment translation
                             actionbar.setTitle("Profile");
                             //ProfileFragment fragment2 = new ProfileFragment();
-                            Profile3Fragment fragment2 = new Profile3Fragment();
+                            ProfileFragment fragment2 = new ProfileFragment();
                             loadFragment(fragment2);
                             actionbar.show();
                             return true;
@@ -136,19 +132,11 @@ public class DashboardActivity extends AppCompatActivity {
                             actionbar.show();
                             return true;
 
-                        case R.id.nav_users:
+                        case R.id.nav_partner:
                             //Users fragment translation
-                            actionbar.setTitle("Users");
-                            UsersFragment fragment3 = new UsersFragment();
+                            actionbar.setTitle("Partners");
+                            ChatFragment fragment3 = new ChatFragment();
                             loadFragment(fragment3);
-                            actionbar.show();
-                            return true;
-
-                        case R.id.nav_chat:
-                            //Chat fragment translation
-                            actionbar.setTitle("Chats");
-                            ChatListFragment fragment4 = new ChatListFragment();
-                            loadFragment(fragment4);
                             actionbar.show();
                             return true;
                     }
@@ -189,7 +177,7 @@ public class DashboardActivity extends AppCompatActivity {
         //-- User not signed in
         else
         {
-            startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+            startActivity(new Intent(DashboardActivity.this, SelectMallActivity.class));
             finish();
         }
     }

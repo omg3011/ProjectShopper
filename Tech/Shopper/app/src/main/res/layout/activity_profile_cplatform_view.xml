@@ -50,21 +50,21 @@
                         android:textSize="20sp"
                         android:layout_marginBottom="10dp"/>
 
-                    <Button
-                        android:id="@+id/profile_cplatform_view_delete_btn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:foreground="@drawable/ic_delete_black"
-                        android:foregroundTint="@color/colorMainColour"
-                        android:background="@drawable/hollow_circle"/>
 
                     <Button
                         android:id="@+id/profile_cplatform_view_edit_btn"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:foreground="@drawable/ic_edit_black"
+                        android:foregroundTint="@color/colorMainColour"
+                        android:background="@drawable/hollow_circle"/>
+                    <Button
+                        android:id="@+id/profile_cplatform_view_delete_btn"
+                        android:layout_width="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="40dp"
+                        android:foreground="@drawable/ic_delete_black"
                         android:foregroundTint="@color/colorMainColour"
                         android:background="@drawable/hollow_circle"/>
                 </LinearLayout>

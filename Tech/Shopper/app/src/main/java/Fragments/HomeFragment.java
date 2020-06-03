@@ -30,6 +30,7 @@ import com.example.crosssellers.CPromotionHomeActivity;
 import com.example.crosssellers.MainActivity;
 import com.example.crosssellers.MallInsightActivity_Home;
 import com.example.crosssellers.R;
+import com.example.crosssellers.SelectMallActivity;
 import com.example.crosssellers.ShopInsightActivity_Home;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -250,7 +251,7 @@ public class HomeFragment extends Fragment {
         //-- User not signed in
         else
         {
-            startActivity(new Intent(getActivity(), MainActivity.class));
+            startActivity(new Intent(getActivity(), SelectMallActivity.class));
             getActivity().finish();
         }
     }

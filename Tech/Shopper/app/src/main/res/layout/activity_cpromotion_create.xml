@@ -221,6 +221,8 @@
                     android:fontFamily="@font/open_sans"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:hint="Set a title" />
 
             </LinearLayout>

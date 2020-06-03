@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -224,12 +225,14 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                                                         final String timestampPost = simpleDateFormat.format(new Date());
 
                                                         // Send to rejected user, you have been rejected
-                                                        Notification_Model notification1 = new Notification_Model(timestampPost, post.getRequester_UID(), "You have been rejected to collaborate with " + myStoreName[0] + ".");
-                                                        dataReference_Notification.document().set(notification1);
+                                                        String notify_id1 = dataReference_Notification.document().getId();
+                                                        Notification_Model notification1 = new Notification_Model(timestampPost, post.getRequester_UID(), "You have been rejected to collaborate with " + myStoreName[0] + ".", notify_id1);
+                                                        dataReference_Notification.document(notify_id1).set(notification1);
 
                                                         // Send to myself, i reject someone
-                                                        Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have rejected a collaboration with " + requesterStoreName[0] + ".");
-                                                        dataReference_Notification.document().set(notification2);
+                                                        String notify_id2 = dataReference_Notification.document().getId();
+                                                        Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have rejected a collaboration with " + requesterStoreName[0] + ".", notify_id2);
+                                                        dataReference_Notification.document(notify_id2).set(notification2);
 
                                                         //--------------------------------------------------------------------------------//
                                                         // Update UI
@@ -315,12 +318,14 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                                                                 final String timestampPost = simpleDateFormat.format(new Date());
 
                                                                 // Send to accepted user, you have been accpted
-                                                                Notification_Model notification1 = new Notification_Model(timestampPost, post.getRequester_UID(), "You have been accepted to collaborate with " + myStoreName[0] + ".");
-                                                                dataReference_Notification.document().set(notification1);
+                                                                String notify_id1 = dataReference_Notification.document().getId();
+                                                                Notification_Model notification1 = new Notification_Model(timestampPost, post.getRequester_UID(), "You have been accepted to collaborate with " + myStoreName[0] + ".", notify_id1);
+                                                                dataReference_Notification.document(notify_id1).set(notification1);
 
                                                                 // Send to myself, i accpted someone
-                                                                Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have accepted a collaboration with " + requesterStoreName[0] + ".");
-                                                                dataReference_Notification.document().set(notification2);
+                                                                String notify_id2 = dataReference_Notification.document().getId();
+                                                                Notification_Model notification2 = new Notification_Model(timestampPost, fUser.getUid(), "You have accepted a collaboration with " + requesterStoreName[0] + ".", notify_id2);
+                                                                dataReference_Notification.document(notify_id2).set(notification2);
 
 
 

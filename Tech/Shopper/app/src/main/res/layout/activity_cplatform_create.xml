@@ -159,6 +159,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10sp"
                     android:fontFamily="@font/open_sans"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:hint="Set a title"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />

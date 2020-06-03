@@ -10,15 +10,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.crosssellers.MainActivity;
 import com.example.crosssellers.R;
+import com.example.crosssellers.SelectMallActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -54,6 +57,7 @@ public class NotificationFragment extends Fragment  {
     CollectionReference dataReference_Notification;
     CollectionReference dataReference_User;
 
+    Button btn_remove_all;
 
     RecyclerView RV_notificationPost;
 
@@ -76,6 +80,7 @@ public class NotificationFragment extends Fragment  {
 
         //-- Init Views
         RV_notificationPost = view.findViewById(R.id.notification_rv);
+        btn_remove_all = view.findViewById(R.id.notification_clear_all_btn);
 
 
         //----------------------------------------------------------------------//
@@ -102,9 +107,27 @@ public class NotificationFragment extends Fragment  {
         //-- Retrieve data from database
         getNotificationPost();
 
+        //-- CLick listener
+        btn_remove_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RemoveAllNotificationFromDB();
+            }
+        });
+
         return view;
     }
 
+    void RemoveAllNotificationFromDB()
+    {
+        for(Notification_Model model : notificationPostList)
+        {
+            dataReference_Notification.document(model.getNotificationPost_uid()).delete();
+        }
+
+        notificationPostList.clear();
+        adapterNotificationPost.notifyDataSetChanged();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // To show menu option in fragment
@@ -172,7 +195,7 @@ public class NotificationFragment extends Fragment  {
         //-- User not signed in
         else
         {
-            startActivity(new Intent(getActivity(), MainActivity.class));
+            startActivity(new Intent(getActivity(), SelectMallActivity.class));
             getActivity().finish();
         }
     }
@@ -231,6 +254,11 @@ public class NotificationFragment extends Fragment  {
                            break;
                        case REMOVED:
                            // To be done later
+                           if(notificationPostList.contains(model))
+                           {
+                               notificationPostList.remove(model);
+                               adapterNotificationPost.notifyDataSetChanged();
+                           }
                            break;
                        default:
                            throw new IllegalStateException("Unexpected value: " + doc.getType());

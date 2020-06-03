@@ -8,6 +8,26 @@
         <item name="colorAccent">#CC0044</item>
     </style>
 
+    <style name="JoelTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">#E60037</item>
+        <item name="colorPrimaryDark">#CC0044</item>
+        <item name="colorAccent">#CC0044</item>
+
+        <!--
+        <item name="colorPrimary">@android:color/holo_orange_light</item>
+        <item name="colorPrimaryVariant">@android:color/holo_orange_light</item>
+        <item name="colorOnPrimary">@android:color/holo_orange_light</item>
+        <item name="colorSecondary">@android:color/holo_orange_light</item>
+        <item name="colorSecondaryVariant">@android:color/holo_orange_light</item>
+        <item name="colorOnSecondary">@android:color/holo_orange_light</item>
+        <item name="colorError">@android:color/holo_orange_light</item>
+        <item name="colorOnError">@android:color/holo_orange_light</item>
+        <item name="colorSurface">@android:color/holo_orange_light</item>
+        <item name="colorOnSurface">@android:color/holo_orange_light</item>
+        <item name="android:colorBackground">@android:color/holo_orange_light</item>
+        <item name="colorOnBackground">@android:color/holo_orange_light</item>
+        -->
+    </style>
 
     <style name="Button">
     </style>

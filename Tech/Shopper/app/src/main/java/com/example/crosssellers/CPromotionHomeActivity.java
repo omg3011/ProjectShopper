@@ -206,8 +206,8 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
                             CPromotion_Model model = doc.getDocument().toObject(CPromotion_Model.class);
 
                             // Dont show my post
-                            if(model.getPosterUid().equals(fUser.getUid()))
-                                continue;
+                            //if(model.getPosterUid().equals(fUser.getUid()))
+                            //    continue;
 
                             if(model.isCollab_closed_flag())
                                 continue;

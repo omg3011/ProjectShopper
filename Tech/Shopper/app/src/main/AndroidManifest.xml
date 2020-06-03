@@ -70,7 +70,8 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".SelectMallActivity" />
-        <activity android:name=".DashboardActivity" />
+        <activity android:name=".DashboardActivity"
+            android:theme="@style/JoelTheme"/>
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".SelectMallActivity" />

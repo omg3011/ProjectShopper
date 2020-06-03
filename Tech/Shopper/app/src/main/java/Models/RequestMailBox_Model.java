@@ -8,13 +8,31 @@ public class RequestMailBox_Model implements Serializable {
     private String cplatformPost_ID;
     private String requester_UID;
     private String requestMailBox_ID;
+    private String owner_UID;
 
     public RequestMailBox_Model(){}
-    public RequestMailBox_Model(String status, String cplatformPost_ID, String requester_UID, String requestMailBox_ID) {
+    public RequestMailBox_Model(String status, String cplatformPost_ID, String requester_UID, String requestMailBox_ID, String owner_UID) {
         this.status = status;
         this.cplatformPost_ID = cplatformPost_ID;
         this.requester_UID = requester_UID;
         this.requestMailBox_ID = requestMailBox_ID;
+        this.owner_UID = owner_UID;
+    }
+
+    public String getRequestMailBox_ID() {
+        return requestMailBox_ID;
+    }
+
+    public void setRequestMailBox_ID(String requestMailBox_ID) {
+        this.requestMailBox_ID = requestMailBox_ID;
+    }
+
+    public String getOwner_UID() {
+        return owner_UID;
+    }
+
+    public void setOwner_UID(String owner_UID) {
+        this.owner_UID = owner_UID;
     }
 
     public String getRequestMailBoxID() {

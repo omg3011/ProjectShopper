@@ -5,13 +5,23 @@ public class Notification_Model {
     String timestamp;
     String uid;
     String message;
+    String notificationPost_uid;
 
     public Notification_Model(){}
 
-    public Notification_Model(String timestamp, String uid, String message) {
+    public Notification_Model(String timestamp, String uid, String message, String notificationPost_uid) {
         this.timestamp = timestamp;
         this.uid = uid;
         this.message = message;
+        this.notificationPost_uid = notificationPost_uid;
+    }
+
+    public String getNotificationPost_uid() {
+        return notificationPost_uid;
+    }
+
+    public void setNotificationPost_uid(String notificationPost_uid) {
+        this.notificationPost_uid = notificationPost_uid;
     }
 
     public String getTimestamp() {

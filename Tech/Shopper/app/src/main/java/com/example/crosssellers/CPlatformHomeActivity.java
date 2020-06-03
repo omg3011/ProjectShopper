@@ -160,8 +160,8 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                             CPlatform_Model model = doc.getDocument().toObject(CPlatform_Model.class);
 
                             // Dont show my post
-                            if(model.getPosterUid().equals(fUser.getUid()))
-                                continue;
+                            //if(model.getPosterUid().equals(fUser.getUid()))
+                            //    continue;
                             if(!model.isCollab_closed_flag())
                             {
 
