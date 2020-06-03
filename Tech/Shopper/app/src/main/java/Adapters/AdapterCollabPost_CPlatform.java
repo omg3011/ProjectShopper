@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,24 +15,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crosssellers.CPlatformViewActivity;
 import com.example.crosssellers.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import Models.CPlatform_Model;
+import Models.User_Model;
 
 public class AdapterCollabPost_CPlatform extends RecyclerView.Adapter<AdapterCollabPost_CPlatform.ViewHolder> {
 
     Context context;
     List<CPlatform_Model> postList;
+    CollectionReference dataReference_user;
 
-    public AdapterCollabPost_CPlatform(Context context, List<CPlatform_Model> postList) {
+    public AdapterCollabPost_CPlatform(Context context, List<CPlatform_Model> postList, CollectionReference dataReference_user) {
         this.context = context;
         this.postList = postList;
+        this.dataReference_user = dataReference_user;
     }
 
 
@@ -44,7 +53,7 @@ public class AdapterCollabPost_CPlatform extends RecyclerView.Adapter<AdapterCol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final CPlatform_Model post = postList.get(position);
 
         //-- Set Text
@@ -78,6 +87,34 @@ public class AdapterCollabPost_CPlatform extends RecyclerView.Adapter<AdapterCol
                 context.startActivity(intent);
             }
         });
+
+        dataReference_user.document(post.getPosterUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                final User_Model user = documentSnapshot.toObject(User_Model.class);
+                if(user.getRatingList() == null || user.getRatingList().size() <= 0)
+                {
+                    holder.RB.setRating(0.0f);
+                }
+                else
+                    holder.RB.setRating(GetRatingFromList(user.getRatingList()));
+            }
+        });
+    }
+
+    Float GetRatingFromList(List<Double> ratings)
+    {
+        String rateString = "";
+        double rateValue = 0.0f;
+
+        for(Double x : ratings)
+        {
+            rateValue += x;
+        }
+
+        rateValue /= ratings.size();
+
+        return (float)rateValue;
     }
 
     @Override
@@ -89,10 +126,12 @@ public class AdapterCollabPost_CPlatform extends RecyclerView.Adapter<AdapterCol
 
         TextView TV_post_title, TV_tags, TV_date_posted, TV_time_posted;
         CardView CV_click;
+        RatingBar RB;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            RB = itemView.findViewById(R.id.cplatform_home_helper_rating_RB);
             TV_post_title = itemView.findViewById(R.id.cplatform_home_helper_post_title_TV);
             TV_tags = itemView.findViewById(R.id.cplatform_home_helper_tags_TV);
             TV_date_posted = itemView.findViewById(R.id.cplatform_home_helper_date_TV);

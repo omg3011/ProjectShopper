@@ -58,6 +58,10 @@ public class CPlatformHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cplatform_home);
 
+        //-- DB
+        dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
+        dataReference_User = FirebaseFirestore.getInstance().collection("Users");
+
         //-- Cache Reference
         BTN_create_collab = findViewById(R.id.cplatform_create_collab_btn);
         RV_collabPost = findViewById(R.id.cplatform_home_RV);
@@ -71,7 +75,7 @@ public class CPlatformHomeActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Adapter
         collabPostList = new ArrayList<>();
-        adapterCollabPostCPlatform = new AdapterCollabPost_CPlatform(this, collabPostList);
+        adapterCollabPostCPlatform = new AdapterCollabPost_CPlatform(this, collabPostList, dataReference_User);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         RV_collabPost.setLayoutManager(manager);
@@ -127,8 +131,6 @@ public class CPlatformHomeActivity extends AppCompatActivity {
     void getCollabPostRelatedByTag()
     {
         // Get Path of database named "Users" containing user info
-        dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
-        dataReference_User = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference doc = dataReference_User.document(fUser.getUid());
         final String[] userTag = new String[1];
 

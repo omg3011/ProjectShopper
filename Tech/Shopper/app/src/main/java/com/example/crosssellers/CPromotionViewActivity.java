@@ -50,6 +50,7 @@ import Adapters.AdapterStoreImages;
 import Models.CPlatform_Model;
 import Models.CPromotion_Model;
 import Models.RequestMailBox_Model;
+import Models.User_Model;
 
 public class CPromotionViewActivity extends AppCompatActivity {
 
@@ -179,6 +180,7 @@ public class CPromotionViewActivity extends AppCompatActivity {
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                final User_Model user = documentSnapshot.toObject(User_Model.class);
                 TV_storeName.setText(documentSnapshot.getString("storeName"));
                 TV_mallName.setText(documentSnapshot.getString("mallName"));
                 TV_storeUnit.setText(documentSnapshot.getString("storeUnit"));
@@ -195,11 +197,19 @@ public class CPromotionViewActivity extends AppCompatActivity {
                         .into(IV_storeProfile);
 
 
-                //-- ToDO
                 RB_storeRating.setMax(5);
-                RB_storeRating.setRating(4);
-                TV_storeRatingQuantity.setText("(4)");
-                TV_storeRatingValue.setText("4.0");
+                if(user.getRatingList() == null || user.getRatingList().size() <= 0)
+                {
+                    RB_storeRating.setRating(0);
+                    TV_storeRatingQuantity.setText("(0)");
+                    TV_storeRatingValue.setText("0.0");
+                }
+                else
+                {
+                    RB_storeRating.setRating(GetRatingFromList(user.getRatingList()));
+                    TV_storeRatingQuantity.setText("("+Integer.toString(user.getRatingList().size()) + ")");
+                    TV_storeRatingValue.setText(Float.toString(RB_storeRating.getRating()));
+                }
                 pd.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -210,6 +220,22 @@ public class CPromotionViewActivity extends AppCompatActivity {
             }
         });
     }
+
+    Float GetRatingFromList(List<Double> ratings)
+    {
+        String rateString = "";
+        double rateValue = 0.0f;
+
+        for(Double x : ratings)
+        {
+            rateValue += x;
+        }
+
+        rateValue /= ratings.size();
+
+        return (float)rateValue;
+    }
+
 
     void addImageViewToLinearLayout(ImageView iv)
     {

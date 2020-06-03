@@ -39,6 +39,7 @@ import Models.CPlatform_Model;
 import Models.FriendList_Model;
 import Models.Notification_Model;
 import Models.RequestMailBox_Model;
+import Models.User_Model;
 
 public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<AdapterRequestPost_Profile_CPlatform.ViewHolder> {
 
@@ -98,6 +99,7 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
         doc_user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                final User_Model user = documentSnapshot.toObject(User_Model.class);
 
                 //-- Set store name
                 requesterStoreName[0] = (String) documentSnapshot.get("storeName");
@@ -132,6 +134,13 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                         }
                     });
 
+
+                    if(user.getRatingList() == null || user.getRatingList().size() <= 0)
+                    {
+                        holder.RB.setRating(0.0f);
+                    }
+                    else
+                        holder.RB.setRating(GetRatingFromList(user.getRatingList()));
                 }
                 //-- Show Request Accepted UI
                 else
@@ -155,13 +164,31 @@ public class AdapterRequestPost_Profile_CPlatform extends RecyclerView.Adapter<A
                             activity.finish();
                         }
                     });
+
+                    if(user.getRatingList() == null || user.getRatingList().size() <= 0)
+                    {
+                        holder.RB.setRating(0.0f);
+                    }
+                    else
+                        holder.RB.setRating(GetRatingFromList(user.getRatingList()));
                 }
             }
         });
+    }
 
+    Float GetRatingFromList(List<Double> ratings)
+    {
+        String rateString = "";
+        double rateValue = 0.0f;
 
+        for(Double x : ratings)
+        {
+            rateValue += x;
+        }
 
+        rateValue /= ratings.size();
 
+        return (float)rateValue;
     }
 
     private void sendRejectRequestToDB(final RequestMailBox_Model post) {

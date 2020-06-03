@@ -130,7 +130,7 @@
                 android:isIndicator="true"
                 android:transformPivotX="0dp"
                 android:max="5"
-                android:rating="4"
+                android:rating="0"
                 android:scaleX="1.2"
                 android:scaleY="1.2"/>
 

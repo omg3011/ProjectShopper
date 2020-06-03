@@ -38,7 +38,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import Adapters.ViewPagerAdapter;
+import Models.User_Model;
 
 public class ProfileFragment extends Fragment {
 
@@ -112,6 +115,7 @@ public class ProfileFragment extends Fragment {
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                final User_Model myuser = documentSnapshot.toObject(User_Model.class);
                 TV_storeName.setText(documentSnapshot.getString("storeName"));
                 TV_mallName.setText(documentSnapshot.getString("mallName"));
                 TV_storeUnit.setText(documentSnapshot.getString("storeUnit"));
@@ -128,11 +132,18 @@ public class ProfileFragment extends Fragment {
                         .into(IV_storeImage);
 
 
-                //-- ToDO
-                TV_ratingQuantity.setText("(4)");
-                RB_rating.setMax(5);
-                RB_rating.setRating(4);
-                TV_ratingValue.setText("4.0");
+                if(myuser.getRatingList() == null || myuser.getRatingList().size() <= 0)
+                {
+                    RB_rating.setRating(0);
+                    TV_ratingQuantity.setText("(0)");
+                    TV_ratingValue.setText("0.0");
+                }
+                else
+                {
+                    RB_rating.setRating(GetRatingFromList(myuser.getRatingList()));
+                    TV_ratingQuantity.setText("("+Integer.toString(myuser.getRatingList().size()) + ")");
+                    TV_ratingValue.setText(Float.toString(RB_rating.getRating()));
+                }
                 pd.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -145,8 +156,6 @@ public class ProfileFragment extends Fragment {
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
 
-
-
         // Adding fragments
         adapter.AddFragment(new CollaborationFragment(), "Collaborations");
         adapter.AddFragment(new PromotionFragment(), "Promotions");
@@ -157,6 +166,21 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+
+    Float GetRatingFromList(List<Double> ratings)
+    {
+        String rateString = "";
+        double rateValue = 0.0f;
+
+        for(Double x : ratings)
+        {
+            rateValue += x;
+        }
+
+        rateValue /= ratings.size();
+
+        return (float)rateValue;
+    }
 
     //--------------------------------------------------------//
     // Inflate option menu

@@ -1,8 +1,9 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User_Model
+public class User_Model implements Serializable
 {
     //--------------------------------------------------------------//
     // Variable(s) Declaration
@@ -20,14 +21,14 @@ public class User_Model
     String storeTag;
     boolean setup_profile;
     float ratingValue;
-    List<Integer> ratingList;
+    List<Double> ratingList;
 
     //--------------------------------------------------------------//
     // Constructor(s)
     //--------------------------------------------------------------//
     public User_Model(){}
 
-    public User_Model(String email, String uid, String name, String phone, String image, String onlineStatus, String mallName, String storeName, String storeUnit, String storeTag, boolean setup_profile, float ratingValue, List<Integer> ratingList) {
+    public User_Model(String email, String uid, String name, String phone, String image, String onlineStatus, String mallName, String storeName, String storeUnit, String storeTag, boolean setup_profile, float ratingValue, List<Double> ratingList) {
         this.email = email;
         this.uid = uid;
         this.name = name;
@@ -55,11 +56,11 @@ public class User_Model
         this.ratingValue = ratingValue;
     }
 
-    public List<Integer> getRatingList() {
+    public List<Double> getRatingList() {
         return ratingList;
     }
 
-    public void setRatingList(List<Integer> ratingList) {
+    public void setRatingList(List<Double> ratingList) {
         this.ratingList = ratingList;
     }
 

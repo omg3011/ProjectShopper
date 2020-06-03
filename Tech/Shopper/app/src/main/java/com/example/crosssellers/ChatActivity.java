@@ -42,6 +42,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -56,11 +57,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import Adapters.AdapterChat;
 import Models.CPlatform_Model;
 import Models.CPromotion_Model;
 import Models.Chat_Model;
+import Models.Notification_Model;
 import Models.RequestMailBox_Model;
 
 public class ChatActivity extends AppCompatActivity {
@@ -83,6 +86,7 @@ public class ChatActivity extends AppCompatActivity {
     CollectionReference dataReference_seen; // Usage: (EventListener) Check if user has OnDataChanged() for "seen" chat messages
     CollectionReference dataReference_CPlatform;
     CollectionReference dataReference_RequestMailBox;
+    CollectionReference dataReference_Notification;
 
     List<Chat_Model> chatList;
     AdapterChat adapterChat;
@@ -131,6 +135,7 @@ public class ChatActivity extends AppCompatActivity {
 
         dataReference_CPlatform = fireStore.collection("CPlatform");
         dataReference_RequestMailBox = fireStore.collection("RequestMailBox");
+        dataReference_Notification = fireStore.collection("Notifications");
 
         pd = new ProgressDialog(this);
 
@@ -432,6 +437,16 @@ public class ChatActivity extends AppCompatActivity {
 
     void CreateDialog_Rate()
     {
+
+        //-- Get Timestamp
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        String timestamp = simpleDateFormat.format(new Date());
+
+        final String notify_id = dataReference_Notification.document().getId();
+        Notification_Model notification = new Notification_Model(timestamp, cplatformPost.getPosterUid(), "You have completed a collaboration " + cplatformPost.getTitle() + ".", notify_id);
+        dataReference_Notification.document(notify_id).set(notification);
+
         // Alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
 
@@ -439,16 +454,38 @@ public class ChatActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View content =  inflater.inflate(R.layout.custom_alert_dialog_rate, null);
         final RatingBar ratingBar = (RatingBar)content.findViewById(R.id.custom_alert_dialog_rate_rating_RB);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            // Called when the user swipes the RatingBar
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+            }
+        });
         builder.setView(content)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
                 {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        HashMap<String, Object> userResult = new HashMap<>();
-                        userResult.put("ratingList", Float.toString(ratingBar.getRating()));
-                        dataReference_user.document(hisUid).update(userResult);
-                        startActivity(new Intent(ChatActivity.this, DashboardActivity.class));
-                        finish();
+                        pd.setMessage("Closing collaboration...");
+                        pd.show();
+                        //HashMap<String, Object> userResult = new HashMap<>();
+                        //userResult.put("ratingList", ratingBar.getRating());
+                        dataReference_user.document(hisUid).update("ratingList", FieldValue.arrayUnion(ratingBar.getRating())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                pd.dismiss();
+                                startActivity(new Intent(ChatActivity.this, DashboardActivity.class));
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                pd.dismiss();
+                                Toast.makeText(ChatActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
 

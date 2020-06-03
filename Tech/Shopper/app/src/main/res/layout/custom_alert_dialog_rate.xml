@@ -8,9 +8,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
         android:layout_centerInParent="true"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        >
 
         <TextView
             android:id="@+id/custom_alert_dialog_rate_congrat_tv"
@@ -31,6 +31,8 @@
             android:layout_marginTop="10dp"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"/>
+
+
 
         <TextView
             android:layout_marginTop="20dp"
@@ -58,14 +60,14 @@
 
             <RatingBar
                 android:id="@+id/custom_alert_dialog_rate_rating_RB"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:theme="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="false"
-                android:isIndicator="true"
                 android:transformPivotX="0dp"
                 android:max="5"
-                android:rating="5"
+                android:isIndicator="false"
+                android:rating="4"
                 android:gravity="center"/>
 
 

@@ -70,6 +70,8 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
 
         //-- Init DB
         fUser = FirebaseAuth.getInstance().getCurrentUser();
+        dataReference_CPromotion = FirebaseFirestore.getInstance().collection("Promotions");
+        dataReference_User = FirebaseFirestore.getInstance().collection("Users");
 
 
         //----------------------------------------------------------------------//
@@ -77,7 +79,7 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Adapter
         promoPostList = new ArrayList<>();
-        adapterPromoPostPromo = new AdapterPromoPost_Promo(this, promoPostList);
+        adapterPromoPostPromo = new AdapterPromoPost_Promo(this, promoPostList, dataReference_User);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         RV_promoPost.setLayoutManager(manager);
@@ -173,8 +175,6 @@ public class CPromotionHomeActivity  extends AppCompatActivity {
     void getPromoPostRelatedByTag()
     {
         // Get Path of database named "Users" containing user info
-        dataReference_CPromotion = FirebaseFirestore.getInstance().collection("Promotions");
-        dataReference_User = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference doc = dataReference_User.document(fUser.getUid());
         final String[] userTag = new String[1];
 

@@ -137,6 +137,7 @@ public class ShopInsightActivity_Product extends AppCompatActivity {
         mChart.setDrawGridBackground(false);
 
 
+
         XAxis xl = mChart.getXAxis();
        // xl.setPosition(XAxis.XAxisPosition.BOTTOM);
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -163,18 +164,20 @@ public class ShopInsightActivity_Product extends AppCompatActivity {
         yr.setDrawLabels(false);
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-        yVals1.add(new BarEntry(0, 5));
-        yVals1.add(new BarEntry(1, 12));
-        yVals1.add(new BarEntry(2, 15));
-        yVals1.add(new BarEntry(3, 18));
         yVals1.add(new BarEntry(4, 60));
+        yVals1.add(new BarEntry(3, 18));
+        yVals1.add(new BarEntry(2, 15));
+        yVals1.add(new BarEntry(1, 12));
+        yVals1.add(new BarEntry(0, 5));
 
 
         BarDataSet set1;
         set1 = new BarDataSet(yVals1, "DataSet 1");
+        set1.setColors(ColorTemplate.JOYFUL_COLORS);
         ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
         dataSets.add(set1);
         BarData data = new BarData(dataSets);
+
         data.setValueTextSize(10f);
         data.setBarWidth(.9f);
         mChart.setData(data);
