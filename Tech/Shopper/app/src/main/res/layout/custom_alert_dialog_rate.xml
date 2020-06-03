@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:layout_centerInParent="true"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/custom_alert_dialog_rate_congrat_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Collaboration Completed!"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/colorMainColour"
+            />
+
+        <View
+            android:id="@+id/custom_alert_dialog_rate_congrat_view"
+            android:layout_below="@+id/custom_alert_dialog_rate_congrat_tv"
+            android:layout_width="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/custom_alert_dialog_rate_congrat_view"
+            android:id="@+id/custom_alert_dialog_rate_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rate your collaborator!"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/colorMainColour"
+            android:fontFamily="@font/montserrat"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/custom_alert_dialog_rate_tv"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="20dp">
+
+
+            <RatingBar
+                android:id="@+id/custom_alert_dialog_rate_rating_RB"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:isIndicator="true"
+                android:transformPivotX="0dp"
+                android:max="5"
+                android:rating="5"
+                android:gravity="center"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
