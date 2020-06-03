@@ -23,8 +23,6 @@
         android:textStyle="bold" />
 
     <!-- Text: Register -->
-
-    <!-- TextView: Mall -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +37,7 @@
         android:textSize="32sp"
         android:textStyle="bold" />
 
+    <!-- TextView: Mall -->
     <TextView
         android:id="@+id/register_mall_TV"
         android:layout_width="match_parent"
