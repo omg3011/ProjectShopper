@@ -49,7 +49,7 @@ public class ProfileFragment extends Fragment {
     TextView TV_storeName, TV_mallName, TV_storeUnit, TV_storeTag, TV_ratingQuantity, TV_ratingValue;
     RatingBar RB_rating;
     ImageView IV_storeImage;
-    Button BTN_editProfile;
+    ImageView BTN_editProfile;
 
     //-- Setup database
     private FirebaseAuth mAuth;

@@ -96,6 +96,7 @@ public class ChatActivity extends AppCompatActivity {
     //-- Progres Dialog
     ProgressDialog pd;
 
+    boolean init = false;
     //-------------------------------------------------------------------------------------------------------------------------------------------//
     //
     // Built-In Function(s)
@@ -199,10 +200,14 @@ public class ChatActivity extends AppCompatActivity {
         {
             BTN_completed.setVisibility(View.GONE);
         }
+
         //-- Listener to update data of (UI) ChatActivity, the most TOP ui
         dataReference_user.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if(e != null)
+                    return;
 
                 // Check until required info is received
                 for (DocumentSnapshot doc : queryDocumentSnapshots)
@@ -248,7 +253,11 @@ public class ChatActivity extends AppCompatActivity {
                         //---------------------------------------------------------//
                         if(storeName.isEmpty()) storeName = email;
 
-                        if(hisImage.isEmpty()) hisImage = "Error";
+                        if(hisImage.isEmpty())
+                        {
+                            Log.d("Test", "Error getting image");
+                            hisImage = "Error";
+                        }
 
                         //---------------------------------------------------------//
                         // Update receiver (other) "storeName" ui
@@ -267,48 +276,57 @@ public class ChatActivity extends AppCompatActivity {
                                 .into(IV_profile);
                     }
                 }
+
+
+                if(!init)
+                {
+                    init = true;
+
+
+                    //-- Listener for click Button to send message
+                    BTN_send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Get text from editText
+                            String message = ET_message.getText().toString().trim();
+                            // Check if text is empty or not
+                            if(TextUtils.isEmpty(message))
+                            {
+                                // Text empty
+                                Toast.makeText(ChatActivity.this, "Cannot send empty message...", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                // Text not empty, then we send message
+                                sendMessage(message);
+                            }
+                        }
+                    });
+
+
+                    //---------------------------------------------------------------------------------------------//
+                    // Setup private variable (Treat this as smart pointer, don't need to "delete" after "new")
+                    //---------------------------------------------------------------------------------------------//
+                    chatList = new ArrayList<>();
+
+
+                    // Adapter
+                    adapterChat = new AdapterChat(ChatActivity.this, chatList, hisImage);
+                    adapterChat.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapterChat);
+
+                    //--------------------------------------------------------------------------------------//
+                    // Setup 2 more Event Listener
+                    //--------------------------------------------------------------------------------------//
+                    readMessages();
+                    seenMessage();
+                }
             }
         });
 
 
 
-        //-- Listener for click Button to send message
-        BTN_send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get text from editText
-                String message = ET_message.getText().toString().trim();
-                // Check if text is empty or not
-                if(TextUtils.isEmpty(message))
-                {
-                    // Text empty
-                    Toast.makeText(ChatActivity.this, "Cannot send empty message...", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    // Text not empty, then we send message
-                    sendMessage(message);
-                }
-            }
-        });
 
-
-        //---------------------------------------------------------------------------------------------//
-        // Setup private variable (Treat this as smart pointer, don't need to "delete" after "new")
-        //---------------------------------------------------------------------------------------------//
-        chatList = new ArrayList<>();
-
-
-        // Adapter
-        adapterChat = new AdapterChat(ChatActivity.this, chatList, hisImage);
-        adapterChat.notifyDataSetChanged();
-        recyclerView.setAdapter(adapterChat);
-
-        //--------------------------------------------------------------------------------------//
-        // Setup 2 more Event Listener
-        //--------------------------------------------------------------------------------------//
-        readMessages();
-        seenMessage();
     }
 
 
@@ -529,6 +547,7 @@ public class ChatActivity extends AppCompatActivity {
     // Function: (EventListener) OnDataChange(), display all chat messages
     //-------------------------------------------------------------------------------------------------//
     private void readMessages() {
+        Log.d("Test", "readMessages");
         final int[] sized = {0};
         dataReference_chat.orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

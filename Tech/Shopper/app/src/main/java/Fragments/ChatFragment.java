@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -59,6 +60,8 @@ public class ChatFragment extends Fragment {
     CollectionReference dataReference_CPlatform;
     CollectionReference dataReference_User;
 
+    ProgressDialog pd;
+
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -67,6 +70,10 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        pd = new ProgressDialog(getContext());
+        pd.setMessage("Loading...");
+        pd.show();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
@@ -146,6 +153,9 @@ public class ChatFragment extends Fragment {
                                 }
                             }
                         }
+
+
+                        pd.dismiss();
                     }
                 }
             });

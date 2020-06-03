@@ -33,6 +33,7 @@
             android:id="@+id/row_chat_timeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="02/03/2020 05:59PM"
             android:textColor="@color/colorBlack"
             android:textSize="12sp"/>

@@ -35,7 +35,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="Store: "
                     android:fontFamily="@font/montserrat_bold"
@@ -60,7 +60,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
                     android:text="Title: "
@@ -83,5 +83,19 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
+    <TextView
+        android:layout_marginHorizontal="5dp"
+        android:id="@+id/users_counterTV"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:background="@drawable/solid_circle_red"
+        android:text="99"
+        android:layout_gravity="end|center_vertical"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
 
 </androidx.cardview.widget.CardView>

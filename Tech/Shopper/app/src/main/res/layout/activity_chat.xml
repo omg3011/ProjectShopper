@@ -120,8 +120,8 @@
         <EditText
             android:id="@+id/chat_messageET"
             android:layout_weight="1"
-            android:background="@null"
             android:hint="Start typing..."
+            android:focusable="true"
             android:padding="15dp"
             android:inputType="textCapSentences|textMultiLine"
             android:layout_width="0dp"

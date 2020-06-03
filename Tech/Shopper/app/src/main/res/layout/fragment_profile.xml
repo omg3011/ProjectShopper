@@ -113,13 +113,11 @@
                     android:textSize="18sp"
                     />
 
-                <Button
+                <ImageView
                     android:id="@+id/profile3_store_edit_BTN"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/hollow_circle"
-                    android:foreground="@drawable/ic_edit_black"
-                    android:foregroundTint="@color/colorMainColour"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@mipmap/ic_edit_circle_red"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"/>
             </RelativeLayout>
