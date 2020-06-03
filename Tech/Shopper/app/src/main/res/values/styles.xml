@@ -9,8 +9,19 @@
     </style>
 
     <style name="JoelTheme" parent="Theme.MaterialComponents.Light">
+        <item name="android:textColorPrimary">@color/colorWhite</item>
         <item name="colorPrimary">#E60037</item>
         <item name="colorPrimaryDark">#CC0044</item>
+
+        <item name="colorPrimaryVariant">@android:color/darker_gray</item> <!-- btm nav view element that is not selected -->
+        <item name="colorOnPrimary">@android:color/holo_orange_dark</item>
+        <item name="colorSecondary">#E60037</item>                          <!-- color of rating star -->
+        <item name="colorSecondaryVariant">@android:color/holo_green_dark</item>
+        <item name="colorOnSecondary">@android:color/holo_green_light</item>
+        <item name="colorError">#E60037</item> <!-- notification counter or -->
+        <item name="colorOnError">@android:color/white</item> <!-- log out menu background -->
+        <item name="android:colorBackground">@android:color/white</item> <!-- Btm Nav View --> <!-- background color -->
+        <item name="colorOnBackground">@android:color/holo_purple</item>
 
         <!--
         <item name="colorPrimary">@android:color/holo_orange_light</item>

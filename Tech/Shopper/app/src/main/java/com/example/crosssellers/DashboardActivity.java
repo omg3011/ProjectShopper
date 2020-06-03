@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -46,7 +47,6 @@ public class DashboardActivity extends AppCompatActivity {
         //----------------------------------------------------------------------//
         //-- Add built-in "Actionbar" and it's "Actionbar"->title
         actionbar = getSupportActionBar();
-
 
         //----------------------------------------------------------------------//
         // Cache Reference(s)                                                   //

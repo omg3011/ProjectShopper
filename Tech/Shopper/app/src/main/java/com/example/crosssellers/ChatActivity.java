@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -189,6 +190,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if(cplatformPost.getPosterUid().equals(firebaseAuth.getCurrentUser().getUid()))
         {
+            BTN_completed.setVisibility(View.VISIBLE);
             BTN_completed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -390,7 +392,7 @@ public class ChatActivity extends AppCompatActivity {
 
         // Set Title
         builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure you want to close the collaboration?")
+        builder.setMessage("Do you want to end the collaboration?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         pd.setMessage("Closing collaboration. Please wait..");
@@ -411,8 +413,7 @@ public class ChatActivity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         Log.d("Test", "Deleted: " + requestPost.getRequestMailBoxID());
                                         pd.dismiss();
-                                        startActivity(new Intent(ChatActivity.this, DashboardActivity.class));
-                                        finish();
+                                        CreateDialog_Rate();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -427,6 +428,36 @@ public class ChatActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null);
         // Create and show dialog
         builder.create().show();
+    }
+
+    void CreateDialog_Rate()
+    {
+        // Alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+
+        // Custom layout for alert dialog
+        LayoutInflater inflater = getLayoutInflater();
+        View content =  inflater.inflate(R.layout.custom_alert_dialog_rate, null);
+        final RatingBar ratingBar = (RatingBar)content.findViewById(R.id.custom_alert_dialog_rate_rating_RB);
+        builder.setView(content)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        HashMap<String, Object> userResult = new HashMap<>();
+                        userResult.put("ratingList", Float.toString(ratingBar.getRating()));
+                        dataReference_user.document(hisUid).update(userResult);
+                        startActivity(new Intent(ChatActivity.this, DashboardActivity.class));
+                        finish();
+                    }
+                });
+
+
+
+        // Create and show dialog
+        builder.create().show();
+
+
     }
     @Override
     protected void onStart() {
