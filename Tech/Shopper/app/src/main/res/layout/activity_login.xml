@@ -134,6 +134,7 @@
 
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/login_loginbtn_auto"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -192,6 +193,7 @@
 
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/login_loginbtn_auto2"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -223,7 +225,7 @@
             android:text="@string/recover_password"
             android:textColor="@color/colorBlack"
             android:textAlignment="center"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginVertical="10dp"/>
 
         <TextView
             android:id="@+id/dont_have_account_tv"

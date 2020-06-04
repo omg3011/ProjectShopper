@@ -7,8 +7,85 @@
     android:layout_height="match_parent"
     tools:context=".ShopInsightActivity_Home"
     android:orientation="vertical"
-    android:weightSum="120">
+    android:background="@color/colorWhite">
 
+    <LinearLayout
+        android:id="@+id/shop_insight_home_saleClick_LL"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_icon_sales"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sales Insights"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/montserrat_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shop_insight_home_customerClick_lL"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_icon_customer"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer InsightS"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/montserrat_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shop_insight_home_productClick_LL"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_icon_product"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product / Service Insights"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/montserrat_bold"/>
+    </LinearLayout>
+
+
+    <!--
     <RelativeLayout
         android:layout_margin="5dp"
         android:id="@+id/shop_insight_home_saleClick_RL"
@@ -94,5 +171,6 @@
             android:gravity="center"/>
 
     </RelativeLayout>
+    -->
 
 </LinearLayout>

@@ -199,7 +199,7 @@ public class ShopInsightActivity_Customer extends AppCompatActivity {
         for(int i = 0; i < weekList.size(); ++i) {
             barSeries.appendData(new DataPoint(i + 1, weekList.get(i)), true, weekList.size());
         }
-        barSeries.setColor(Color.BLUE);
+        barSeries.setColor(Color.rgb(230, 0, 55));
 
         barSeries.setDataWidth(0.75d);
         barSeries.setSpacing(10);
@@ -300,7 +300,7 @@ public class ShopInsightActivity_Customer extends AppCompatActivity {
         for(int i = 0; i < weekList.size(); ++i) {
             barSeriesBtm.appendData(new DataPoint(i + 1, weekList.get(i)), true, weekList.size());
         }
-        barSeriesBtm.setColor(Color.BLUE);
+        barSeriesBtm.setColor(Color.rgb(230, 0, 55));
 
         barSeriesBtm.setDataWidth(0.75d);
         barSeriesBtm.setSpacing(10);

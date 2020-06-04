@@ -125,11 +125,10 @@
 
         </LinearLayout>
 
-        <com.jjoe64.graphview.GraphView
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/shop_insight_sales_btm_BC"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:id="@+id/shop_insight_sales_btm_GV"
-            android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="10dp"/>
 

@@ -12,6 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,14 +49,14 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
     CollectionReference dataReference_avgSales;
 
     //-- View(s)
-    GraphView graph_top, graph_btm;
+    GraphView graph_top;
     Spinner spinner_top, spinner_btm_start, spinner_btm_end;
 
     //-- Variable(s)
     BarGraphSeries<DataPoint> barSeries;
     String[] items, items2, items3, itemHeading;
 
-    BarGraphSeries<DataPoint> barGraphSeries2;
+    BarChart barChart_btm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +109,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
         // Init View
         graph_top = (GraphView) findViewById(R.id.shop_insight_sales_top_GV);
-        graph_btm = findViewById(R.id.shop_insight_sales_btm_GV);
+        barChart_btm = findViewById(R.id.shop_insight_sales_btm_BC);
 
         //-- Hardcode fill in dummy data to db
         /*
@@ -121,6 +125,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         //----------------------------------------------------------------------//
         // Spinner Listener                                                     //
         //----------------------------------------------------------------------//
+        spinner_top.setSelection(1);
         spinner_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -170,7 +175,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
             }
         });
 
-        spinner_btm_end.setSelection(3);
+        spinner_btm_end.setSelection(6);
         spinner_btm_end.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -230,7 +235,7 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
         for(int i = 0; i < weekList.size(); ++i) {
             barSeries.appendData(new DataPoint(i + 1, weekList.get(i)), true, weekList.size());
         }
-        barSeries.setColor(Color.BLUE);
+        barSeries.setColor(Color.rgb(230, 0, 55));
 
         barSeries.setDataWidth(0.75d);
         barSeries.setSpacing(10);
@@ -336,73 +341,23 @@ public class ShopInsightActivity_Sales extends AppCompatActivity {
 
     void InitBarGraph_Btm(List<Integer> hourList, List<String> labels)
     {
-        if(barGraphSeries2 != null)
-            graph_btm.removeSeries(barGraphSeries2);
+        List<BarEntry> entries = new ArrayList<>();
 
-        //--------------------------------------------------------------------------------------//
-        //
-        // Bar Graph
-        //
-        //--------------------------------------------------------------------------------------//
-        barGraphSeries2 = new BarGraphSeries<>();
-
-
-        for(int i = 0; i < hourList.size(); ++i) {
-            barGraphSeries2.appendData(new DataPoint(i + 1, hourList.get(i)), true, hourList.size());
-        }
-        barGraphSeries2.setColor(Color.BLUE);
-        barGraphSeries2.setDataWidth(0.75d);
-        barGraphSeries2.setSpacing(10);
-        barGraphSeries2.setDrawValuesOnTop(true);
-
-
-        barGraphSeries2.setValuesOnTopColor(Color.RED);
-
-        graph_btm.addSeries(barGraphSeries2);
-        //graph_btm.getGridLabelRenderer().setHorizontalAxisTitle("Time");
-        //graph_btm.getGridLabelRenderer().setVerticalAxisTitle("Sales(SGD)");
-
-        String[] array = new String[labels.size()];
-        labels.toArray(array); // fill the array
-
-        if(labels.size() >= 2)
+        for(int i = 0; i < hourList.size(); ++i)
         {
-            StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph_btm);
-            staticLabelsFormatter.setHorizontalLabels(array);
-            graph_btm.getGridLabelRenderer().setNumVerticalLabels(4);
-            graph_btm.getGridLabelRenderer().setNumHorizontalLabels(4);
-            graph_btm.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-
+            entries.add(new BarEntry(Float.parseFloat(labels.get(i)), hourList.get(i)));
         }
 
 
-        // Show Legend
-        //graph_top.getLegendRenderer().setVisible(true);
-        //graph_top.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        BarDataSet set = new BarDataSet(entries, "Time");
 
-
-        // set the viewport wider than the data, to have a nice view
-        graph_btm.getViewport().setYAxisBoundsManual(true);
-        graph_btm.getViewport().setXAxisBoundsManual(true);
-        graph_btm.getViewport().setMinX(0);
-        graph_btm.getViewport().setMaxX(hourList.size());
-        graph_btm.getViewport().setMinY(0);
-        graph_btm.getViewport().setMaxY(1000);
-
-
-        graph_btm.getViewport().setScrollable(true); // enables horizontal scrolling
-        graph_btm.getViewport().setScrollableY(true); // enables horizontal scrolling
-        graph_btm.getViewport().setScalable(true);
-        graph_btm.getViewport().setScalableY(true);
-
-
-        //-- Event Listener: On Click
-        barGraphSeries2.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series s, DataPointInterface dataPoint) {
-                Toast.makeText(ShopInsightActivity_Sales.this, "(" + dataPoint.getX() + "," + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
-            }
-        });
+        set.setColor(Color.rgb(230, 0, 55));
+        set.setValueTextSize(10f);
+        BarData data = new BarData(set);
+        data.setBarWidth(0.66f); // set custom bar width
+        barChart_btm.setData(data);
+        barChart_btm.setFitBars(true); // make the x-axis fit exactly all bars
+        barChart_btm.invalidate();
     }
 
 

@@ -66,52 +66,52 @@
 
 
     <string-array name="shopInsight_sales_btm_start_spinner">
-        <item>10:00am</item>
-        <item>11:00am</item>
-        <item>12:00am</item>
-        <item>01:00pm</item>
-        <item>02:00pm</item>
-        <item>03:00pm</item>
-        <item>04:00pm</item>
-        <item>05:00pm</item>
-        <item>06:00pm</item>
-        <item>07:00pm</item>
-        <item>08:00pm</item>
-        <item>09:00pm</item>
-        <item>10:00pm</item>
+        <item>10.00HRS</item>
+        <item>11.00HRS</item>
+        <item>12.00HRS</item>
+        <item>13.00HRS</item>
+        <item>14.00HRS</item>
+        <item>15.00HRS</item>
+        <item>16.00HRS</item>
+        <item>17.00HRS</item>
+        <item>18.00HRS</item>
+        <item>19.00HRS</item>
+        <item>20.00HRS</item>
+        <item>21.00HRS</item>
+        <item>22.00HRS</item>
     </string-array>
 
 
     <string-array name="shopInsight_sales_btm_end_spinner">
-        <item>10:00am</item>
-        <item>11:00am</item>
-        <item>12:00am</item>
-        <item>01:00pm</item>
-        <item>02:00pm</item>
-        <item>03:00pm</item>
-        <item>04:00pm</item>
-        <item>05:00pm</item>
-        <item>06:00pm</item>
-        <item>07:00pm</item>
-        <item>08:00pm</item>
-        <item>09:00pm</item>
-        <item>10:00pm</item>
+        <item>10.00HRS</item>
+        <item>11.00HRS</item>
+        <item>12.00HRS</item>
+        <item>13.00HRS</item>
+        <item>14.00HRS</item>
+        <item>15.00HRS</item>
+        <item>16.00HRS</item>
+        <item>17.00HRS</item>
+        <item>18.00HRS</item>
+        <item>19.00HRS</item>
+        <item>20.00HRS</item>
+        <item>21.00HRS</item>
+        <item>22.00HRS</item>
     </string-array>
 
 
     <string-array name="shopInsight_sales_hour">
-        <item>10am</item>
-        <item>11am</item>
-        <item>12am</item>
-        <item>1pm</item>
-        <item>2pm</item>
-        <item>3pm</item>
-        <item>4pm</item>
-        <item>5pm</item>
-        <item>6pm</item>
-        <item>7pm</item>
-        <item>8pm</item>
-        <item>9pm</item>
-        <item>10pm</item>
+        <item>10.00</item>
+        <item>11.00</item>
+        <item>12.00</item>
+        <item>13.00</item>
+        <item>14.00</item>
+        <item>15.00</item>
+        <item>16.00</item>
+        <item>17.00</item>
+        <item>18.00</item>
+        <item>19.00</item>
+        <item>20.00</item>
+        <item>21.00</item>
+        <item>22.00</item>
     </string-array>
 </resources>

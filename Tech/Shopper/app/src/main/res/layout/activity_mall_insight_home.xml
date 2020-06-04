@@ -7,11 +7,88 @@
     android:layout_height="match_parent"
     tools:context=".MallInsightActivity_Home"
     android:orientation="vertical"
-    android:weightSum="120">
+    android:background="@color/colorWhite">
 
+    <LinearLayout
+        android:id="@+id/mall_insight_home_saleClick_LL"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_icon_competitor"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Competitor Insights"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/montserrat_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mall_insight_home_customerClick_LL"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_icon_floorfall"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Floorfall Insights"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/montserrat_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mall_insight_home_productClick_LL"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorWhite"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_icon_tenant"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mall Tenant Info"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/montserrat_bold"/>
+    </LinearLayout>
+
+
+    <!--
     <RelativeLayout
         android:layout_margin="5dp"
-        android:id="@+id/mall_insight_home_saleClick_RL"
+        android:id="@+id/shop_insight_home_saleClick_RL"
         android:layout_weight="40"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -20,16 +97,16 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toLeftOf="@id/mall_insight_home_sale_TV"
+            android:layout_toLeftOf="@id/shop_insight_home_sale_TV"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_add_image_black"/>
 
         <TextView
-            android:id="@+id/mall_insight_home_sale_TV"
+            android:id="@+id/shop_insight_home_sale_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Competitior Insights"
+            android:text="Sales Insights"
             android:fontFamily="@font/monda_bold"
             android:textAlignment="center"
             android:layout_centerInParent="true"
@@ -40,7 +117,7 @@
 
     <RelativeLayout
         android:layout_margin="5dp"
-        android:id="@+id/mall_insight_home_customerClick_RL"
+        android:id="@+id/shop_insight_home_customerClick_RL"
         android:layout_weight="40"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -49,16 +126,16 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toLeftOf="@id/mall_insight_home_customer_TV"
+            android:layout_toLeftOf="@id/shop_insight_home_customer_TV"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_add_image_black"/>
 
         <TextView
-            android:id="@+id/mall_insight_home_customer_TV"
+            android:id="@+id/shop_insight_home_customer_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Floorfall Insights"
+            android:text="Customer Insights"
             android:fontFamily="@font/monda_bold"
             android:textAlignment="center"
             android:layout_centerInParent="true"
@@ -69,7 +146,7 @@
 
     <RelativeLayout
         android:layout_margin="5dp"
-        android:id="@+id/mall_insight_home_productClick_RL"
+        android:id="@+id/shop_insight_home_productClick_RL"
         android:layout_weight="40"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -78,21 +155,22 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toLeftOf="@id/mall_insight_home_product_TV"
+            android:layout_toLeftOf="@id/shop_insight_home_product_TV"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_add_image_black"/>
 
         <TextView
-            android:id="@+id/mall_insight_home_product_TV"
+            android:id="@+id/shop_insight_home_product_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Mall Tenant Info"
+            android:text="Product / Service Insights"
             android:fontFamily="@font/monda_bold"
             android:textAlignment="center"
             android:layout_centerInParent="true"
             android:gravity="center"/>
 
     </RelativeLayout>
+    -->
 
 </LinearLayout>

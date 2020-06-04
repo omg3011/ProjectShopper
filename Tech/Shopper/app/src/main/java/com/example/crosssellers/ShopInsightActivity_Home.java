@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 public class ShopInsightActivity_Home extends AppCompatActivity {
 
-    RelativeLayout RL_salesInsight, RL_customerInsight, RL_productInsight;
+    LinearLayout LL_salesInsight, LL_customerInsight, LL_productInsight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +18,9 @@ public class ShopInsightActivity_Home extends AppCompatActivity {
         setContentView(R.layout.activity_shop_insight_home);
 
         //-- Init View
-        RL_salesInsight = findViewById(R.id.shop_insight_home_saleClick_RL);
-        RL_customerInsight = findViewById(R.id.shop_insight_home_customerClick_RL);
-        RL_productInsight = findViewById(R.id.shop_insight_home_productClick_RL);
+        LL_salesInsight = findViewById(R.id.shop_insight_home_saleClick_LL);
+        LL_customerInsight = findViewById(R.id.shop_insight_home_customerClick_lL);
+        LL_productInsight = findViewById(R.id.shop_insight_home_productClick_LL);
 
 
         //----------------------------------------------------------------------//
@@ -35,21 +35,21 @@ public class ShopInsightActivity_Home extends AppCompatActivity {
         actionbar.setDisplayShowHomeEnabled(true);
 
         //-- Register button listener
-        RL_salesInsight.setOnClickListener(new View.OnClickListener() {
+        LL_salesInsight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ShopInsightActivity_Home.this, ShopInsightActivity_Sales.class));
                 finish();
             }
         });
-        RL_customerInsight.setOnClickListener(new View.OnClickListener() {
+        LL_customerInsight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ShopInsightActivity_Home.this, ShopInsightActivity_Customer.class));
                 finish();
             }
         });
-        RL_productInsight.setOnClickListener(new View.OnClickListener() {
+        LL_productInsight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ShopInsightActivity_Home.this, ShopInsightActivity_Product.class));
