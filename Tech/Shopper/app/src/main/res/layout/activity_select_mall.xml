@@ -49,7 +49,7 @@
 
                     <ImageView
                         android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/ic_taka"
+                        android:src="@mipmap/ic_citymall"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:text="Takashimaya Shopping Centre"
+                        android:text="City Square Mall"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
@@ -90,7 +90,7 @@
                     <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="match_parent"
-                        android:src="@mipmap/ic_citymall"
+                        android:src="@drawable/republic"
                         android:layout_height="match_parent" />
 
                     <TextView
@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:text="City Square Mall"
+                        android:text="Republic Plaza"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
@@ -131,7 +131,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@mipmap/ic_fareast"
+                        android:src="@drawable/cityplaza"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
@@ -139,7 +139,7 @@
                     <TextView
                         android:visibility="gone"
                         android:layout_marginTop="5dp"
-                        android:text="Far East Plaza"
+                        android:text="City Plaza"
                         android:textAlignment="center"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@android:color/black"
@@ -171,7 +171,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@mipmap/ic_gwc"
+                        android:src="@drawable/delfii"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
@@ -179,7 +179,7 @@
                     <TextView
                         android:visibility="gone"
                         android:layout_marginTop="5dp"
-                        android:text="Great World City"
+                        android:text="Delfi Orchard"
                         android:textAlignment="center"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@android:color/black"
@@ -192,171 +192,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Row 3 -->
-
-            <!-- Column 1 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:src="@mipmap/ic_ion"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:text="ION Orchard"
-                        android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <!-- Column 2 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:src="@mipmap/ic_j8"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:text="Junction 8"
-                        android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Row 4 -->
-
-            <!-- Column 1 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:src="@mipmap/ic_luckyplaza"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:text="Lucky Plaza"
-                        android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <!-- Column 2 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:src="@mipmap/ic_marina"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:text="Marina Square"
-                        android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
 
 
 

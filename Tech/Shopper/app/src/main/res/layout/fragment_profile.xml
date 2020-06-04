@@ -66,6 +66,9 @@
                 <TextView
                     android:id="@+id/profile3_tags_TV"
                     android:layout_marginLeft="15dp"
+                    android:maxLines="1"
+                    android:maxLength="10"
+                    android:ellipsize="end"
                     android:layout_below="@id/profile3_mall_name_TV"
                     android:fontFamily="@font/montserrat"
                     android:layout_toRightOf="@id/profile3_storeUnit_TV"

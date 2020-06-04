@@ -24,11 +24,12 @@
             android:id="@+id/cplatform_home_helper_post_title_TV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
             android:text="Looking for..."
             android:maxLines="1"
             android:maxLength="35"
             android:ellipsize="end"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/montserrat_bold"
             android:textSize="18sp"
             android:textColor="@color/colorBlack"/>
 
@@ -40,8 +41,8 @@
             <TextView
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="Ideal Partners: "
-                android:fontFamily="@font/open_sans"
+                android:text="Ideal Tags: "
+                android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
             <TextView
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="F ; B, Kids"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
@@ -65,7 +66,7 @@
             <TextView
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/montserrat"
                 android:text="Date Posted: "
                 android:textColor="@color/colorBlack"
                 android:textSize="15sp" />
@@ -75,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dd/mm/yyyy"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
@@ -90,7 +91,7 @@
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Time Posted: "
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
             <TextView
@@ -99,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="xx:xx hrs"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
@@ -114,7 +115,7 @@
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Ratings: "
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"/>
             <RatingBar
