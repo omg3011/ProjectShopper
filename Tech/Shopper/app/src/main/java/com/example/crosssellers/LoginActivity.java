@@ -225,12 +225,15 @@ public class LoginActivity extends AppCompatActivity {
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+            Log.d("Test", "google login RC_SIGN_IN");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                Log.d("Test", "google login attempting");
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
+                Log.d("Test", "google login failed " + e.getMessage().toString());
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -416,6 +419,7 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
 
 
+        Log.d("Test", " firebaseAuthWithGoogle");
         //-- Display progress dialog
         progressDialog.setMessage("Logging In...");
         progressDialog.show();
@@ -426,6 +430,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Log.d("Test", " isSuccessful");
                             //-------------------------------------------------------------------------------
                             // Handle Firebase
                             //-------------------------------------------------------------------------------
@@ -442,6 +447,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //-------------------------------------------------------------------------------
                                 // Handle navigate to other activity
                                 //-------------------------------------------------------------------------------
+                                Log.d("Test", " New User");
                                 startActivity(new Intent(LoginActivity.this, SetupProfileActivity.class));
                                 progressDialog.dismiss();
                                 finish();
@@ -491,9 +497,8 @@ public class LoginActivity extends AppCompatActivity {
                             // Handle display message at bottom of the screen
                             //-------------------------------------------------------------------------------
                             Toast.makeText(LoginActivity.this, "Welcome: "+user.getEmail(), Toast.LENGTH_SHORT).show();
-
-                            finish();
                         } else {
+                            Log.d("Test", " Login2 failed...");
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Login failed...", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
@@ -502,6 +507,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("Test", " Login1 failed...");
                         Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }

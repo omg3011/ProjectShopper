@@ -23,7 +23,7 @@
             android:layout_height="250dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:src="@mipmap/ic_logo" />
+            android:src="@mipmap/ic_logogo_red" />
 
         <!-- Text: Let's Collab-->
         <TextView

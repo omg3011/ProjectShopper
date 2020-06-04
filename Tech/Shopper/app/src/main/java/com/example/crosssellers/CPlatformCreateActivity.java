@@ -60,6 +60,7 @@ import java.util.TimeZone;
 
 import Models.CPlatform_Model;
 import Models.Notification_Model;
+import Models.User_Model;
 
 public class CPlatformCreateActivity extends AppCompatActivity {
 
@@ -442,72 +443,78 @@ public class CPlatformCreateActivity extends AppCompatActivity {
         //-- Get Timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-        String timestamp = simpleDateFormat.format(new Date());
+        final String timestamp = simpleDateFormat.format(new Date());
 
         //-- Get Description
-        String description = ET_description.getText().toString();
+        final String description = ET_description.getText().toString();
 
         //-- Get Title
-        String title = ET_title.getText().toString();
+        final String title = ET_title.getText().toString();
 
-        final String id = dataReference_CPlatform.document().getId();
-        final CPlatform_Model collab = new CPlatform_Model(id, timestamp, null, user.getUid(), selectedItems, title, description, 0, false);
-        dataReference_CPlatform.document(id).set(collab);
+        dataReference_User.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User_Model uModel = documentSnapshot.toObject(User_Model.class);
+                final String id = dataReference_CPlatform.document().getId();
+                final CPlatform_Model collab = new CPlatform_Model(id, timestamp, null, user.getUid(), selectedItems, title, description, 0, false, uModel.getMallName());
+                dataReference_CPlatform.document(id).set(collab);
 
 
-        final String notify_id = dataReference_Notification.document().getId();
-        Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration " + title + ".", notify_id);
-        dataReference_Notification.document(notify_id).set(notification);
+                final String notify_id = dataReference_Notification.document().getId();
+                Notification_Model notification = new Notification_Model(timestamp, user.getUid(), "You have posted a collaboration " + title + ".", notify_id);
+                dataReference_Notification.document(notify_id).set(notification);
 
-        //------------------------------------------------------------------------------------------------------------//
-        // Upload the image into storage
-        //------------------------------------------------------------------------------------------------------------//
-        String filePathAndName;
-        for (int i = 0; i < LL_uploads.getChildCount(); ++i) {
-            // Generate a unique file name
-            filePathAndName=storagePath + id + Integer.toString(i);
+                //------------------------------------------------------------------------------------------------------------//
+                // Upload the image into storage
+                //------------------------------------------------------------------------------------------------------------//
+                String filePathAndName;
+                for (int i = 0; i < LL_uploads.getChildCount(); ++i) {
+                    // Generate a unique file name
+                    filePathAndName=storagePath + id + Integer.toString(i);
 
-            // Retrieve Uri
-            ImageView iv = (ImageView) LL_uploads.getChildAt(i);
-            // Get the data from an ImageView as bytes
-            iv.setDrawingCacheEnabled(true);
-            iv.buildDrawingCache();
-            Bitmap bitmap = ((BitmapDrawable) iv.getDrawable()).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
+                    // Retrieve Uri
+                    ImageView iv = (ImageView) LL_uploads.getChildAt(i);
+                    // Get the data from an ImageView as bytes
+                    iv.setDrawingCacheEnabled(true);
+                    iv.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) iv.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
 
-            final int finalI = i;
-            UploadTask uploadTask = storageReference.child(filePathAndName).putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure( Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!uriTask.isSuccessful()) ;
-                    final Uri downloadUri = uriTask.getResult();
-
-                    // Check if image is uploaded ot not and uri is received
-                    if (uriTask.isSuccessful())
-                    {
-                        String photoUrl = downloadUri.toString();
-
-                        dataReference_CPlatform.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
-
-                        // Reach last update, we create alert dialog that says submitted collaboration post.
-                        if(finalI == LL_uploads.getChildCount()-1)
-                        {
-                            CreateAlertDialog_Submitted();
-                            dialog.dismiss();
+                    final int finalI = i;
+                    UploadTask uploadTask = storageReference.child(filePathAndName).putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure( Exception exception) {
+                            // Handle unsuccessful uploads
                         }
-                    }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isSuccessful()) ;
+                            final Uri downloadUri = uriTask.getResult();
+
+                            // Check if image is uploaded ot not and uri is received
+                            if (uriTask.isSuccessful())
+                            {
+                                String photoUrl = downloadUri.toString();
+
+                                dataReference_CPlatform.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
+
+                                // Reach last update, we create alert dialog that says submitted collaboration post.
+                                if(finalI == LL_uploads.getChildCount()-1)
+                                {
+                                    CreateAlertDialog_Submitted();
+                                    dialog.dismiss();
+                                }
+                            }
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
     }
 
 }

@@ -17,6 +17,7 @@ public class CPlatform_Model implements Serializable {
     String description;
     int pendingRequestCount; // No of ppl pending for request
     boolean collab_closed_flag;
+    String shoppingMall;
 
 
     //--------------------------------------------------------------//
@@ -24,7 +25,7 @@ public class CPlatform_Model implements Serializable {
     //--------------------------------------------------------------//
     public CPlatform_Model(){
     }
-    public CPlatform_Model(String cpost_uid, String timestamp, List<String> uploads, String posterUid, List<String> collabTag, String title, String description, int pendingRequestCount, boolean collab_closed_flag) {
+    public CPlatform_Model(String cpost_uid, String timestamp, List<String> uploads, String posterUid, List<String> collabTag, String title, String description, int pendingRequestCount, boolean collab_closed_flag, String shoppingMall) {
         this.cpost_uid = cpost_uid;
         this.timestamp = timestamp;
         this.uploads = uploads;
@@ -34,12 +35,21 @@ public class CPlatform_Model implements Serializable {
         this.pendingRequestCount = pendingRequestCount;
         this.collab_closed_flag = collab_closed_flag;
         this.title = title;
+        this.shoppingMall = shoppingMall;
     }
 
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
 
+
+    public String getShoppingMall() {
+        return shoppingMall;
+    }
+
+    public void setShoppingMall(String shoppingMall) {
+        this.shoppingMall = shoppingMall;
+    }
 
     public boolean isCollab_closed_flag() {
         return collab_closed_flag;

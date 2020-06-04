@@ -44,21 +44,22 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_home_black"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:src="@mipmap/ic_taka"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:text="Bugis Junction"
+                        android:text="Takashimaya Shopping Centre"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
@@ -83,16 +84,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_chat_black"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:src="@mipmap/ic_citymall"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -125,16 +127,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_profile_black"
+                        android:src="@mipmap/ic_fareast"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:text="Far East Plaza"
                         android:textAlignment="center"
@@ -164,16 +167,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_users_black"
+                        android:src="@mipmap/ic_gwc"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:text="Great World City"
                         android:textAlignment="center"
@@ -206,16 +210,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_home_black"
+                        android:src="@mipmap/ic_ion"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:text="ION Orchard"
                         android:textAlignment="center"
@@ -245,16 +250,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_home_black"
+                        android:src="@mipmap/ic_j8"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:text="Junction 8"
                         android:textAlignment="center"
@@ -287,16 +293,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_home_black"
+                        android:src="@mipmap/ic_luckyplaza"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:text="Lucky Plaza"
                         android:textAlignment="center"
@@ -326,16 +333,17 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/ic_home_black"
+                        android:src="@mipmap/ic_marina"
                         android:layout_gravity="center_horizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:text="Marina Square"
                         android:textAlignment="center"

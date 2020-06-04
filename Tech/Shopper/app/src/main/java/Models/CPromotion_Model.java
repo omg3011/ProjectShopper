@@ -19,13 +19,14 @@ public class CPromotion_Model implements Serializable {
     List<String> uploads;
     String promotionPost_uid;
     boolean collab_closed_flag;
+    String shoppingMallName;
 
 
     //--------------------------------------------------------------//
     // Constructor(s)
     //--------------------------------------------------------------//
     public CPromotion_Model(){}
-    public CPromotion_Model(String promotionPost_uid, String title, String description, String duration, String timestampStart, String timestampEnd, String timestampPost, List<String> tags, String posterUid, List<String> uploads, boolean collab_closed_flag) {
+    public CPromotion_Model(String promotionPost_uid, String title, String description, String duration, String timestampStart, String timestampEnd, String timestampPost, List<String> tags, String posterUid, List<String> uploads, boolean collab_closed_flag, String shoppingMallName) {
         this.promotionPost_uid = promotionPost_uid;
         this.description = description;
         this.title = title;
@@ -37,11 +38,20 @@ public class CPromotion_Model implements Serializable {
         this.posterUid = posterUid;
         this.uploads = uploads;
         this.collab_closed_flag = collab_closed_flag;
+        this.shoppingMallName = shoppingMallName;
     }
 
     //--------------------------------------------------------------//
     // Getter / Setter (s)
     //--------------------------------------------------------------//
+
+    public String getShoppingMallName() {
+        return shoppingMallName;
+    }
+
+    public void setShoppingMallName(String shoppingMallName) {
+        this.shoppingMallName = shoppingMallName;
+    }
 
     public String getPromotionPost_uid() {
         return promotionPost_uid;

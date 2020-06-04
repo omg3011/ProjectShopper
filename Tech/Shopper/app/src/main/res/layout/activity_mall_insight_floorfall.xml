@@ -81,28 +81,28 @@
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@drawable/bg_receiver"
+                android:src="@drawable/l1"
                 android:layout_margin="10dp"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@drawable/bg_sender"
+                android:src="@drawable/l2"
                 android:layout_margin="10dp"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@drawable/bg_receiver"
+                android:src="@drawable/l3"
                 android:layout_margin="10dp"/>
 
             <ImageView
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@drawable/bg_sender"
+                android:src="@drawable/l4"
                 android:layout_margin="10dp"/>
 
         </LinearLayout>

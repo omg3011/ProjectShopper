@@ -36,6 +36,7 @@ import java.util.Locale;
 
 import Adapters.AdapterCollabPost_CPlatform;
 import Models.CPlatform_Model;
+import Models.User_Model;
 
 public class CPlatformHomeActivity extends AppCompatActivity {
 
@@ -138,6 +139,8 @@ public class CPlatformHomeActivity extends AppCompatActivity {
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                final User_Model uModel = documentSnapshot.toObject(User_Model.class);
                 //--------------------------------------------------------------------------------//
                 // (1) Get this user.storeTag
                 //--------------------------------------------------------------------------------//
@@ -161,9 +164,12 @@ public class CPlatformHomeActivity extends AppCompatActivity {
                         {
                             CPlatform_Model model = doc.getDocument().toObject(CPlatform_Model.class);
 
+                            if(!uModel.getMallName().equals(model.getShoppingMall()))
+                                continue;
                             // Dont show my post
                             //if(model.getPosterUid().equals(fUser.getUid()))
                             //    continue;
+
                             if(!model.isCollab_closed_flag())
                             {
 

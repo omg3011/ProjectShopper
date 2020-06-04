@@ -56,6 +56,7 @@ import java.util.TimeZone;
 
 import Models.CPromotion_Model;
 import Models.Notification_Model;
+import Models.User_Model;
 
 public class CPromotionCreateActivity extends AppCompatActivity {
 
@@ -497,84 +498,91 @@ public class CPromotionCreateActivity extends AppCompatActivity {
         //-- Get current Timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-        String timestampPost = simpleDateFormat.format(new Date());
+        final String timestampPost = simpleDateFormat.format(new Date());
 
         //-- Get Promo start Timestamp
-        String timestampStart = ET_promoStart.getText().toString();
+        final String timestampStart = ET_promoStart.getText().toString();
 
         //-- Get Promo end Timestamp
-        String timestampEnd = ET_promoEnd.getText().toString();
+        final String timestampEnd = ET_promoEnd.getText().toString();
 
         //-- Get Description
-        String description = ET_description.getText().toString();
+        final String description = ET_description.getText().toString();
 
         //-- Get Title
-        String title = ET_title.getText().toString();
+        final String title = ET_title.getText().toString();
 
         //-- Get tags
-        List<String> tags = selectedItems;
+        final List<String> tags = selectedItems;
 
         //-- Get Poster uid
-        String posterUID = user.getUid();
+        final String posterUID = user.getUid();
 
-        String duration = "";
-        final String id = dataReference_CPromotion.document().getId();
-        final CPromotion_Model promo = new CPromotion_Model(id, title, description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null, false);
-        dataReference_CPromotion.document(id).set(promo);
+        final String duration = "";
 
-        final String notify_id1 = dataReference_Notification.document().getId();
-        Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion " + title + ".", notify_id1);
-        dataReference_Notification.document(notify_id1).set(notification);
+        dataReference_User.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User_Model uModel = documentSnapshot.toObject(User_Model.class);
+                final String id = dataReference_CPromotion.document().getId();
+                final CPromotion_Model promo = new CPromotion_Model(id, title, description, duration, timestampStart, timestampEnd, timestampPost, tags, posterUID, null, false, uModel.getMallName());
+                dataReference_CPromotion.document(id).set(promo);
 
-        //------------------------------------------------------------------------------------------------------------//
-        // Upload the image into storage
-        //------------------------------------------------------------------------------------------------------------//
-        String filePathAndName;
-        for (int i = 0; i < LL_uploads.getChildCount(); ++i) {
-            // Generate a unique file name
-            filePathAndName=storagePath + id + Integer.toString(i);
+                final String notify_id1 = dataReference_Notification.document().getId();
+                Notification_Model notification = new Notification_Model(timestampPost, user.getUid(), "You have posted a promotion " + title + ".", notify_id1);
+                dataReference_Notification.document(notify_id1).set(notification);
 
-            // Retrieve Uri
-            ImageView iv = (ImageView) LL_uploads.getChildAt(i);
-            // Get the data from an ImageView as bytes
-            iv.setDrawingCacheEnabled(true);
-            iv.buildDrawingCache();
-            Bitmap bitmap = ((BitmapDrawable) iv.getDrawable()).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
+                //------------------------------------------------------------------------------------------------------------//
+                // Upload the image into storage
+                //------------------------------------------------------------------------------------------------------------//
+                String filePathAndName;
+                for (int i = 0; i < LL_uploads.getChildCount(); ++i) {
+                    // Generate a unique file name
+                    filePathAndName=storagePath + id + Integer.toString(i);
 
-            final int finalI = i;
-            UploadTask uploadTask = storageReference.child(filePathAndName).putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure( Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!uriTask.isSuccessful()) ;
-                    final Uri downloadUri = uriTask.getResult();
+                    // Retrieve Uri
+                    ImageView iv = (ImageView) LL_uploads.getChildAt(i);
+                    // Get the data from an ImageView as bytes
+                    iv.setDrawingCacheEnabled(true);
+                    iv.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) iv.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
 
-                    // Check if image is uploaded ot not and uri is received
-                    if (uriTask.isSuccessful())
-                    {
-                        String photoUrl = downloadUri.toString();
-
-                        dataReference_CPromotion.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
-
-                        // Reach last update, we create alert dialog that says submitted collaboration post.
-                        if(finalI == LL_uploads.getChildCount()-1)
-                        {
-                            CreateAlertDialog_Submitted();
-                            dialog.dismiss();
+                    final int finalI = i;
+                    UploadTask uploadTask = storageReference.child(filePathAndName).putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure( Exception exception) {
+                            // Handle unsuccessful uploads
                         }
-                    }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isSuccessful()) ;
+                            final Uri downloadUri = uriTask.getResult();
+
+                            // Check if image is uploaded ot not and uri is received
+                            if (uriTask.isSuccessful())
+                            {
+                                String photoUrl = downloadUri.toString();
+
+                                dataReference_CPromotion.document(id).update("uploads", FieldValue.arrayUnion(photoUrl));
+
+                                // Reach last update, we create alert dialog that says submitted collaboration post.
+                                if(finalI == LL_uploads.getChildCount()-1)
+                                {
+                                    CreateAlertDialog_Submitted();
+                                    dialog.dismiss();
+                                }
+                            }
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
 
 
     }
