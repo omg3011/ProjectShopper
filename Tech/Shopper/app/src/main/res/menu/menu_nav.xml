@@ -12,7 +12,7 @@
         android:title="Notifications"
         android:icon="@drawable/ic_notification"
         />
-    <item android:id="@+id/nav_partner"
+    <item android:id="@+id/nav_chat"
         android:title="Chat"
         android:icon="@drawable/ic_chat_black"
         />

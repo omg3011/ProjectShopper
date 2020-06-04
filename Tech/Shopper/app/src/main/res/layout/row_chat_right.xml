@@ -19,13 +19,6 @@
             android:visibility="gone"
             android:src="@drawable/ic_default_image"/>
 
-        <TextView
-            android:id="@+id/row_chat_timeTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="02/03/2020 05:59PM"
-            android:textColor="@color/colorBlack"
-            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/row_chat_messageTV"
@@ -36,9 +29,20 @@
             android:padding="15dp"
             android:text="His Message"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_gravity="end"
+        android:id="@+id/row_chat_timeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="02/03/2020 05:59PM"
+        android:layout_marginEnd="15dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/row_chat_isSeenTV"

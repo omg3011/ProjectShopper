@@ -59,6 +59,7 @@ public class ChatFragment extends Fragment {
     CollectionReference dataReference_RequestMailBox;
     CollectionReference dataReference_CPlatform;
     CollectionReference dataReference_User;
+    CollectionReference dataReference_Chat;
 
     ProgressDialog pd;
 
@@ -91,6 +92,7 @@ public class ChatFragment extends Fragment {
         dataReference_RequestMailBox = FirebaseFirestore.getInstance().collection("RequestMailBox");
         dataReference_CPlatform = FirebaseFirestore.getInstance().collection("CPlatform");
         dataReference_User = FirebaseFirestore.getInstance().collection("Users");
+        dataReference_Chat = FirebaseFirestore.getInstance().collection("Chats");
 
 
         //-- Get all users
@@ -98,7 +100,7 @@ public class ChatFragment extends Fragment {
         requestList = new ArrayList<>();
 
         // Adapter
-        adapterUsers = new AdapterUsers(getActivity(), userList, dataReference_CPlatform, requestList, getActivity());
+        adapterUsers = new AdapterUsers(getActivity(), userList, dataReference_CPlatform, requestList, getActivity(), dataReference_Chat);
         adapterUsers.notifyDataSetChanged();
         recyclerView.setAdapter(adapterUsers);
 

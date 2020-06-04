@@ -3,6 +3,7 @@ package Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +11,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crosssellers.ChatActivity;
 import com.example.crosssellers.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import Models.CPlatform_Model;
+import Models.Chat_Model;
 import Models.RequestMailBox_Model;
 import Models.User_Model;
 
@@ -35,6 +48,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     List<User_Model> userList;          // Usage: List of user to display in "User" navList
     List<RequestMailBox_Model> requestList;          // Usage: List of user to display in "User" navList
     CollectionReference dataReference_CPlatform;
+    CollectionReference dataReference_Chat;
 
     //--------------------------------------------------------------------------------------------------------//
     //
@@ -44,12 +58,13 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     //------------------------------------------------------------//
     // Constructor(s)
     //------------------------------------------------------------//
-    public AdapterUsers(Context context, List<User_Model> userList, CollectionReference dataReference_CPlatform, List<RequestMailBox_Model> requestList, Activity activity) {
+    public AdapterUsers(Context context, List<User_Model> userList, CollectionReference dataReference_CPlatform, List<RequestMailBox_Model> requestList, Activity activity, CollectionReference dataReference_Chat) {
         this.context = context;
         this.userList = userList;
         this.dataReference_CPlatform = dataReference_CPlatform;
         this.requestList = requestList;
         this.activity = activity;
+        this.dataReference_Chat = dataReference_Chat;
     }
 
     //------------------------------------------------------------//
@@ -75,6 +90,51 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         final String userName = userList.get(i).getStoreName();
         final RequestMailBox_Model rModel = requestList.get(i);
         final String[] cpostTitle = {""};
+
+        final int[] newChatCounter = {0};
+        dataReference_Chat.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                // If got error, end
+                if(e != null)
+                    return;
+
+                // Check until required info is received
+                for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges())
+                {
+                    Chat_Model cmodel = doc.getDocument().toObject(Chat_Model.class);
+
+                    // show only my post
+                    if(!cmodel.getCpost_uid().equals(rModel.getCplatformPost_ID()))
+                        continue;
+                    //-- Is message added / modified / removed?
+                    switch(doc.getType())
+                    {
+                        case ADDED:
+                            if(cmodel.isSeen() == false && cmodel.getSender().equals(hisUID))
+                                newChatCounter[0]++;
+                            break;
+                        case MODIFIED:
+                            break;
+                        case REMOVED:
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + doc.getType());
+                    }
+                }
+
+                if(newChatCounter[0] <= 0)
+                {
+                    holder.TV_newChatCounter.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    holder.TV_newChatCounter.setVisibility(View.VISIBLE);
+                    holder.TV_newChatCounter.setText(Integer.toString(newChatCounter[0]));
+                }
+            }
+        });
 
         dataReference_CPlatform.document(rModel.getCplatformPost_ID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -136,7 +196,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
 
         //-- Cache Reference(s)
         ImageView IV_avatar;
-        TextView TV_storeName, TV_collabTitle;
+        TextView TV_storeName, TV_collabTitle, TV_newChatCounter;
 
         //------------------------------------------------------------//
         // Constructor(s)
@@ -145,6 +205,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
             super(itemView);
 
             //-- Init Views
+            TV_newChatCounter = itemView.findViewById(R.id.users_counterTV);
             IV_avatar = itemView.findViewById(R.id.users_avatarIV);
             TV_storeName = itemView.findViewById(R.id.users_nameTV);
             TV_collabTitle = itemView.findViewById(R.id.users_collabTitleTV);

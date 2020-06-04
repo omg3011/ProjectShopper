@@ -615,7 +615,6 @@ public class ChatActivity extends AppCompatActivity {
     // Function: (EventListener) OnDataChange(), display all chat messages
     //-------------------------------------------------------------------------------------------------//
     private void readMessages() {
-        Log.d("Test", "readMessages");
         final int[] sized = {0};
         dataReference_chat.orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -636,6 +635,10 @@ public class ChatActivity extends AppCompatActivity {
                             chat.getReceiver().equals(hisUid) && chat.getSender().equals(myUid)
                     )
                     {
+                        // Not same CPost msg
+                        if(!requestPost.getCplatformPost_ID().equals(chat.getCpost_uid()))
+                            continue;
+
                         //-- Is message added / modified / removed?
                         switch(doc.getType()) {
                             case ADDED:

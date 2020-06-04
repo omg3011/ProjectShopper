@@ -10,16 +10,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,20 +24,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Locale;
 
 import Fragments.HomeFragment;
 import Fragments.NotificationFragment;
 import Fragments.ProfileFragment;
 import Fragments.ChatFragment;
-import Models.CPlatform_Model;
+import Models.Chat_Model;
 import Models.Notification_Model;
 import Models.RequestMailBox_Model;
 
@@ -59,6 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
     //-- DB
     CollectionReference dataReference_RequestMailBox;
     CollectionReference dataReference_Notification;
+    CollectionReference dataReference_Chat;
 
     //-- Progress Dialog
     ProgressDialog pd;
@@ -88,6 +77,7 @@ public class DashboardActivity extends AppCompatActivity {
         fUser = mAuth.getCurrentUser();
         dataReference_RequestMailBox = FirebaseFirestore.getInstance().collection("RequestMailBox");
         dataReference_Notification = FirebaseFirestore.getInstance().collection("Notifications");
+        dataReference_Chat = FirebaseFirestore.getInstance().collection("Chats");
 
 
         //----------------------------------------------------------------------//
@@ -172,6 +162,47 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        navigationView.getOrCreateBadge(R.id.nav_chat).setNumber(0);
+        dataReference_Chat.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                // If got error, end
+                if(e != null)
+                    return;
+
+                // Check until required info is received
+                for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges())
+                {
+                    Chat_Model cmodel = doc.getDocument().toObject(Chat_Model.class);
+
+                    // Show related to me only
+                    if(!cmodel.getReceiver().equals(fUser.getUid()))
+                        continue;
+
+                    //-- Is message added / modified / removed?
+                    switch(doc.getType())
+                    {
+                        case ADDED:
+                            if(cmodel.isSeen() == false)
+                                navigationView.getOrCreateBadge(R.id.nav_chat).setNumber(navigationView.getOrCreateBadge(R.id.nav_chat).getNumber() + 1);
+                            break;
+                        case MODIFIED:
+                            break;
+                        case REMOVED:
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + doc.getType());
+                    }
+                }
+
+                if(navigationView.getOrCreateBadge(R.id.nav_chat).getNumber() == 0)
+                    navigationView.getOrCreateBadge(R.id.nav_chat).setVisible(false);
+                else
+                    navigationView.getOrCreateBadge(R.id.nav_chat).setVisible(true);
+            }
+        });
+
         //----------------------------------------------------------------------//
         // Default Transaction: Home Fragment                                   //
         //----------------------------------------------------------------------//
@@ -239,7 +270,7 @@ public class DashboardActivity extends AppCompatActivity {
                             actionbar.show();
                             return true;
 
-                        case R.id.nav_partner:
+                        case R.id.nav_chat:
                             //Users fragment translation
                             actionbar.setTitle("Partners");
                             ChatFragment fragment3 = new ChatFragment();
